@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prabal Raj Shakya | SEO Expert in Kathmandu</title>
+  <meta name="description" content="Prabal Raj Shakya is an SEO expert in Kathmandu offering SEO service in Nepal: on-page SEO, off page SEO, technical SEO, local SEO, keyword research and content strategy.">
+  <meta name="keywords" content="seo expert in kathmandu, seo in nepal, seo service in nepal, seo tools, seo digital marketing, off page seo, seo expert">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --hairline: #e5e7eb;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --ink: #0f172a;
+      --muted: #475569;
+      --dim: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Poppins, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      position: sticky; top: 0; z-index: 5;
+      border-bottom: 1px solid var(--hairline);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner { height: 64px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+    .scroll-progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 100%; background: linear-gradient(90deg, var(--accent), #22d3ee); transform: scaleX(0); transform-origin: 0 50%; }
+    .brand { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand span { color: var(--accent); }
+    .nav ul { list-style: none; display: flex; gap: 26px; justify-content: center; margin: 0; padding: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+    .nav a:hover { color: var(--accent); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+    .dropdown-toggle:after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s ease; }
+    .dropdown:hover .dropdown-toggle, .dropdown:focus-within .dropdown-toggle { color: var(--accent); }
+    .dropdown:hover .dropdown-toggle:after, .dropdown:focus-within .dropdown-toggle:after { transform: rotate(225deg) translateY(2px); }
+    .dropdown-menu {
+      position: absolute; top: 100%; left: 50%; margin-top: 14px; min-width: 190px;
+      background: var(--canvas); border: 1px solid var(--hairline); border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(15,23,42,.12); padding: 8px; z-index: 10;
+      opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(6px);
+      transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu {
+      opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+    .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline);
+      background: var(--canvas); font-weight: 700; font-size: 14px;
+    }
+    .pill.primary { position: relative; overflow: hidden; background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 14px 30px rgba(37,99,235,.22); }
+    .pill.primary:after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 66%); transform: translateX(-120%); transition: transform .6s ease; }
+    .pill.primary:hover:after { transform: translateX(120%); }
+    .hero { position: relative; overflow: hidden; padding: 84px 0 40px; background: #eaf6fc; }
+    .hero-dots { position: absolute; z-index: 0; background-image: radial-gradient(#a9c9ef 2px, transparent 2px); background-size: 16px 16px; opacity: .9; }
+    .hero-dots.top-left { top: 30px; left: 0; width: 150px; height: 150px; }
+    .hero-dots.bottom-right { bottom: 10px; right: 5%; width: 110px; height: 110px; }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+    .hero-copy { max-width: 560px; }
+    .hi-text { margin: 0; font-size: 20px; font-weight: 600; color: #1c2a6b; }
+    h1 { margin: 6px 0 0; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; color: #1c2a6b; }
+    h2 { margin: 16px 0 0; font-size: clamp(36px, 4.8vw, 58px); line-height: 1.05; letter-spacing: -0.035em; }
+    h3 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
+    p { color: var(--muted); line-height: 1.75; }
+    .lead { margin-top: 18px; max-width: 480px; font-size: 15px; color: #64748b; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .btn-navy, .btn-outline-navy { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; border: 2px solid #1c2a6b; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+    .btn-navy { background: #1c2a6b; color: #fff; }
+    .btn-navy:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(28,42,107,.28); }
+    .btn-outline-navy { background: transparent; color: #1c2a6b; }
+    .btn-outline-navy:hover { transform: translateY(-2px); background: rgba(28,42,107,.06); }
+    .hero-visual { position: relative; z-index: 1; width: 100%; max-width: 620px; min-height: 620px; margin: 0 auto; }
+    .hero-circle { position: absolute; z-index: 0; left: 50%; top: 65px; width: 500px; height: 500px; border-radius: 50%; background: #dcecfa; transform: translateX(-50%); }
+    .hero-photo-frame { position: absolute; z-index: 1; left: 50%; top: 10px; width: 420px; height: 610px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 50px rgba(28,42,107,.2); transform: translateX(-50%); }
+    .hero-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .rating-card { position: absolute; z-index: 2; top: 40px; left: -16px; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px; padding: 12px 16px; box-shadow: 0 16px 32px rgba(15,23,42,.14); }
+    .rating-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #1c2a6b; color: #fff; flex-shrink: 0; }
+    .rating-text { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: #64748b; }
+    .rating-text strong { color: #0f172a; font-size: 14px; font-weight: 800; }
+    .social-cluster { position: absolute; z-index: 2; bottom: 30px; right: -8px; display: flex; flex-direction: column; gap: 10px; }
+    .social-cluster a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #1c2a6b; color: #fff; font-size: 12px; font-weight: 800; box-shadow: 0 10px 20px rgba(28,42,107,.25); transition: transform .25s ease; }
+    .social-cluster a:hover { transform: translateY(-3px) scale(1.05); }
+    .section-label { display: block; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+    section { padding: 96px 0; border-top: 1px solid var(--hairline); }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .stat, .card, .timeline-card, form { border: 1px solid var(--hairline); background: var(--surface); border-radius: 22px; }
+    .stat { padding: 28px; }
+    .stat strong { display: block; color: var(--accent); font-size: 52px; line-height: 1; }
+    .stat span { display: block; margin-top: 12px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 54px; }
+    .section-head p { max-width: 420px; margin: 0; }
+    .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--hairline); border-radius: 22px; overflow: hidden; background: var(--hairline); gap: 1px; }
+    .skill { background: var(--canvas); padding: 30px; transition: transform .3s ease, box-shadow .3s ease; }
+    .skill:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(15,23,42,.08); z-index: 1; }
+    .icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 14px; background: var(--accent-soft); margin-bottom: 18px; padding: 12px; transition: transform .3s ease; }
+    .skill:hover .icon { transform: scale(1.08) rotate(-4deg); }
+    .icon img { width: 32px; height: 32px; object-fit: contain; display: block; }
+    .chips { display: flex; flex-wrap: wrap; gap: 12px; }
+    .chip { display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--hairline); background: var(--surface); border-radius: 999px; padding: 10px 18px; color: var(--ink); font-size: 14px; font-weight: 700; }
+    .chip-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .timeline { max-width: 780px; margin: 0 auto; border-left: 2px solid rgba(37,99,235,.2); padding-left: 34px; }
+    .timeline-card { position: relative; padding: 0 0 48px; background: transparent; border: 0; }
+    .timeline-card:last-child { padding-bottom: 0; }
+    .dot { position: absolute; left: -45px; top: 7px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--accent); background: var(--canvas); }
+    .dot:after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--accent); }
+    .year { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .company { margin-top: 6px; color: var(--muted); font-size: 14px; font-weight: 700; }
+    .timeline ul { color: var(--muted); line-height: 1.65; padding-left: 18px; }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .card { padding: 28px; transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(15,23,42,.08); }
+    .timeline-card:hover .dot:after { background: #22d3ee; }
+    .chip { transition: transform .2s ease, border-color .2s ease, color .2s ease; }
+    .chip:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+    .card .org { color: var(--accent); margin-top: 7px; font-size: 14px; font-weight: 800; }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: step; }
+    .process-step { position: relative; padding: 28px 24px 24px; }
+    .process-step:before { counter-increment: step; content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: #1c2a6b; color: #fff; font-weight: 800; font-size: 14px; margin-bottom: 14px; }
+    .process-step h3 { font-size: 16px; }
+    .process-step p { margin-top: 8px; font-size: 13px; line-height: 1.6; }
+    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .insight-card { padding: 26px; }
+    .insight-badge { display: inline-block; border-radius: 999px; background: var(--surface-2); color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 5px 10px; margin-bottom: 14px; }
+    .insight-card h3 { font-size: 16px; }
+    .insight-card p { margin-top: 8px; font-size: 13px; line-height: 1.6; }
+    .faq-list { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { border: 1px solid var(--hairline); background: var(--surface); border-radius: 16px; padding: 4px 22px; }
+    .faq-item summary { cursor: pointer; padding: 18px 0; font-weight: 700; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:after { content: "+"; flex-shrink: 0; font-size: 20px; font-weight: 400; color: var(--accent); transition: transform .25s ease; }
+    .faq-item[open] summary:after { transform: rotate(45deg); }
+    .faq-item p { padding-bottom: 18px; margin: 0; font-size: 14px; }
+    .cta-banner { border-radius: 28px; background: #1c2a6b; padding: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 64px; }
+    .cta-banner h3 { color: #fff; font-size: clamp(22px, 3vw, 30px); max-width: 480px; }
+    .cta-banner p { color: #c7d2fe; margin-top: 8px; max-width: 460px; font-size: 14px; }
+    .cta-banner .actions { margin-top: 0; }
+    .btn-white { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; background: #fff; color: #1c2a6b; transition: transform .25s ease, box-shadow .25s ease; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(0,0,0,.25); }
+    .btn-whatsapp { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; background: #25D366; color: #063d1e; transition: transform .25s ease, box-shadow .25s ease; }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(37,211,102,.35); }
+    form { background: var(--canvas); padding: 32px; box-shadow: 0 24px 60px rgba(37,99,235,.07); }
+    .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    label { display: block; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    input, textarea { width: 100%; margin-top: 8px; border: 0; border-bottom: 1px solid var(--hairline); padding: 11px 2px; font: inherit; outline: 0; background: transparent; color: var(--ink); }
+    textarea { resize: vertical; min-height: 130px; }
+    footer { border-top: 1px solid var(--hairline); padding: 34px 0; color: var(--dim); font-size: 13px; font-weight: 700; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    @media (max-width: 880px) {
+      .nav ul { display: none; }
+      .nav-inner { grid-template-columns: 1fr auto; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-copy { max-width: 100%; text-align: center; }
+      .hero-copy .actions { justify-content: center; }
+      .two { grid-template-columns: 1fr; }
+      .skill-grid, .cards { grid-template-columns: 1fr; }
+      .insight-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 18px; }
+      .fields { grid-template-columns: 1fr; }
+      .cta-banner { flex-direction: column; align-items: flex-start; text-align: left; }
+    }
+    @media (max-width: 560px) {
+      .hero { padding-top: 48px; padding-bottom: 24px; }
+      .hero-visual { max-width: 360px; min-height: 460px; }
+      .hero-circle { width: 320px; height: 320px; top: 40px; }
+      .hero-photo-frame { width: 270px; height: 420px; top: 8px; }
+      .rating-card { top: 24px; left: -10px; padding: 10px 12px; }
+      .social-cluster { bottom: 16px; right: -6px; }
+      .insight-grid, .process-steps { grid-template-columns: 1fr; }
+      .cta-banner { padding: 30px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .pill.primary:after { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Services</span>
+            <ul class="dropdown-menu">
+              <li><a href="seo-services/index.html">SEO Services</a></li>
+            </ul>
+          </li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#tools">Tools</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="pill primary" href="#contact">Hire Me</a>
+    </div>
+    <span class="scroll-progress" id="scrollProgress"></span>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-dots top-left" aria-hidden="true"></div>
+      <div class="hero-dots bottom-right" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="hi-text">Hi, I'm Prabal Raj Shakya</p>
+          <h1>Get Results-Driven<br>Digital Marketing Services in Nepal</h1>
+          <p class="lead">I work on SEO in Nepal, on-page and off-page SEO, and the SEO tools and digital marketing that help businesses show up on Google.</p>
+          <div class="actions">
+            <a class="btn-navy" href="#contact">Contact Us</a>
+            <a class="btn-outline-navy" href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer">Portfolio</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-circle" aria-hidden="true"></div>
+          <div class="hero-photo-frame">
+            <img class="hero-photo" src="prabal-profile.png" alt="Prabal Raj Shakya" loading="eager">
+          </div>
+          <div class="rating-card">
+            <span class="rating-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span class="rating-text"><strong>2 GTM Products</strong>Delivered at Globaly Hub</span>
+          </div>
+          <div class="social-cluster">
+            <a href="https://linkedin.com/in/prabal-raj-shakya-b640222b7" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
+            <a href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer" aria-label="Behance">Be</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap two">
+        <div>
+          <span class="section-label">About / Why Me</span>
+          <h2>Practical, fast-learning, growth-focused.</h2>
+          <p>I'm a Digital Marketing Assistant with hands-on experience across social media campaigns, email marketing, SEO research, marketing automation, conversion tracking and creative design.</p>
+          <p>I've supported SaaS and technology go-to-market campaigns at Globaly Hub, building campaign assets, monitoring performance metrics and collaborating with cross-functional teams.</p>
+          <p><strong>My edge:</strong> combining AI-assisted workflows with careful attention to detail and creative problem-solving.</p>
+          <p>What separates an seo expert in kathmandu working solo from a generic seo digital marketing agency is simple: there are no account handoffs. I do the keyword research, the on-page work and the reporting myself, so every seo service in nepal I deliver stays consistent from the first audit to the last report.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong data-count="16" data-suffix="+">16+</strong><span>Core Skills</span></div>
+          <div class="stat"><strong data-count="12" data-suffix="+">12+</strong><span>Tools Mastered</span></div>
+          <div class="stat"><strong data-count="2" data-suffix="">2</strong><span>GTM Products</span></div>
+          <div class="stat"><strong data-count="3" data-suffix="">3</strong><span>Certifications</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-label">Process</span><h2>How I take a product from idea to customers.</h2></div>
+          <p>The same four-step process runs behind every campaign I plan, whether it's SEO, paid ads, content or email.</p>
+        </div>
+        <div class="process-steps" style="margin-top:44px">
+          <article class="process-step"><h3>Research</h3><p>Audience, market and competitor research to figure out who you're selling to and what actually gets their attention.</p></article>
+          <article class="process-step"><h3>Strategy</h3><p>A channel and content plan built around your goals and budget, backed by real search and audience data.</p></article>
+          <article class="process-step"><h3>Execution</h3><p>Campaigns, content and creative, built and launched across the channels your audience actually uses.</p></article>
+          <article class="process-step"><h3>Optimize</h3><p>Performance tracked in Analytics and Search Console, with campaigns adjusted as the real data comes in.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-label">Skills</span><h2>Core competencies.</h2></div>
+          <p>A practical mix of campaign execution, automation, analytics and creative, built for fast-moving teams.</p>
+        </div>
+        <div class="skill-grid">
+          <article class="skill"><div class="icon"><img src="skill-icons/digital-campaign-management.png" alt="" loading="lazy" decoding="async"></div><h3>Digital Campaign Management</h3><p>Plan, launch and monitor multi-channel campaigns for lead generation and brand awareness.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/social-media-marketing.png" alt="" loading="lazy" decoding="async"></div><h3>Social Media Marketing</h3><p>Channel-native content schedules across Meta, LinkedIn and TikTok with timely publishing.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/email-marketing-automation.png" alt="" loading="lazy" decoding="async"></div><h3>Email Marketing & Automation</h3><p>Lead-nurturing flows in Brevo with monitored open, click and conversion metrics.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/seo-keyword-research.png" alt="" loading="lazy" decoding="async"></div><h3>SEO Keyword Research</h3><p>Buyer-intent keyword research and competitor analysis for landing pages and blogs.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/meta-pixel-conversion-tracking.png" alt="" loading="lazy" decoding="async"></div><h3>Meta Pixel & Conversion Tracking</h3><p>Pixel and CAPI setup for accurate audience targeting, remarketing and optimisation.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/campaign-analytics-reporting.png" alt="" loading="lazy" decoding="async"></div><h3>Campaign Analytics & Reporting</h3><p>Track performance metrics and translate them into actionable next campaign decisions.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/marketing-automation-workflows.png" alt="" loading="lazy" decoding="async"></div><h3>Marketing Automation Workflows</h3><p>End-to-end automations using Brevo, Make.com and n8n for follow-ups and data sync.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/ai-assisted-marketing.png" alt="" loading="lazy" decoding="async"></div><h3>AI-Assisted Marketing</h3><p>Claude and ChatGPT-powered ideation, content drafting and workflow acceleration.</p></article>
+          <article class="skill"><div class="icon"><img src="skill-icons/creative-design.png" alt="" loading="lazy" decoding="async"></div><h3>Creative Design</h3><p>Static ads, carousel posts and GIF creatives that follow brand guidelines.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools">
+      <div class="wrap">
+        <span class="section-label">Tools & Platforms</span>
+        <h2>SEO tools and the wider stack I work with.</h2>
+        <p style="max-width:560px;margin-top:14px">The seo tools I use for research and reporting, plus the broader digital marketing stack for everything else.</p>
+        <h3 style="margin-top:32px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">SEO Tools</h3>
+        <div class="chips" style="margin-top:16px">
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/semrush/FF642D" alt="" loading="lazy">Semrush</span>
+          <span class="chip">Ahrefs</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/googlesearchconsole/458CF5" alt="" loading="lazy">Google Search Console</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/googleanalytics/E37400" alt="" loading="lazy">Google Analytics</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/googletagmanager/246FDB" alt="" loading="lazy">Google Tag Manager</span>
+        </div>
+        <h3 style="margin-top:32px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Marketing & Creative</h3>
+        <div class="chips" style="margin-top:16px">
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/meta/0467DF" alt="" loading="lazy">Meta Ads Manager</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/brevo/0B996E" alt="" loading="lazy">Brevo</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/make/6D00CC" alt="" loading="lazy">Make.com</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/n8n/EA4B71" alt="" loading="lazy">n8n</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/figma/F24E1E" alt="" loading="lazy">Figma</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/wordpress/21759B" alt="" loading="lazy">WordPress</span>
+          <span class="chip">CapCut</span>
+          <span class="chip">Canva</span>
+          <span class="chip"><img class="chip-icon" src="https://cdn.simpleicons.org/claude/D97757" alt="" loading="lazy">Claude AI</span>
+          <span class="chip">ChatGPT</span>
+          <span class="chip">Google Workspace</span>
+          <span class="chip">Adobe Creative Suite</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <span class="section-label">Experience</span>
+        <h2>Professional experience.</h2>
+        <div class="timeline" style="margin-top:54px">
+          <article class="timeline-card">
+            <span class="dot"></span>
+            <div class="year">Feb 2026 - Present</div>
+            <h3>Digital Marketing Assistant (Trainee)</h3>
+            <div class="company">Globaly Hub, Lalitpur, Nepal</div>
+            <ul>
+              <li>Manage social media and email campaigns for Globaly.io and Orderlay.</li>
+              <li>Design static ads, carousels and GIF creatives in Figma to brand guidelines.</li>
+              <li>Build lead-nurturing flows in Brevo and track open, CTR and conversion metrics.</li>
+              <li>Build automation workflows with Brevo, Make.com and n8n for follow-up and data sync.</li>
+              <li>Implement Meta Pixel tracking and run SEO keyword research for landing pages.</li>
+            </ul>
+          </article>
+          <article class="timeline-card">
+            <span class="dot"></span>
+            <div class="year">Oct 2025 - Feb 2026</div>
+            <h3>Digital Marketing Intern</h3>
+            <div class="company">Globaly Hub, Lalitpur, Nepal</div>
+            <ul>
+              <li>Assisted campaigns focused on lead generation and brand awareness.</li>
+              <li>Designed social creatives and short promo videos using Figma and CapCut.</li>
+              <li>Supported email automation and customer nurturing sequences.</li>
+              <li>Completed SEO research and competitor analysis to support content planning.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-label">Insights</span><h2>SEO insights for Nepali businesses.</h2></div>
+          <p>Short write-ups I'm putting together on SEO in Nepal. Full posts are coming soon.</p>
+        </div>
+        <div class="insight-grid" style="margin-top:44px">
+          <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>What Is SEO?</h3><p>A plain-language answer to what is seo and why it matters for any business trying to be found on Google in Nepal.</p></article>
+          <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>On-Page vs. Off-Page SEO</h3><p>The difference between what happens on your website and the off page seo work that happens everywhere else.</p></article>
+          <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>SEO Tools I Actually Use</h3><p>A breakdown of the seo tools (from Search Console to Semrush) behind every recommendation I make.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <span class="section-label">FAQ</span>
+        <h2>Common questions about SEO.</h2>
+        <div class="faq-list" style="margin-top:44px">
+          <details class="faq-item">
+            <summary>What is SEO?</summary>
+            <p>SEO (Search Engine Optimization) is the work of shaping a website's content, structure and reputation so it shows up higher in Google's organic (unpaid) search results for the terms your customers actually search.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How long does SEO take to work?</summary>
+            <p>Most SEO in Nepal projects start showing measurable movement in Search Console within 6 to 12 weeks, with meaningful ranking gains typically building over 3 to 6 months. It depends on your site's starting point and the difficulty of your target keywords.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you guarantee rankings?</summary>
+            <p>No. Any seo expert who guarantees a #1 ranking isn't being straight with you. Google's algorithm isn't controlled by anyone outside Google. What I can commit to is a verified, data-backed process: real keyword research, technical fixes, and transparent reporting.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What's included in your SEO service in Nepal?</summary>
+            <p>Every engagement follows the same four-step process: audit, strategy, execution and reporting, covering on-page SEO, technical SEO, local SEO and content strategy. See the Process section above for details.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do you only work with businesses in Kathmandu?</summary>
+            <p>I'm based in Kathmandu and understand the Nepal search market closely, but I work with clients anywhere. Most SEO work happens remotely, over Search Console, Analytics and screen-share calls.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="achievements">
+      <div class="wrap">
+        <span class="section-label">Achievements</span>
+        <h2>Certifications & education.</h2>
+        <div class="cards" style="margin-top:44px">
+          <article class="card"><h3>Digital Marketing Training</h3><div class="org">KITSWOD IT Support Centre</div><p>Hands-on training covering paid media, organic growth and analytics fundamentals.</p></article>
+          <article class="card"><h3>Photoshop & Video Editing</h3><div class="org">CapCut and image editing certification</div><p>Short-form video editing, motion creatives and image polishing for campaigns.</p></article>
+          <article class="card"><h3>Public Speaking & EMCEE Training</h3><div class="org">Presentation and communication skills</div><p>Stage presence, live hosting and confident on-camera presentation.</p></article>
+          <article class="card"><h3>Bachelor of Business Management</h3><div class="org">D.A.V. College, 2021-2026</div><p>Marketing Management, Consumer Behaviour, Digital Business, Business Analytics.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="cta-banner">
+          <div>
+            <h3>Ready to work with an SEO expert in Kathmandu?</h3>
+            <p>Whether it's on-page fixes, off page seo, or a full seo service in Nepal build-out, let's talk about where your site stands today.</p>
+          </div>
+          <div class="actions">
+            <a class="btn-white" href="#contact-form">Contact Us</a>
+            <a class="btn-whatsapp" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
+          </div>
+        </div>
+      </div>
+      <div class="wrap two" id="contact-form">
+        <div>
+          <span class="section-label">Contact</span>
+          <h2>Let's grow something together.</h2>
+          <p class="lead">Open to new digital marketing roles, freelance projects and collaborations. Drop a message and I'll get back within a day.</p>
+          <p><strong>Email:</strong> <a href="mailto:prabalraj980@gmail.com">prabalraj980@gmail.com</a><br><strong>Phone:</strong> <a href="tel:+9779848853606">+977 9848853606</a></p>
+          <div class="actions">
+            <a class="pill" href="https://linkedin.com/in/prabal-raj-shakya-b640222b7" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="pill" href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer">Behance</a>
+          </div>
+        </div>
+        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Message ready - use email to send';">
+          <div class="fields">
+            <div><label for="name">Name</label><input id="name" required></div>
+            <div><label for="email">Email</label><input id="email" type="email" required></div>
+          </div>
+          <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" required placeholder="A few sentences on what you're building..."></textarea></div>
+          <button class="pill primary" style="width:100%; margin-top:28px; border:0" type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap"><span>© 2026 Prabal Raj Shakya</span><span>SEO Expert in Kathmandu, Nepal</span><span>Built with care</span></div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script>
+    (function () {
+      // Page works fully without JS/GSAP: nothing here is required for content to be visible or readable.
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (typeof gsap === 'undefined') return;
+      if (reduceMotion) return;
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Nav scroll progress
+      var progress = document.getElementById('scrollProgress');
+      if (progress) {
+        gsap.set(progress, { scaleX: 0 });
+        ScrollTrigger.create({
+          start: 0,
+          end: 'max',
+          onUpdate: function (self) {
+            gsap.to(progress, { scaleX: self.progress, duration: 0.1, overwrite: true, ease: 'none' });
+          }
+        });
+      }
+
+      // Hero load-in (matches the static reference composition; motion is the only thing added beyond it)
+      gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.6 } })
+        .from('.hi-text', { opacity: 0, y: 14 })
+        .from('h1', { opacity: 0, y: 20 }, '-=0.35')
+        .from('.hero-copy .lead', { opacity: 0, y: 16 }, '-=0.35')
+        .from('.hero-copy .actions > *', { opacity: 0, y: 12, stagger: 0.1 }, '-=0.3')
+        .from('.hero-circle', { opacity: 0, scale: 0.85 }, '-=0.5')
+        .from('.hero-photo-frame', { opacity: 0 }, '-=0.35')
+        .from('.hero-photo', { yPercent: 115, duration: 0.9, ease: 'power3.out' }, '<')
+        .from('.rating-card', { opacity: 0, y: -10, scale: 0.9 }, '-=0.25')
+        .from('.social-cluster a', { opacity: 0, x: 10, stagger: 0.08 }, '-=0.2');
+
+      // Count-up stats
+      document.querySelectorAll('[data-count]').forEach(function (el) {
+        var target = parseFloat(el.getAttribute('data-count'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var counter = { val: 0 };
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 90%',
+          once: true,
+          onEnter: function () {
+            gsap.to(counter, {
+              val: target,
+              duration: 1.2,
+              ease: 'power2.out',
+              onUpdate: function () { el.textContent = Math.round(counter.val) + suffix; }
+            });
+          }
+        });
+      });
+
+      // About
+      gsap.from('#about .section-label, #about h2, #about p', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '#about', start: 'top 80%' }
+      });
+      gsap.from('#about .stat', {
+        opacity: 0, y: 20, scale: 0.95, duration: 0.5, stagger: 0.08, ease: 'back.out(1.4)',
+        scrollTrigger: { trigger: '#about .stats', start: 'top 85%' }
+      });
+
+      // Process
+      gsap.from('#process .section-head > *', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#process', start: 'top 80%' }
+      });
+      gsap.from('#process .process-step', {
+        opacity: 0, y: 16, duration: 0.45, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#process .process-steps', start: 'top 82%' }
+      });
+
+      // Skills
+      gsap.from('#skills .section-head > *', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#skills', start: 'top 80%' }
+      });
+      gsap.from('#skills .skill', {
+        opacity: 0, y: 16, scale: 0.94, duration: 0.45,
+        stagger: { each: 0.06, grid: 'auto', from: 'start' },
+        ease: 'back.out(1.3)',
+        scrollTrigger: { trigger: '#skills .skill-grid', start: 'top 82%' }
+      });
+
+      // Tools
+      gsap.from('#tools .section-label, #tools h2, #tools > .wrap > p, #tools h3', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '#tools', start: 'top 80%' }
+      });
+      gsap.utils.toArray('#tools .chips').forEach(function (group) {
+        gsap.from(group.querySelectorAll('.chip'), {
+          opacity: 0, y: 10, duration: 0.35, stagger: 0.03, ease: 'power1.out',
+          scrollTrigger: { trigger: group, start: 'top 88%' }
+        });
+      });
+
+      // Experience
+      gsap.from('#experience .section-label, #experience h2', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#experience', start: 'top 80%' }
+      });
+      gsap.utils.toArray('#experience .timeline-card').forEach(function (card) {
+        gsap.from(card, {
+          opacity: 0, x: -24, duration: 0.5, ease: 'power2.out',
+          scrollTrigger: { trigger: card, start: 'top 85%' }
+        });
+      });
+
+      // Insights
+      gsap.from('#blog .section-head > *', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#blog', start: 'top 80%' }
+      });
+      gsap.from('#blog .insight-card', {
+        opacity: 0, y: 16, scale: 0.95, duration: 0.45, stagger: 0.08, ease: 'back.out(1.3)',
+        scrollTrigger: { trigger: '#blog .insight-grid', start: 'top 82%' }
+      });
+
+      // FAQ
+      gsap.from('#faq .section-label, #faq h2', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#faq', start: 'top 80%' }
+      });
+      gsap.from('#faq .faq-item', {
+        opacity: 0, y: 12, duration: 0.4, stagger: 0.06, ease: 'power2.out',
+        scrollTrigger: { trigger: '#faq .faq-list', start: 'top 85%' }
+      });
+
+      // Achievements
+      gsap.from('#achievements .section-label, #achievements h2', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#achievements', start: 'top 80%' }
+      });
+      gsap.from('#achievements .card', {
+        opacity: 0, y: 20, scale: 0.95, duration: 0.45,
+        stagger: { each: 0.08, grid: 'auto' }, ease: 'back.out(1.3)',
+        scrollTrigger: { trigger: '#achievements .cards', start: 'top 82%' }
+      });
+
+      // Final CTA banner
+      gsap.from('#contact .cta-banner', {
+        opacity: 0, y: 20, duration: 0.5, ease: 'power2.out',
+        scrollTrigger: { trigger: '#contact .cta-banner', start: 'top 85%' }
+      });
+
+      // Contact
+      gsap.from('#contact-form .section-label, #contact-form h2, #contact-form .lead, #contact-form p', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '#contact-form', start: 'top 80%' }
+      });
+      gsap.from('#contact form > *', {
+        opacity: 0, y: 16, duration: 0.4, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '#contact form', start: 'top 85%' }
+      });
+    })();
+  </script>
+</body>
+</html>

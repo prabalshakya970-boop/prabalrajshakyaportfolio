@@ -360,6 +360,30 @@
     (function () {
       // Page works fully without JS/GSAP: nothing here is required for content to be visible or readable.
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+
+      // Hash-free in-page navigation: scroll to the section without ever writing #id into the URL
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+        });
+      });
+
+      // Arriving from another page with a #section hash: scroll to it once, then strip the hash.
+      if (location.hash) {
+        var landingTarget = document.getElementById(location.hash.slice(1));
+        if (landingTarget) {
+          window.addEventListener('load', function () {
+            landingTarget.scrollIntoView({ behavior: 'auto', block: 'start' });
+            history.replaceState(null, '', location.pathname + location.search);
+          });
+        }
+      }
+
       if (typeof gsap === 'undefined') return;
       if (reduceMotion) return;
 

@@ -459,13 +459,16 @@
             <a class="pill" href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer">Behance</a>
           </div>
         </div>
-        <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Message ready - use email to send';">
+        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="560540e8-208f-431d-b232-f7768782df1c">
+          <input type="hidden" name="subject" value="New message from prabalrajshakya.com.np">
           <div class="fields">
-            <div><label for="name">Name</label><input id="name" required></div>
-            <div><label for="email">Email</label><input id="email" type="email" required></div>
+            <div><label for="name">Name</label><input id="name" name="name" required></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" required></div>
           </div>
-          <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" required placeholder="A few sentences on what you're building..."></textarea></div>
+          <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" name="message" required placeholder="A few sentences on what you're building..."></textarea></div>
           <button class="pill primary" style="width:100%; margin-top:28px; border:0" type="submit">Send Message</button>
+          <p id="contactFormStatus" style="margin-top:14px; font-size:13px;" aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -493,6 +496,44 @@
           target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
         });
       });
+
+      // Contact form: submit to Web3Forms via fetch so the page never navigates away
+      var contactForm = document.getElementById('contactForm');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var btn = contactForm.querySelector('button[type="submit"]');
+          var status = document.getElementById('contactFormStatus');
+          var originalText = btn.textContent;
+          btn.disabled = true;
+          btn.textContent = 'Sending...';
+          if (status) status.textContent = '';
+
+          fetch(contactForm.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(contactForm)
+          })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              if (!data.success) throw new Error(data.message || 'Submission failed');
+              btn.textContent = 'Message Sent';
+              if (status) {
+                status.textContent = "Thanks, I'll get back to you within a day.";
+                status.style.color = '#16a34a';
+              }
+              contactForm.reset();
+            })
+            .catch(function () {
+              btn.disabled = false;
+              btn.textContent = originalText;
+              if (status) {
+                status.textContent = 'Something went wrong. Please email prabalraj980@gmail.com directly.';
+                status.style.color = '#dc2626';
+              }
+            });
+        });
+      }
 
       // Arriving from another page with a #section hash (e.g. best-seo-expert-in-nepal linking back here):
       // scroll to it once, then strip the hash so the URL stays clean.

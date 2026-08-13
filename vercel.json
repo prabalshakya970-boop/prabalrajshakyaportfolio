@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/seo-services", "destination": "/best-seo-expert-in-nepal/", "permanent": true },
+    { "source": "/seo-services/", "destination": "/best-seo-expert-in-nepal/", "permanent": true },
+    { "source": "/seo-services/index.html", "destination": "/best-seo-expert-in-nepal/", "permanent": true }
+  ]
+}

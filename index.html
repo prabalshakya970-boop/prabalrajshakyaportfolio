@@ -120,6 +120,7 @@
     .trust-marquee { overflow: hidden; width: 100%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
     .trust-track { display: flex; align-items: center; gap: 80px; width: max-content; animation: trust-scroll 32s linear infinite; }
     .trust-track img { height: 64px; width: auto; max-width: none; object-fit: contain; flex-shrink: 0; }
+    .trust-track img.trust-logo-lg { height: 108px; }
     @keyframes trust-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--hairline); border-radius: 22px; overflow: hidden; background: var(--hairline); gap: 1px; }
     .skill { background: var(--canvas); padding: 30px; transition: transform .3s ease, box-shadow .3s ease; }
@@ -224,6 +225,7 @@
       .insight-grid, .process-steps { grid-template-columns: 1fr; }
       .trust-track { gap: 48px; }
       .trust-track img { height: 44px; }
+      .trust-track img.trust-logo-lg { height: 74px; }
       .cta-banner { padding: 30px; }
       .footer-links { gap: 36px; }
       .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
@@ -300,13 +302,13 @@
       <div class="trust-marquee" style="margin-top:44px">
         <div class="trust-track">
           <img src="assets/globaly_io_logo.jpg" alt="Globaly.io" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="Orderlay" loading="lazy" decoding="async">
+          <img src="assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" loading="lazy" decoding="async">
           <img src="assets/Danson_Solutions.png" alt="Danson Solutions" loading="lazy" decoding="async">
           <img src="assets/chimpvine.png" alt="ChimpVine" loading="lazy" decoding="async">
           <img src="assets/gsa.jpg" alt="GSA Contract Services" loading="lazy" decoding="async">
           <img src="assets/smart-tech-solutions.jpg" alt="Smart Tech Solutions" loading="lazy" decoding="async">
           <img src="assets/globaly_io_logo.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img src="assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" loading="lazy" decoding="async">
           <img src="assets/Danson_Solutions.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <img src="assets/chimpvine.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <img src="assets/gsa.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">

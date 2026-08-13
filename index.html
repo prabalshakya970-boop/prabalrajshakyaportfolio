@@ -294,7 +294,8 @@
     <section id="trust">
       <div class="wrap">
         <span class="section-label">Trusted By</span>
-        <h2>Brands and companies I've worked with.</h2>
+        <h2>Trusted By Growing Brands</h2>
+        <p style="max-width:560px;margin-top:14px">These companies partnered with me to improve their visibility and drive measurable growth.</p>
       </div>
       <div class="trust-marquee" style="margin-top:44px">
         <div class="trust-track">
@@ -716,7 +717,7 @@
       });
 
       // Trust bar (the logo track scrolls continuously via CSS; only the heading needs a scroll reveal)
-      gsap.from('#trust .section-label, #trust h2', {
+      gsap.from('#trust .section-label, #trust h2, #trust p', {
         opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
         scrollTrigger: { trigger: '#trust', start: 'top 80%' }
       });

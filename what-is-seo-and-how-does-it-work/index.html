@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Is SEO and How Does It Work? | Prabal Raj Shakya</title>
+  <meta name="description" content="What is SEO? A direct, plain-language answer covering how search engines crawl, index and rank pages, the main types of SEO, and where to start as a beginner.">
+  <meta name="keywords" content="what is seo, what is seo in digital marketing, on page seo, off page seo, technical seo, local seo, ecommerce seo, youtube seo, seo for beginners, beginners guide to seo, seo concepts, seo audit tool, seo backlink checker, yoast seo, ai seo tools, seo checkup, seo career, seo training in nepal, seo expert in nepal, seo web development">
+  <link rel="canonical" href="https://www.prabalrajshakya.com.np/what-is-seo-and-how-does-it-work/">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="What Is SEO and How Does It Work?">
+  <meta property="og:description" content="A direct, plain-language answer covering how search engines crawl, index and rank pages, the main types of SEO, and where to start as a beginner.">
+  <meta property="og:image" content="https://www.prabalrajshakya.com.np/what-is-seo-and-how-does-it-work/cover.jpg">
+  <meta property="og:url" content="https://www.prabalrajshakya.com.np/what-is-seo-and-how-does-it-work/">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNTQLVMZK0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PNTQLVMZK0');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Is SEO and How Does It Work?",
+    "image": "https://www.prabalrajshakya.com.np/what-is-seo-and-how-does-it-work/cover.jpg",
+    "author": { "@type": "Person", "name": "Prabal Raj Shakya", "url": "https://www.prabalrajshakya.com.np/" },
+    "publisher": { "@type": "Person", "name": "Prabal Raj Shakya" },
+    "mainEntityOfPage": "https://www.prabalrajshakya.com.np/what-is-seo-and-how-does-it-work/"
+  }
+  </script>
+  <style>
+    :root {
+      --canvas: #ffffff;
+      --surface: #f7f8fb;
+      --surface-2: #eef1f7;
+      --hairline: #e5e7eb;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --ink: #0f172a;
+      --muted: #475569;
+      --dim: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Poppins, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      position: sticky; top: 0; z-index: 5;
+      border-bottom: 1px solid var(--hairline);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner { height: 64px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+    .scroll-progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 100%; background: linear-gradient(90deg, var(--accent), #22d3ee); transform: scaleX(0); transform-origin: 0 50%; }
+    .nav ul { list-style: none; display: flex; gap: 26px; justify-content: center; margin: 0; padding: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+    .nav a:hover { color: var(--accent); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+    .dropdown-toggle:after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s ease; }
+    .dropdown:hover .dropdown-toggle, .dropdown:focus-within .dropdown-toggle { color: var(--accent); }
+    .dropdown:hover .dropdown-toggle:after, .dropdown:focus-within .dropdown-toggle:after { transform: rotate(225deg) translateY(2px); }
+    .dropdown-menu {
+      position: absolute; top: 100%; left: 50%; margin-top: 14px; min-width: 190px;
+      background: var(--canvas); border: 1px solid var(--hairline); border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(15,23,42,.12); padding: 8px; z-index: 10;
+      opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(6px);
+      transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu {
+      opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+    .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
+    .nav ul.dropdown-menu { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; }
+    .pill {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline);
+      background: var(--canvas); font-weight: 700; font-size: 14px;
+    }
+    .pill.primary { position: relative; overflow: hidden; background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 14px 30px rgba(37,99,235,.22); }
+    .pill.primary:after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 66%); transform: translateX(-120%); transition: transform .6s ease; }
+    .pill.primary:hover:after { transform: translateX(120%); }
+    .post-hero { padding: 48px 0 0; }
+    .post-eyebrow { display: block; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+    h1 { margin: 12px 0 0; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.12; font-weight: 800; letter-spacing: -0.02em; color: #1c2a6b; max-width: 880px; }
+    .post-meta { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px 18px; color: var(--dim); font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .post-cover { margin-top: 32px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(15,23,42,.14); }
+    .post-cover img { display: block; width: 100%; height: auto; }
+    h2 { margin: 0; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); }
+    h3 { margin: 0; font-size: 19px; letter-spacing: -0.01em; color: var(--ink); }
+    p { color: var(--muted); line-height: 1.75; }
+    .lead { font-size: 18px; line-height: 1.8; color: #334155; }
+    .post-section { max-width: 760px; margin: 0 auto; padding: 52px 0; border-top: 1px solid var(--hairline); }
+    .post-section:first-of-type { border-top: 0; padding-top: 44px; }
+    .post-section > h2 { margin-bottom: 16px; }
+    .post-section > p + p { margin-top: 16px; }
+    .post-section > p { margin-top: 16px; }
+    .post-section > p:first-of-type { margin-top: 0; }
+    .subcard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .subcard { border: 1px solid var(--hairline); background: var(--surface); border-radius: 18px; padding: 22px 24px; }
+    .subcard h3 { font-size: 16px; }
+    .subcard p { margin-top: 8px; font-size: 14px; }
+    .concept-list { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+    .concept-list li { border-left: 3px solid var(--accent-soft); padding-left: 16px; }
+    .concept-list strong { color: var(--ink); }
+    .callout { margin-top: 24px; padding: 18px 22px; border-radius: 16px; background: var(--accent-soft); color: #1c2a6b; font-size: 14px; font-weight: 600; line-height: 1.6; }
+    .steps-list { list-style: none; margin: 24px 0 0; padding: 0; counter-reset: pstep; display: flex; flex-direction: column; gap: 14px; }
+    .steps-list li { position: relative; padding-left: 40px; font-size: 15px; color: var(--muted); line-height: 1.6; }
+    .steps-list li:before { counter-increment: pstep; content: counter(pstep); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; background: #1c2a6b; color: #fff; font-weight: 800; font-size: 13px; display: grid; place-items: center; }
+    .faq-list { max-width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+    .faq-item { border: 1px solid var(--hairline); background: var(--surface); border-radius: 16px; padding: 4px 22px; }
+    .faq-item summary { cursor: pointer; padding: 18px 0; font-weight: 700; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; color: var(--ink); }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:after { content: "+"; flex-shrink: 0; font-size: 20px; font-weight: 400; color: var(--accent); transition: transform .25s ease; }
+    .faq-item[open] summary:after { transform: rotate(45deg); }
+    .faq-item p { padding-bottom: 18px; margin: 0; font-size: 14px; }
+    .cta-banner { border-radius: 28px; background: #1c2a6b; padding: 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+    .cta-banner h3 { color: #fff; font-size: clamp(20px, 2.6vw, 26px); max-width: 460px; }
+    .cta-banner p { color: #c7d2fe; margin-top: 8px; max-width: 420px; font-size: 14px; }
+    .cta-banner .actions { margin-top: 0; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-white { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; background: #fff; color: #1c2a6b; transition: transform .25s ease, box-shadow .25s ease; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(0,0,0,.25); }
+    .btn-whatsapp { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; background: #25D366; color: #063d1e; transition: transform .25s ease, box-shadow .25s ease; }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(37,211,102,.35); }
+    .back-link { display: inline-block; margin-top: 24px; font-size: 13px; font-weight: 700; color: var(--muted); }
+    .back-link:hover { color: var(--accent); }
+    footer { background: #05070f; color: #fff; padding: 72px 0 32px; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 60px; flex-wrap: wrap; }
+    .footer-cta-col { max-width: 420px; }
+    .footer-eyebrow { display: block; color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer-heading { color: #fff; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 28px; }
+    .footer-cta-btn { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #0f172a; font-weight: 700; font-size: 14px; padding: 14px 22px; border-radius: 999px; transition: transform .25s ease, box-shadow .25s ease; }
+    .footer-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(255,255,255,.15); }
+    .footer-cta-btn svg { transition: transform .25s ease; }
+    .footer-cta-btn:hover svg { transform: translateX(3px); }
+    .footer-email-label { display: block; color: #7dd3fc; font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin: 28px 0 12px; }
+    .footer-email-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15); color: #fff; font: inherit; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 999px; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+    .footer-email-pill:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); }
+    .footer-email-pill svg { opacity: .7; flex-shrink: 0; }
+    .footer-links { display: flex; gap: 64px; flex-wrap: wrap; }
+    .footer-links-col h3 { color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 18px; }
+    .footer-links-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links-col a { color: rgba(255,255,255,.75); font-size: 14px; font-weight: 600; transition: color .2s ease; }
+    .footer-links-col a:hover { color: #fff; }
+    .footer-divider { border: 0; border-top: 1px solid rgba(255,255,255,.12); margin: 56px 0 24px; }
+    .footer-bottom-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .footer-bottom-row p { margin: 0; color: rgba(255,255,255,.5); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .footer-social-plain { display: flex; gap: 20px; }
+    .footer-social-plain a { color: #fff; opacity: .85; transition: opacity .2s ease, transform .2s ease; }
+    .footer-social-plain a:hover { opacity: 1; transform: translateY(-2px); }
+    @media (max-width: 880px) {
+      .nav ul { display: none; }
+      .subcard-grid { grid-template-columns: 1fr; }
+      .cta-banner { flex-direction: column; align-items: flex-start; text-align: left; }
+    }
+    @media (max-width: 560px) {
+      .post-section { padding: 40px 0; }
+      .cta-banner { padding: 28px; }
+      .footer-links { gap: 36px; }
+      .footer-bottom-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .pill.primary:after { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <nav>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Services</span>
+            <ul class="dropdown-menu">
+              <li><a href="../best-seo-expert-in-nepal/">SEO Services</a></li>
+            </ul>
+          </li>
+          <li><a href="../#about">About</a></li>
+          <li><a href="../#tools">Tools</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Community</span>
+            <ul class="dropdown-menu">
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="../blog/">Blog</a></li>
+            </ul>
+          </li>
+          <li><a href="../#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="pill primary" href="../#contact">Hire Me</a>
+    </div>
+    <span class="scroll-progress" id="scrollProgress"></span>
+  </header>
+
+  <main>
+    <section class="post-hero">
+      <div class="wrap">
+        <a href="../blog/"><span class="post-eyebrow">&larr; Blog / SEO Basics</span></a>
+        <h1>What is SEO and how does it work?</h1>
+        <div class="post-meta">
+          <span>Prabal Raj Shakya</span>
+          <span>SEO for beginners</span>
+          <span>8 min read</span>
+        </div>
+        <div class="post-cover">
+          <img src="cover.jpg" alt="What is SEO and how does it work: crawl and index, then rank and traffic, feeding ongoing optimization" loading="eager">
+        </div>
+      </div>
+    </section>
+
+    <article class="wrap">
+      <div class="post-section">
+        <p class="lead">SEO, short for search engine optimization, is the practice of shaping a website so that search engines such as Google can find it, understand it and rank it for the searches people actually type. It works in three stages: a crawler reads the page, an indexing system stores what it found, and a ranking algorithm compares it against every other page competing for the same search before deciding where it appears on the results page. A page ranks well when it is easy to crawl, answers the query clearly, and carries enough trust signals, mainly links from other sites, to convince Google it deserves a top spot. Get those three stages right and a site earns visits it did not have to pay for.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>How search engines actually find and rank pages</h2>
+        <p>A search engine works something like a librarian who has read every book in an impossibly large library. Google's crawler, called Googlebot, follows links from page to page and downloads what it finds along the way. That content goes into the index, essentially a searchable copy of the web stored on Google's own servers. When someone types a query, the ranking system scans the index and scores each candidate page on signals such as whether its words match the query, whether other trustworthy sites link to it, how quickly it loads, whether it works properly on a phone, and whether it genuinely answers what the person wanted to know. The pages that score highest on that mix show up first. Nobody outside Google's engineering team knows the exact formula, but the categories above come straight from Google's own published documentation and years of testing across the SEO industry.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>Where SEO fits inside digital marketing</h2>
+        <p>Inside digital marketing, SEO earns attention instead of buying it. Paid ads stop the moment a budget runs out, while a page that ranks well can keep bringing in visitors for years without extra spend. Email and social media mostly reach people who already know a brand; SEO reaches people who have never heard of it but are actively typing a related question into Google. People who search what is SEO in digital marketing are usually asking a more specific question underneath: how does a business get found by strangers who are already looking for what it sells? SEO digital marketing strategies answer that by getting a brand's pages in front of someone at the exact moment they are searching. SEO marketing rarely works well alone, though; it tends to perform best paired with content that people also share and link to on their own.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>The main types of SEO</h2>
+        <p>SEO is not one technique, it is a set of types of SEO that each cover a different part of a website's visibility, and most real campaigns combine several at once.</p>
+        <div class="subcard-grid">
+          <article class="subcard">
+            <h3>On-page SEO</h3>
+            <p>Everything you control directly on a page: the title, headings, content, internal links, and how clearly it answers the query it targets.</p>
+          </article>
+          <article class="subcard">
+            <h3>Off-page SEO</h3>
+            <p>What happens away from your own site, mainly backlinks from other websites acting as a vote of confidence.</p>
+          </article>
+          <article class="subcard">
+            <h3>Technical SEO</h3>
+            <p>Making sure a search engine can crawl and render a site without obstacles: broken links, slow load times, duplicate pages or a blocked robots.txt.</p>
+          </article>
+          <article class="subcard">
+            <h3>Local SEO</h3>
+            <p>Targets searches tied to a place, like "plumber in Kathmandu," and depends on a complete Google Business Profile and consistent listings.</p>
+          </article>
+          <article class="subcard">
+            <h3>Ecommerce SEO</h3>
+            <p>Applies the same ideas to online stores, with extra attention to product pages, category structure and duplicate content from filters.</p>
+          </article>
+          <article class="subcard">
+            <h3>YouTube SEO</h3>
+            <p>Accurate titles, descriptions, captions and thumbnails that help YouTube's own search and recommendation system understand a video.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="post-section">
+        <h2>Core SEO concepts every beginner should know</h2>
+        <p>A short list of seo concepts covers most of what shows up in any beginners guide to seo, and doubles as a quick seo for beginners reference:</p>
+        <ul class="concept-list">
+          <li><strong>Keywords</strong> are the words and phrases people type into a search engine. Good SEO starts with finding out what people actually search before writing anything, not after.</li>
+          <li><strong>Search intent</strong> is whether someone wants information, wants to compare options, or is ready to buy. A page can target the right keyword and still fail to rank if it answers the wrong intent.</li>
+          <li><strong>Backlinks</strong> are links from other websites, and they carry more weight when they come from sources that are relevant and already trusted.</li>
+          <li><strong>Anchor text</strong> is the clickable text inside a link. Good anchor text seo practice uses a descriptive phrase, something like "read our guide for beginners" instead of "click here," so both readers and search engines know what the linked page covers.</li>
+          <li><strong>Outbound links</strong> point away from your site toward other sources. Outbound links in seo are not a weakness: citing solid, relevant external sources on a topic can support a page's trustworthiness rather than undercut it.</li>
+          <li><strong>Meta tags</strong> are the title and description shown in the search results. They do not directly influence rankings, but they strongly affect whether someone actually clicks through.</li>
+        </ul>
+      </div>
+
+      <div class="post-section">
+        <h2>Tools that make SEO easier</h2>
+        <p>A handful of tools cover almost everything a beginner needs. Yoast SEO is a WordPress plugin that checks a page's title, meta description, keyword use and readability while you write, which makes it one of the most common starting points for anyone managing their own site. A separate seo audit tool, such as Google Search Console, Screaming Frog or the free crawl in Ahrefs, scans an entire site for crawl errors, broken links and missing tags. A seo backlink checker like Ahrefs, Semrush or Ubersuggest shows which sites link to a page and flags links that might be doing more harm than good. More recently, ai seo tools have started handling repetitive research work, such as grouping keywords or drafting content briefs, though the output still needs a person to check it for accuracy before anything goes live.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>How to run a quick SEO checkup on your own site</h2>
+        <p>A basic seo checkup does not need paid software.</p>
+        <ol class="steps-list">
+          <li>Search your own business name and main keyword in Google and see where you currently show up.</li>
+          <li>Open Google Search Console, which is free, and check the Pages report for anything marked "not indexed."</li>
+          <li>Test your homepage in Google's PageSpeed Insights and note the mobile score.</li>
+          <li>Open your own site on a phone and click through it the way a stranger would, checking for anything slow, broken or hard to tap.</li>
+        </ol>
+        <p class="callout">Those four checks alone surface most of the technical problems a small site is likely to have, and take well under twenty minutes.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>SEO as a career: training and experts in Nepal</h2>
+        <p>SEO has grown into a full seo career, not just a task added onto someone's marketing job. Agencies and in-house teams now hire specifically for content optimization, technical audits and link building, and freelance SEO work is common because results can usually be delivered remotely.</p>
+        <p>Interest in seo training in Nepal has grown alongside the country's expanding IT and digital marketing sector, and institutes in Kathmandu increasingly run dedicated SEO courses alongside their broader digital marketing programs. Businesses that would rather hire the work out usually turn to an <a href="../best-seo-expert-in-nepal/" style="color:var(--accent);font-weight:700">seo expert in Nepal</a> to handle keyword research, on-page fixes and backlink outreach directly, which matters because search behavior, competition and even the mix of Nepali and English in what people type differ from what a generic international guide assumes.</p>
+      </div>
+
+      <div class="post-section">
+        <h2>SEO and web development: why they need each other</h2>
+        <p>SEO web development is the overlap between how a site is built and how well it can rank. Decisions made during development, such as whether pages use clean URLs, whether images are compressed, or whether content loads directly in the HTML instead of depending entirely on JavaScript to build the page afterward, all affect whether a search engine can crawl and rank it in the first place. Fixing an SEO problem caused by a development decision months after launch is almost always more expensive than getting a developer and an SEO person talking to each other before the site goes live.</p>
+      </div>
+
+      <div class="post-section" id="faq">
+        <h2>Common questions about SEO</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Is SEO free?</summary>
+            <p>The work itself does not require ad spend, but it costs time, or the cost of hiring someone to do it, plus whatever tools you choose to use.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How long does SEO take to work?</summary>
+            <p>Most sites see meaningful movement within three to six months, and competitive keywords can take a year or longer.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I do SEO myself?</summary>
+            <p>Yes, for a small site. On-page fixes, a basic SEO checkup and writing content around real search intent are all within reach without formal training. Larger or more competitive sites usually need more depth than a beginner has time to build alone.</p>
+          </details>
+        </div>
+      </div>
+
+      <div class="post-section">
+        <h2>Where to start if you are completely new</h2>
+        <p>Pick one page, usually the homepage or the best-performing service page, and check three things: does the title include the exact phrase people search for, does Google Search Console show the page as indexed, and does it load in under three seconds on a phone. Fixing those three items on a single page teaches most of the mechanics behind the various types of SEO techniques faster than reading about them ever could, and it gives you a real result you can actually measure.</p>
+      </div>
+
+      <div class="post-section" style="border-top:0;padding-top:0">
+        <div class="cta-banner">
+          <div>
+            <h3>Want this done on your own site instead of DIY?</h3>
+            <p>I run this exact process, audit, strategy, execution and reporting, for SEO clients in Nepal.</p>
+          </div>
+          <div class="actions">
+            <a class="btn-white" href="../best-seo-expert-in-nepal/">SEO Services</a>
+            <a class="btn-whatsapp" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
+          </div>
+        </div>
+        <a class="back-link" href="../">&larr; Back to the full portfolio</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-cta-col">
+          <span class="footer-eyebrow">Contact Us</span>
+          <p class="footer-heading">Let's Discuss Your Growth. With Me.</p>
+          <a class="footer-cta-btn" href="../#contact">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          <span class="footer-email-label">Or Email Us At</span>
+          <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com">
+            <span>prabalraj980@gmail.com</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+        <div class="footer-links">
+          <div class="footer-links-col">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="../">Home</a></li>
+              <li><a href="../#skills">Skills</a></li>
+              <li><a href="../#tools">Tools</a></li>
+              <li><a href="../#experience">Experience</a></li>
+              <li><a href="../#about">About</a></li>
+            </ul>
+          </div>
+          <div class="footer-links-col">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="../best-seo-expert-in-nepal/">SEO Services</a></li>
+              <li><a href="../blog/">Blog</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="../#achievements">Achievements</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="footer-bottom-row">
+        <p>© Prabal Raj Shakya 2026. All rights reserved.</p>
+        <div class="footer-social-plain">
+          <a href="https://linkedin.com/in/prabal-raj-shakya-b640222b7" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer" aria-label="Behance"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg></a>
+          <a href="https://wa.me/9779848853606" target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+          <a href="mailto:prabalraj980@gmail.com" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script>
+    (function () {
+      // Page works fully without JS/GSAP: nothing here is required for content to be visible or readable.
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+
+      var emailCopyBtn = document.getElementById('footerEmailCopy');
+      if (emailCopyBtn) {
+        emailCopyBtn.addEventListener('click', function () {
+          var email = emailCopyBtn.getAttribute('data-email');
+          var label = emailCopyBtn.querySelector('span');
+          var original = label.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email).then(function () {
+              label.textContent = 'Copied!';
+              setTimeout(function () { label.textContent = original; }, 1500);
+            }).catch(function () {
+              window.location.href = 'mailto:' + email;
+            });
+          } else {
+            window.location.href = 'mailto:' + email;
+          }
+        });
+      }
+
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+        });
+      });
+
+      if (typeof gsap === 'undefined') return;
+      if (reduceMotion) return;
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      var progress = document.getElementById('scrollProgress');
+      if (progress) {
+        gsap.set(progress, { scaleX: 0 });
+        ScrollTrigger.create({
+          start: 0,
+          end: 'max',
+          onUpdate: function (self) {
+            gsap.to(progress, { scaleX: self.progress, duration: 0.1, overwrite: true, ease: 'none' });
+          }
+        });
+      }
+
+      gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.6 } })
+        .from('.post-eyebrow', { opacity: 0, y: 14 })
+        .from('h1', { opacity: 0, y: 20 }, '-=0.35')
+        .from('.post-meta', { opacity: 0, y: 14 }, '-=0.35')
+        .from('.post-cover', { opacity: 0, y: 24 }, '-=0.25');
+
+      gsap.utils.toArray('.post-section').forEach(function (sec) {
+        gsap.from(sec.children, {
+          opacity: 0, y: 18, duration: 0.5, stagger: 0.06, ease: 'power2.out',
+          scrollTrigger: { trigger: sec, start: 'top 85%' }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

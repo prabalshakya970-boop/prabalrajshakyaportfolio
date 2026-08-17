@@ -72,6 +72,7 @@
     }
     .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
     .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
+    .nav ul.dropdown-menu { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; }
     .pill {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline);
@@ -253,7 +254,13 @@
           </li>
           <li><a href="#about">About</a></li>
           <li><a href="#tools">Tools</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Community</span>
+            <ul class="dropdown-menu">
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="blog/">Blog</a></li>
+            </ul>
+          </li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -445,7 +452,7 @@
           <p>Short write-ups I'm putting together on SEO in Nepal. Full posts are coming soon.</p>
         </div>
         <div class="insight-grid" style="margin-top:44px">
-          <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>What Is SEO?</h3><p>A plain-language answer to what is seo and why it matters for any business trying to be found on Google in Nepal.</p></article>
+          <a href="blog/" style="display:block"><article class="insight-card"><span class="insight-badge">Read now</span><h3>What Is SEO?</h3><p>A plain-language answer to what is seo and why it matters for any business trying to be found on Google in Nepal.</p></article></a>
           <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>On-Page vs. Off-Page SEO</h3><p>The difference between what happens on your website and the off page seo work that happens everywhere else.</p></article>
           <article class="insight-card"><span class="insight-badge">Coming soon</span><h3>SEO Tools I Actually Use</h3><p>A breakdown of the seo tools (from Search Console to Semrush) behind every recommendation I make.</p></article>
         </div>

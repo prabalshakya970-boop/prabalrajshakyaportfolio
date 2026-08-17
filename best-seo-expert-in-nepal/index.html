@@ -70,6 +70,7 @@
     }
     .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
     .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
+    .nav ul.dropdown-menu { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; }
     .pill {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline);
@@ -213,7 +214,13 @@
           </li>
           <li><a href="../#about">About</a></li>
           <li><a href="../#tools">Tools</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Community</span>
+            <ul class="dropdown-menu">
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="../blog/">Blog</a></li>
+            </ul>
+          </li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -413,7 +420,7 @@
             <h3>Explore</h3>
             <ul>
               <li><a href="./">SEO Services</a></li>
-              <li><a href="../#blog">Insights</a></li>
+              <li><a href="../blog/">Blog</a></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="../#achievements">Achievements</a></li>
             </ul>

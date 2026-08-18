@@ -71,6 +71,11 @@
     .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
     .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
     .nav ul.dropdown-menu { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; }
+    .nav-toggle { display: none; align-items: center; justify-content: center; flex-direction: column; gap: 4px; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--canvas); cursor: pointer; padding: 0; }
+    .nav-toggle span { display: block; width: 18px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .25s ease, opacity .25s ease; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
     .pill {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline);
@@ -97,7 +102,21 @@
     .post-card h3 { margin: 0; font-size: 17px; letter-spacing: -0.01em; color: var(--ink); }
     .post-card p { margin-top: 8px; font-size: 13px; line-height: 1.6; }
     @media (max-width: 880px) {
-      .nav ul { display: none; }
+      .nav-inner { grid-template-columns: auto 1fr auto; }
+      .nav-toggle { display: flex; }
+      .nav ul {
+        display: none; position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 2px;
+        background: var(--canvas); border-bottom: 1px solid var(--hairline);
+        padding: 12px 20px 20px; max-height: calc(100vh - 64px); overflow-y: auto;
+        box-shadow: 0 20px 30px rgba(15,23,42,.08);
+      }
+      .nav ul.open { display: flex; }
+      .nav ul li { width: 100%; }
+      .nav ul a, .nav .dropdown-toggle { padding: 12px 4px; width: 100%; justify-content: space-between; }
+      .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: 0; padding: 0 0 0 14px; margin: 0; min-width: 0; display: none; }
+      .dropdown.open-sub .dropdown-menu { display: flex; }
+      .dropdown.open-sub .dropdown-toggle:after { transform: rotate(225deg) translateY(2px); }
       .post-grid { grid-template-columns: 1fr; }
     }
     footer { background: #05070f; color: #fff; padding: 72px 0 32px; }
@@ -137,8 +156,9 @@
 <body>
   <header class="nav">
     <div class="wrap nav-inner">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navList"><span></span><span></span><span></span></button>
       <nav>
-        <ul>
+        <ul id="navList">
           <li><a href="../">Home</a></li>
           <li class="dropdown">
             <span class="dropdown-toggle" tabindex="0">Services</span>
@@ -252,6 +272,30 @@
 
   <script>
     (function () {
+      // Mobile nav: hamburger toggle + tap-to-expand dropdowns
+      var navToggle = document.getElementById('navToggle');
+      var navList = document.getElementById('navList');
+      if (navToggle && navList) {
+        navToggle.addEventListener('click', function () {
+          var isOpen = navList.classList.toggle('open');
+          navToggle.classList.toggle('open', isOpen);
+          navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        navList.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            navList.classList.remove('open');
+            navToggle.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+      document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+        toggle.addEventListener('click', function () {
+          var parent = toggle.closest('.dropdown');
+          if (parent) parent.classList.toggle('open-sub');
+        });
+      });
+
       var emailCopyBtn = document.getElementById('footerEmailCopy');
       if (emailCopyBtn) {
         emailCopyBtn.addEventListener('click', function () {

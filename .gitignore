@@ -6,3 +6,6 @@ remove-ai-watermarks-main/
 
 # Raw design source file; the cropped favicon.png is what's actually used
 Prabal Raj Shakya Favicon.png
+
+# Raw video exports; the copies actually used on the site live in assets/videos/
+talking head videos/

@@ -148,6 +148,20 @@
     .company { margin-top: 6px; color: var(--muted); font-size: 14px; font-weight: 700; }
     .timeline ul { color: var(--muted); line-height: 1.65; padding-left: 18px; }
     .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .engage-bento { display: grid; grid-template-columns: 1.3fr .85fr .85fr; gap: 18px; align-items: stretch; }
+    .bento-card { border: 1px solid var(--hairline); background: var(--surface); border-radius: 22px; padding: 26px; }
+    .bento-card h3 { font-size: 17px; }
+    .bento-card p { margin-top: 10px; font-size: 13px; line-height: 1.65; }
+    .bento-why { grid-column: 1; grid-row: 1; }
+    .bento-social { grid-column: 1; grid-row: 2; }
+    .bento-types { grid-column: 1 / -1; grid-row: 3; }
+    .video-card { position: relative; grid-row: 1 / span 2; align-self: start; width: 100%; border-radius: 18px; overflow: hidden; background: #000; box-shadow: 0 16px 32px rgba(15,23,42,.1); }
+    .video-card video { display: block; width: 100%; height: auto; }
+    .video-card:after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.6), transparent 45%); pointer-events: none; }
+    .video-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--accent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 22px rgba(15,23,42,.25); transition: transform .2s ease; z-index: 2; padding: 0; }
+    .video-play:hover { transform: translate(-50%, -50%) scale(1.08); }
+    .video-play.is-hidden { display: none; }
+    .video-label { position: absolute; left: 12px; bottom: 10px; color: #fff; font-weight: 800; font-size: 12px; z-index: 2; }
     .card { padding: 28px; transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
     .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(15,23,42,.08); }
     .timeline-card:hover .dot:after { background: #22d3ee; }
@@ -230,6 +244,12 @@
       .hero-copy .actions { justify-content: center; }
       .two { grid-template-columns: 1fr; }
       .skill-grid, .cards { grid-template-columns: 1fr; }
+      .engage-bento { grid-template-columns: 1fr 1fr; }
+      .bento-why, .bento-social, .bento-types { grid-column: 1 / -1; }
+      .bento-why { grid-row: 1; }
+      .video-card { grid-row: 2; align-self: start; }
+      .bento-social { grid-row: 3; }
+      .bento-types { grid-row: 4; }
       .insight-grid { grid-template-columns: 1fr 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .section-head { display: block; }
@@ -361,6 +381,60 @@
           <div class="stat"><strong data-count="12" data-suffix="+">12+</strong><span>Tools Mastered</span></div>
           <div class="stat"><strong data-count="2" data-suffix="">2</strong><span>GTM Products</span></div>
           <div class="stat"><strong data-count="3" data-suffix="">3</strong><span>Certifications</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="engage">
+      <div class="wrap">
+        <div class="section-head">
+          <div><span class="section-label">Video Content</span><h2>Built to Engage.</h2></div>
+          <p>A completed talking head video showing how I create content that captures attention and drives real engagement for brands.</p>
+        </div>
+        <div class="engage-bento" style="margin-top:44px">
+          <div class="bento-card bento-why">
+            <h3>Why brands need an engagement video</h3>
+            <p>A short, well-shot talking head video does what a static post can't: it stops the scroll, puts a real voice and face behind the brand, and builds trust in seconds. Brands that lead with video consistently see longer watch time, more shares and better recall than brands that rely on images and text alone.</p>
+          </div>
+          <div class="video-card">
+            <video preload="metadata" playsinline src="assets/videos/talking-head-social-engagement.mp4"></video>
+            <button type="button" class="video-play" aria-label="Play video">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+            </button>
+            <span class="video-label">Social Media Engagement</span>
+          </div>
+          <div class="video-card">
+            <video preload="metadata" playsinline src="assets/videos/talking-head-educational-engagement.mp4"></video>
+            <button type="button" class="video-play" aria-label="Play video">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+            </button>
+            <span class="video-label">Educational Content</span>
+          </div>
+          <div class="bento-card bento-social">
+            <h3>Why social media marketing matters</h3>
+            <p>Your audience already spends hours a day on social platforms, and video is the format they engage with most. A consistent social media strategy meets people where they're already scrolling, turning casual viewers into followers and followers into customers.</p>
+          </div>
+          <div class="bento-card bento-types">
+            <h3>Types of social media videos</h3>
+            <p>The video format that works depends on who you're targeting and what you want them to do next. Here's what typically falls under social media video marketing:</p>
+            <div class="chips" style="margin-top:16px">
+              <span class="chip">Talking Head Videos</span>
+              <span class="chip">Product Demo Videos</span>
+              <span class="chip">Testimonial / Review Videos</span>
+              <span class="chip">Behind-the-Scenes Videos</span>
+              <span class="chip">Educational / How-To Videos</span>
+              <span class="chip">Explainer Videos</span>
+              <span class="chip">Short-Form Reels / Shorts</span>
+              <span class="chip">Unboxing Videos</span>
+              <span class="chip">UGC-Style Videos</span>
+              <span class="chip">Brand Story Videos</span>
+              <span class="chip">Live Videos</span>
+              <span class="chip">Promotional / Ad Videos</span>
+              <span class="chip">Trend / Meme Videos</span>
+              <span class="chip">Interview & Podcast Clips</span>
+              <span class="chip">Event Coverage Videos</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -653,6 +727,21 @@
           });
         });
       }
+      // Talking-head videos: click the play button to start playback with native controls
+      document.querySelectorAll('#engage .video-card').forEach(function (card) {
+        var video = card.querySelector('video');
+        var playBtn = card.querySelector('.video-play');
+        if (!video || !playBtn) return;
+        playBtn.addEventListener('click', function () {
+          document.querySelectorAll('#engage video').forEach(function (v) { if (v !== video) v.pause(); });
+          video.controls = true;
+          video.play();
+          playBtn.classList.add('is-hidden');
+        });
+        video.addEventListener('pause', function () { playBtn.classList.remove('is-hidden'); });
+        video.addEventListener('play', function () { playBtn.classList.add('is-hidden'); });
+      });
+
       document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
         toggle.addEventListener('click', function () {
           var parent = toggle.closest('.dropdown');
@@ -785,6 +874,16 @@
       gsap.from('#about .stat', {
         opacity: 0, y: 20, scale: 0.95, duration: 0.5, stagger: 0.08, ease: 'back.out(1.4)',
         scrollTrigger: { trigger: '#about .stats', start: 'top 85%' }
+      });
+
+      // Engage (talking head videos)
+      gsap.from('#engage .section-head > *', {
+        opacity: 0, y: 20, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#engage', start: 'top 80%' }
+      });
+      gsap.from('#engage .video-card, #engage .bento-card', {
+        opacity: 0, y: 16, scale: 0.97, duration: 0.5, stagger: 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: '#engage .engage-bento', start: 'top 82%' }
       });
 
       // Process

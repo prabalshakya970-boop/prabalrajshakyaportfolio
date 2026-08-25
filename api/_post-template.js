@@ -1,0 +1,312 @@
+const { SITE_ORIGIN } = require('./_posts');
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function formatDate(iso) {
+  try {
+    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  } catch {
+    return iso;
+  }
+}
+
+function renderPostPage(post) {
+  const url = `${SITE_ORIGIN}/blog/${post.slug}/`;
+  const coverUrl = post.coverImage ? `${SITE_ORIGIN}${post.coverImage}` : `${SITE_ORIGIN}/favicon.png`;
+  const metaTitle = post.metaTitle || post.title;
+  const metaDescription = post.metaDescription || post.excerpt || '';
+  const tagsHtml = (post.tags || [])
+    .map((t) => `<a class="post-tag" href="../category/?t=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`)
+    .join('');
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(metaTitle)} | Prabal Raj Shakya</title>
+  <meta name="description" content="${escapeHtml(metaDescription)}">
+  <link rel="canonical" href="${url}">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="apple-touch-icon" href="../../favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="${escapeHtml(post.title)}">
+  <meta property="og:description" content="${escapeHtml(metaDescription)}">
+  <meta property="og:image" content="${coverUrl}">
+  <meta property="og:url" content="${url}">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNTQLVMZK0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PNTQLVMZK0');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": ${JSON.stringify(post.title)},
+    "image": ${JSON.stringify(coverUrl)},
+    "author": { "@type": "Person", "name": ${JSON.stringify(post.author || 'Prabal Raj Shakya')}, "url": "${SITE_ORIGIN}/" },
+    "publisher": { "@type": "Person", "name": "Prabal Raj Shakya" },
+    "datePublished": ${JSON.stringify(post.publishDate || '')},
+    "dateModified": ${JSON.stringify(post.updatedAt || post.publishDate || '')},
+    "mainEntityOfPage": "${url}"
+  }
+  </script>
+  <style>
+    :root {
+      --canvas: #ffffff; --surface: #f7f8fb; --surface-2: #eef1f7; --hairline: #e5e7eb;
+      --accent: #2563eb; --accent-soft: #dbeafe; --ink: #0f172a; --muted: #475569; --dim: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); font-family: Poppins, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(820px, calc(100% - 32px)); margin: 0 auto; }
+    .nav { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--hairline); background: rgba(255,255,255,.88); backdrop-filter: blur(14px); }
+    .nav-inner { width: min(1180px, calc(100% - 32px)); margin: 0 auto; height: 64px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+    .nav ul { list-style: none; display: flex; gap: 26px; justify-content: center; margin: 0; padding: 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+    .nav a:hover { color: var(--accent); }
+    .dropdown { position: relative; }
+    .dropdown-toggle { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+    .dropdown-toggle:after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s ease; }
+    .dropdown:hover .dropdown-toggle, .dropdown:focus-within .dropdown-toggle { color: var(--accent); }
+    .dropdown:hover .dropdown-toggle:after, .dropdown:focus-within .dropdown-toggle:after { transform: rotate(225deg) translateY(2px); }
+    .dropdown-menu { position: absolute; top: 100%; left: 50%; margin-top: 14px; min-width: 190px; background: var(--canvas); border: 1px solid var(--hairline); border-radius: 14px; box-shadow: 0 20px 40px rgba(15,23,42,.12); padding: 8px; z-index: 10; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(6px); transition: opacity .2s ease, transform .2s ease, visibility .2s; }
+    .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .dropdown-menu a { display: block; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+    .dropdown-menu a:hover { background: var(--surface); color: var(--accent); }
+    .nav ul.dropdown-menu { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; }
+    .nav-toggle { display: none; align-items: center; justify-content: center; flex-direction: column; gap: 4px; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--canvas); cursor: pointer; padding: 0; }
+    .nav-toggle span { display: block; width: 18px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform .25s ease, opacity .25s ease; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; padding: 11px 18px; border: 1px solid var(--hairline); background: var(--canvas); font-weight: 700; font-size: 14px; }
+    .pill.primary { position: relative; overflow: hidden; background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 14px 30px rgba(37,99,235,.22); }
+    .breadcrumbs { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; font-weight: 700; color: var(--muted); margin: 28px 0 18px; }
+    .breadcrumbs a:hover { color: var(--accent); }
+    .post-eyebrow { display: block; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 14px; }
+    .post-hero h1 { margin: 0; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.16; font-weight: 800; letter-spacing: -0.02em; color: #1c2a6b; }
+    .post-meta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; font-size: 13px; color: var(--muted); font-weight: 600; }
+    .post-meta span:not(:last-child):after { content: "•"; margin-left: 14px; color: var(--dim); }
+    .post-cover { margin-top: 28px; border-radius: 20px; overflow: hidden; aspect-ratio: 16/8; background: var(--surface-2); }
+    .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .post-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .post-tag { background: var(--surface); border: 1px solid var(--hairline); border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--muted); }
+    article.prose { padding: 40px 0 20px; color: var(--muted); line-height: 1.8; font-size: 16px; }
+    article.prose p { margin: 0 0 20px; }
+    article.prose h2 { color: var(--ink); font-size: 26px; font-weight: 800; letter-spacing: -0.01em; margin: 40px 0 14px; }
+    article.prose h3 { color: var(--ink); font-size: 19px; font-weight: 800; margin: 28px 0 10px; }
+    article.prose ul, article.prose ol { margin: 0 0 20px; padding-left: 22px; }
+    article.prose li { margin-bottom: 8px; }
+    article.prose a { color: var(--accent); font-weight: 700; }
+    article.prose strong { color: var(--ink); }
+    article.prose pre { background: #0f172a; color: #e2e8f0; padding: 18px; border-radius: 12px; overflow-x: auto; font-size: 13px; }
+    article.prose code { background: var(--surface); padding: 2px 6px; border-radius: 5px; font-size: 13px; }
+    article.prose pre code { background: transparent; padding: 0; }
+    .related { padding: 32px 0 64px; border-top: 1px solid var(--hairline); }
+    .related h2 { font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .related-card { display: block; border: 1px solid var(--hairline); border-radius: 16px; padding: 18px; background: var(--surface); transition: transform .25s ease, border-color .25s ease; }
+    .related-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .related-card h3 { margin: 0; font-size: 14px; color: var(--ink); }
+    .back-link { display: inline-block; margin: 8px 0 40px; font-weight: 700; font-size: 13px; color: var(--accent); }
+    footer { background: #05070f; color: #fff; padding: 72px 0 32px; }
+    .footer-grid { display: flex; justify-content: space-between; gap: 60px; flex-wrap: wrap; width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .footer-cta-col { max-width: 420px; }
+    .footer-eyebrow { display: block; color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer-heading { color: #fff; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 28px; }
+    .footer-cta-btn { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: #0f172a; font-weight: 700; font-size: 14px; padding: 14px 22px; border-radius: 999px; }
+    .footer-email-label { display: block; color: #7dd3fc; font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin: 28px 0 12px; }
+    .footer-email-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15); color: #fff; font: inherit; font-size: 14px; font-weight: 600; padding: 12px 18px; border-radius: 999px; cursor: pointer; }
+    .footer-links { display: flex; gap: 64px; flex-wrap: wrap; }
+    .footer-links-col h3 { color: #7dd3fc; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 18px; }
+    .footer-links-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links-col a { color: rgba(255,255,255,.75); font-size: 14px; font-weight: 600; }
+    .footer-links-col a:hover { color: #fff; }
+    .footer-divider { border: 0; border-top: 1px solid rgba(255,255,255,.12); margin: 56px 0 24px; width: min(1180px, calc(100% - 32px)); margin-left: auto; margin-right: auto; }
+    .footer-bottom-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .footer-bottom-row p { margin: 0; color: rgba(255,255,255,.5); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .footer-social-plain { display: flex; gap: 20px; }
+    .footer-social-plain a { color: #fff; opacity: .85; }
+    @media (max-width: 880px) {
+      .nav-inner { grid-template-columns: auto 1fr auto; }
+      .nav-toggle { display: flex; }
+      .nav ul { display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 2px; background: var(--canvas); border-bottom: 1px solid var(--hairline); padding: 12px 20px 20px; max-height: calc(100vh - 64px); overflow-y: auto; box-shadow: 0 20px 30px rgba(15,23,42,.08); }
+      .nav ul.open { display: flex; }
+      .nav ul li { width: 100%; }
+      .nav ul a, .nav .dropdown-toggle { display: flex; align-items: center; padding: 12px 4px; width: 100%; justify-content: space-between; }
+      .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; border: 0; padding: 0 0 0 14px; margin: 0; min-width: 0; display: none; }
+      .dropdown.open-sub .dropdown-menu { display: flex; }
+      .dropdown:hover .dropdown-menu, .dropdown:focus-within .dropdown-menu { transform: none; }
+      .dropdown.open-sub .dropdown-toggle:after { transform: rotate(225deg) translateY(2px); }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navList"><span></span><span></span><span></span></button>
+      <nav>
+        <ul id="navList">
+          <li><a href="../../">Home</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Services</span>
+            <ul class="dropdown-menu"><li><a href="../../best-seo-expert-in-nepal/">SEO Services</a></li></ul>
+          </li>
+          <li><a href="../../#about">About</a></li>
+          <li><a href="../../#tools">Tools</a></li>
+          <li class="dropdown">
+            <span class="dropdown-toggle" tabindex="0">Community</span>
+            <ul class="dropdown-menu"><li><a href="../../#faq">FAQ</a></li><li><a href="../">Blog</a></li></ul>
+          </li>
+          <li><a href="../../#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="pill primary" href="../../#contact">Hire Me</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="breadcrumbs">
+        <a href="../../">Home</a><span>/</span><a href="../">Blog</a><span>/</span><span>${escapeHtml(post.title)}</span>
+      </div>
+      <div class="post-hero">
+        <a class="post-eyebrow" href="../category/?c=${encodeURIComponent(post.category || '')}">${escapeHtml(post.category || 'Blog')}</a>
+        <h1>${escapeHtml(post.title)}</h1>
+        <div class="post-meta">
+          <span>${escapeHtml(post.author || 'Prabal Raj Shakya')}</span>
+          <span>${formatDate(post.publishDate)}</span>
+          <span>${escapeHtml(post.readTime || '')}</span>
+        </div>
+        ${post.coverImage ? `<div class="post-cover"><img src="${post.coverImage}" alt="${escapeHtml(post.title)}" loading="eager"></div>` : ''}
+        ${tagsHtml ? `<div class="post-tags">${tagsHtml}</div>` : ''}
+      </div>
+
+      <article class="prose">${post.body || ''}</article>
+
+      <a class="back-link" href="../">&larr; Back to the blog</a>
+    </div>
+
+    <div class="related" id="relatedSection" style="display:none">
+      <div class="wrap">
+        <h2>Related Posts</h2>
+        <div class="related-grid" id="relatedGrid"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-cta-col">
+        <span class="footer-eyebrow">Contact Us</span>
+        <p class="footer-heading">Let's Discuss Your Growth. With Me.</p>
+        <a class="footer-cta-btn" href="../../#contact">Get in Touch</a>
+        <span class="footer-email-label">Or Email Us At</span>
+        <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com"><span>prabalraj980@gmail.com</span></button>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-col">
+          <h3>Quick Links</h3>
+          <ul><li><a href="../../">Home</a></li><li><a href="../../#skills">Skills</a></li><li><a href="../../#tools">Tools</a></li><li><a href="../../#experience">Experience</a></li><li><a href="../../#about">About</a></li></ul>
+        </div>
+        <div class="footer-links-col">
+          <h3>Explore</h3>
+          <ul><li><a href="../../best-seo-expert-in-nepal/">SEO Services</a></li><li><a href="../">Blog</a></li><li><a href="../../#faq">FAQ</a></li><li><a href="../../#achievements">Achievements</a></li></ul>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom-row">
+      <p>© Prabal Raj Shakya 2026. All rights reserved.</p>
+      <div class="footer-social-plain">
+        <a href="https://linkedin.com/in/prabal-raj-shakya-b640222b7" target="_blank" rel="noreferrer" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://behance.net/prabalshakya" target="_blank" rel="noreferrer" aria-label="Behance"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg></a>
+        <a href="https://wa.me/9779848853606" target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>
+        <a href="mailto:prabalraj980@gmail.com" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m2 7 10 6 10-6"></path></svg></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var navToggle = document.getElementById('navToggle');
+      var navList = document.getElementById('navList');
+      if (navToggle && navList) {
+        navToggle.addEventListener('click', function () {
+          var isOpen = navList.classList.toggle('open');
+          navToggle.classList.toggle('open', isOpen);
+          navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        navList.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            navList.classList.remove('open');
+            navToggle.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+      document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+        toggle.addEventListener('click', function () {
+          var parent = toggle.closest('.dropdown');
+          if (parent) parent.classList.toggle('open-sub');
+        });
+      });
+
+      var emailCopyBtn = document.getElementById('footerEmailCopy');
+      if (emailCopyBtn) {
+        emailCopyBtn.addEventListener('click', function () {
+          var email = emailCopyBtn.getAttribute('data-email');
+          var label = emailCopyBtn.querySelector('span');
+          var original = label.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email).then(function () {
+              label.textContent = 'Copied!';
+              setTimeout(function () { label.textContent = original; }, 1500);
+            }).catch(function () { window.location.href = 'mailto:' + email; });
+          } else {
+            window.location.href = 'mailto:' + email;
+          }
+        });
+      }
+
+      fetch('../../content/posts-index.json').then(function (r) { return r.json(); }).then(function (posts) {
+        var current = ${JSON.stringify(post.slug)};
+        var category = ${JSON.stringify(post.category || '')};
+        var tags = ${JSON.stringify(post.tags || [])};
+        var related = posts.filter(function (p) {
+          if (p.slug === current) return false;
+          if (p.category && p.category === category) return true;
+          return (p.tags || []).some(function (t) { return tags.indexOf(t) !== -1; });
+        }).slice(0, 3);
+        if (!related.length) return;
+        var grid = document.getElementById('relatedGrid');
+        related.forEach(function (p) {
+          var a = document.createElement('a');
+          a.className = 'related-card';
+          a.href = p.url;
+          var h3 = document.createElement('h3');
+          h3.textContent = p.title;
+          a.appendChild(h3);
+          grid.appendChild(a);
+        });
+        document.getElementById('relatedSection').style.display = '';
+      }).catch(function () {});
+    })();
+  </script>
+</body>
+</html>
+`;
+}
+
+module.exports = { renderPostPage };

@@ -153,6 +153,55 @@
   .preview-panel-bar span { font-size: 12px; font-weight: 700; color: var(--muted); }
   .preview-panel iframe { flex: 1; width: 100%; border: 0; }
   .preview-close { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--hairline); background: var(--canvas); font-size: 14px; }
+
+  .posts-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+  .posts-toolbar input[type="text"] { width: auto; flex: 1; min-width: 160px; }
+  .posts-toolbar select { border: 1px solid var(--hairline); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 13px; background: var(--canvas); }
+  .btn-new-post { background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; padding: 11px 18px; border-radius: 10px; white-space: nowrap; }
+  .posts-table { width: 100%; border-collapse: collapse; background: var(--canvas); border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; font-size: 13px; }
+  .posts-table th { text-align: left; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 12px 14px; border-bottom: 1px solid var(--hairline); background: var(--surface); }
+  .posts-table td { padding: 12px 14px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+  .posts-table tr:last-child td { border-bottom: 0; }
+  .posts-table .post-title-cell { font-weight: 700; }
+  .posts-table .post-title-cell a { color: var(--accent); }
+  .status-badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+  .status-badge.published { background: #dcfce7; color: #15803d; }
+  .status-badge.draft { background: #f1f5f9; color: #64748b; }
+  .status-badge.scheduled { background: #fef9c3; color: #a16207; }
+  .row-actions { display: flex; gap: 10px; }
+  .row-actions button { background: transparent; color: var(--accent); font-weight: 700; font-size: 12px; padding: 0; }
+  .row-actions button.danger { color: #dc2626; }
+  .bulk-bar { display: flex; align-items: center; gap: 10px; background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 10px; margin-bottom: 14px; font-size: 13px; }
+  .bulk-bar button { background: rgba(255,255,255,.12); color: #fff; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .bulk-bar button.danger { background: #dc2626; }
+  .posts-empty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+
+  .editor-back { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 18px; background: none; }
+  .editor-grid { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
+  .editor-side .group { margin-bottom: 18px; }
+  .slug-preview { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .slug-preview code { background: var(--surface); padding: 2px 6px; border-radius: 5px; }
+  .cover-preview { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; border: 1px solid var(--hairline); background: var(--surface); margin-bottom: 10px; }
+  .editor-actions { display: flex; flex-direction: column; gap: 10px; }
+  .editor-actions button { padding: 11px; border-radius: 10px; font-weight: 700; font-size: 13px; }
+  .btn-draft { background: var(--surface); border: 1px solid var(--hairline); color: var(--ink); }
+  .btn-publish { background: var(--accent); color: #fff; }
+  .btn-delete-post { background: transparent; color: #dc2626; border: 1px solid #fecaca; }
+  .schedule-row { display: flex; gap: 8px; }
+  .schedule-row input { flex: 1; }
+  .schedule-row button { white-space: nowrap; background: var(--surface); border: 1px solid var(--hairline); color: var(--ink); padding: 0 14px; border-radius: 10px; font-weight: 700; font-size: 12px; }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,.5); z-index: 40; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal-card { background: var(--canvas); border-radius: 16px; padding: 26px; max-width: 380px; width: 100%; }
+  .modal-card h3 { margin: 0 0 10px; font-size: 16px; }
+  .modal-card p { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .modal-actions button { padding: 9px 18px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+  .modal-cancel { background: var(--surface); border: 1px solid var(--hairline); color: var(--ink); }
+  .modal-confirm { background: #dc2626; color: #fff; }
+  @media (max-width: 800px) {
+    .editor-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -189,6 +238,7 @@
           <div id="loadingMsg" class="loading">Loading content…</div>
           <div id="formGroups"></div>
           <div id="imagesPanel" class="hidden"></div>
+          <div id="postsPanel" class="hidden"></div>
         </div>
       </div>
     </div>
@@ -219,6 +269,7 @@
   var sidebar = document.getElementById('sidebar');
   var formGroups = document.getElementById('formGroups');
   var imagesPanel = document.getElementById('imagesPanel');
+  var postsPanel = document.getElementById('postsPanel');
   var loadingMsg = document.getElementById('loadingMsg');
   var saveBtn = document.getElementById('saveBtn');
   var previewBtn = document.getElementById('previewBtn');
@@ -666,18 +717,446 @@
     });
   }
 
+  // ---- Blog Posts panel ----
+  var postsData = [];
+  var postsView = 'list';
+  var editingPost = null;
+  var selectedSlugs = {};
+
+  function slugifyClient(input) {
+    return String(input).toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function statusBadgeEl(status) {
+    var span = document.createElement('span');
+    span.className = 'status-badge ' + status;
+    span.textContent = status;
+    return span;
+  }
+
+  function confirmModal(title, message, onConfirm) {
+    var overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    var card = document.createElement('div');
+    card.className = 'modal-card';
+    var h3 = document.createElement('h3'); h3.textContent = title;
+    var p = document.createElement('p'); p.textContent = message;
+    var actions = document.createElement('div'); actions.className = 'modal-actions';
+    var cancelBtn = document.createElement('button'); cancelBtn.type = 'button'; cancelBtn.className = 'modal-cancel'; cancelBtn.textContent = 'Cancel';
+    var confirmBtn = document.createElement('button'); confirmBtn.type = 'button'; confirmBtn.className = 'modal-confirm'; confirmBtn.textContent = 'Delete';
+    cancelBtn.addEventListener('click', function () { overlay.remove(); });
+    confirmBtn.addEventListener('click', function () { overlay.remove(); onConfirm(); });
+    actions.appendChild(cancelBtn); actions.appendChild(confirmBtn);
+    card.appendChild(h3); card.appendChild(p); card.appendChild(actions);
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+  }
+
+  function loadPostsList() {
+    postsPanel.innerHTML = '<div class="loading">Loading posts…</div>';
+    fetch('/api/posts/list', { credentials: 'same-origin' })
+      .then(function (res) {
+        if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+        return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Failed to load posts.'); return d; });
+      })
+      .then(function (d) {
+        postsData = d.posts || [];
+        postsView = 'list';
+        renderPostsPanel();
+      })
+      .catch(function (err) {
+        if (err.message !== 'unauthenticated') postsPanel.innerHTML = '<div class="loading">' + err.message + '</div>';
+      });
+  }
+
+  function renderPostsPanel() {
+    if (postsView === 'editor') { renderPostEditor(editingPost); return; }
+    renderPostsListView();
+  }
+
+  function renderPostsListView() {
+    postsPanel.innerHTML = '';
+    selectedSlugs = {};
+
+    var toolbar = document.createElement('div');
+    toolbar.className = 'posts-toolbar';
+    var search = document.createElement('input');
+    search.type = 'text';
+    search.placeholder = 'Search posts…';
+    var catSelect = document.createElement('select');
+    var categories = Array.prototype.filter.call(
+      postsData.map(function (p) { return p.category; }).filter(Boolean).filter(function (c, i, arr) { return arr.indexOf(c) === i; }),
+      function () { return true; }
+    );
+    var allOpt = document.createElement('option'); allOpt.value = ''; allOpt.textContent = 'All categories';
+    catSelect.appendChild(allOpt);
+    categories.forEach(function (c) { var o = document.createElement('option'); o.value = c; o.textContent = c; catSelect.appendChild(o); });
+    var newBtn = document.createElement('button');
+    newBtn.type = 'button'; newBtn.className = 'btn-new-post'; newBtn.textContent = '+ New Post';
+    newBtn.addEventListener('click', function () { editingPost = null; postsView = 'editor'; renderPostsPanel(); });
+    toolbar.appendChild(search); toolbar.appendChild(catSelect); toolbar.appendChild(newBtn);
+    postsPanel.appendChild(toolbar);
+
+    var bulkBar = document.createElement('div');
+    bulkBar.className = 'bulk-bar hidden';
+    postsPanel.appendChild(bulkBar);
+
+    var tableWrap = document.createElement('div');
+    postsPanel.appendChild(tableWrap);
+
+    function applyFilters() {
+      var term = search.value.trim().toLowerCase();
+      var cat = catSelect.value;
+      return postsData.filter(function (p) {
+        if (cat && p.category !== cat) return false;
+        if (term && p.title.toLowerCase().indexOf(term) === -1) return false;
+        return true;
+      }).slice().sort(function (a, b) { return new Date(b.updatedAt || b.publishDate || 0) - new Date(a.updatedAt || a.publishDate || 0); });
+    }
+
+    function runBulkAction(action) {
+      var slugs = Object.keys(selectedSlugs).filter(function (k) { return selectedSlugs[k]; });
+      fetch('/api/posts/bulk', {
+        method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slugs: slugs, action: action }),
+      })
+        .then(function (res) {
+          if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+          return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Bulk action failed.'); return d; });
+        })
+        .then(function () { showBanner('Done.'); loadPostsList(); })
+        .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+    }
+
+    function updateBulkBar() {
+      var count = Object.keys(selectedSlugs).filter(function (k) { return selectedSlugs[k]; }).length;
+      if (count === 0) { bulkBar.classList.add('hidden'); bulkBar.innerHTML = ''; return; }
+      bulkBar.classList.remove('hidden');
+      bulkBar.innerHTML = '';
+      var label = document.createElement('span'); label.textContent = count + ' selected';
+      var pubBtn = document.createElement('button'); pubBtn.type = 'button'; pubBtn.textContent = 'Publish';
+      var unpubBtn = document.createElement('button'); unpubBtn.type = 'button'; unpubBtn.textContent = 'Unpublish';
+      var delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.className = 'danger'; delBtn.textContent = 'Delete';
+      pubBtn.addEventListener('click', function () { runBulkAction('publish'); });
+      unpubBtn.addEventListener('click', function () { runBulkAction('unpublish'); });
+      delBtn.addEventListener('click', function () {
+        confirmModal('Delete ' + count + ' post(s)?', 'This removes their live pages and cannot be undone.', function () { runBulkAction('delete'); });
+      });
+      bulkBar.appendChild(label); bulkBar.appendChild(pubBtn); bulkBar.appendChild(unpubBtn); bulkBar.appendChild(delBtn);
+    }
+
+    function drawTable() {
+      var list = applyFilters();
+      tableWrap.innerHTML = '';
+      if (!list.length) {
+        var empty = document.createElement('p');
+        empty.className = 'posts-empty';
+        empty.textContent = postsData.length ? 'No posts match your filters.' : 'No posts yet — click "+ New Post" to write your first one.';
+        tableWrap.appendChild(empty);
+        return;
+      }
+      var table = document.createElement('table');
+      table.className = 'posts-table';
+      table.innerHTML = '<thead><tr><th></th><th>Title</th><th>Status</th><th>Category</th><th>Updated</th><th></th></tr></thead>';
+      var tbody = document.createElement('tbody');
+      list.forEach(function (p) {
+        var tr = document.createElement('tr');
+
+        var checkTd = document.createElement('td');
+        if (!p.external) {
+          var check = document.createElement('input');
+          check.type = 'checkbox';
+          check.checked = !!selectedSlugs[p.slug];
+          check.addEventListener('change', function () { selectedSlugs[p.slug] = check.checked; updateBulkBar(); });
+          checkTd.appendChild(check);
+        }
+        tr.appendChild(checkTd);
+
+        var titleTd = document.createElement('td');
+        titleTd.className = 'post-title-cell';
+        if (p.status === 'published') {
+          var link = document.createElement('a');
+          link.href = p.url; link.target = '_blank'; link.rel = 'noreferrer'; link.textContent = p.title;
+          titleTd.appendChild(link);
+        } else {
+          titleTd.textContent = p.title;
+        }
+        if (p.external) {
+          var badge = document.createElement('span');
+          badge.style.cssText = 'margin-left:8px;font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;';
+          badge.textContent = '(legacy page)';
+          titleTd.appendChild(badge);
+        }
+        tr.appendChild(titleTd);
+
+        var statusTd = document.createElement('td');
+        statusTd.appendChild(statusBadgeEl(p.status));
+        tr.appendChild(statusTd);
+
+        var catTd = document.createElement('td');
+        catTd.textContent = p.category || '—';
+        tr.appendChild(catTd);
+
+        var dateTd = document.createElement('td');
+        dateTd.textContent = p.updatedAt ? new Date(p.updatedAt).toLocaleDateString() : '—';
+        tr.appendChild(dateTd);
+
+        var actionsTd = document.createElement('td');
+        var actionsWrap = document.createElement('div');
+        actionsWrap.className = 'row-actions';
+        if (!p.external) {
+          var editBtn = document.createElement('button');
+          editBtn.type = 'button'; editBtn.textContent = 'Edit';
+          editBtn.addEventListener('click', function () { editingPost = p; postsView = 'editor'; renderPostsPanel(); });
+          var rowDelBtn = document.createElement('button');
+          rowDelBtn.type = 'button'; rowDelBtn.className = 'danger'; rowDelBtn.textContent = 'Delete';
+          rowDelBtn.addEventListener('click', function () {
+            confirmModal('Delete this post?', 'This removes its live page and cannot be undone.', function () {
+              fetch('/api/posts/delete', {
+                method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ slug: p.slug }),
+              })
+                .then(function (res) {
+                  if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+                  return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+                })
+                .then(function () { showBanner('Post deleted.'); loadPostsList(); })
+                .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+            });
+          });
+          actionsWrap.appendChild(editBtn); actionsWrap.appendChild(rowDelBtn);
+        } else {
+          var note = document.createElement('span');
+          note.style.cssText = 'font-size:12px;color:var(--muted)';
+          note.textContent = 'Edit via Article page';
+          actionsWrap.appendChild(note);
+        }
+        actionsTd.appendChild(actionsWrap);
+        tr.appendChild(actionsTd);
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+    }
+
+    search.addEventListener('input', drawTable);
+    catSelect.addEventListener('change', drawTable);
+    drawTable();
+    updateBulkBar();
+  }
+
+  function renderPostEditor(post) {
+    postsPanel.innerHTML = '';
+    var isNew = !post;
+    var state = isNew ? {
+      title: '', slug: '', metaTitle: '', metaDescription: '', excerpt: '',
+      coverImage: '', category: '', tags: [], author: 'Prabal Raj Shakya', body: '', readTime: '',
+    } : Object.assign({}, post);
+    var originalSlug = isNew ? null : post.slug;
+
+    var backBtn = document.createElement('button');
+    backBtn.type = 'button'; backBtn.className = 'editor-back'; backBtn.textContent = '← Back to all posts';
+    backBtn.addEventListener('click', function () { postsView = 'list'; renderPostsPanel(); });
+    postsPanel.appendChild(backBtn);
+
+    var grid = document.createElement('div');
+    grid.className = 'editor-grid';
+    postsPanel.appendChild(grid);
+
+    var main = document.createElement('div');
+    var side = document.createElement('div');
+    side.className = 'editor-side';
+    grid.appendChild(main);
+    grid.appendChild(side);
+
+    var titleGroup = document.createElement('div'); titleGroup.className = 'group';
+    var titleLabel = document.createElement('label'); titleLabel.textContent = 'Title';
+    var titleInput = document.createElement('input'); titleInput.type = 'text'; titleInput.value = state.title;
+    var slugPreview = document.createElement('div'); slugPreview.className = 'slug-preview';
+    function updateSlugPreview() { slugPreview.innerHTML = 'URL: <code>/blog/' + (state.slug || 'your-slug') + '/</code>'; }
+    titleInput.addEventListener('input', function () {
+      state.title = titleInput.value;
+      if (isNew) state.slug = slugifyClient(titleInput.value);
+      updateSlugPreview();
+    });
+    updateSlugPreview();
+    titleGroup.appendChild(titleLabel); titleGroup.appendChild(titleInput); titleGroup.appendChild(slugPreview);
+    main.appendChild(titleGroup);
+
+    var bodyGroup = document.createElement('div'); bodyGroup.className = 'group';
+    var bodyLabel = document.createElement('label'); bodyLabel.textContent = 'Body';
+    bodyGroup.appendChild(bodyLabel);
+    var bodyBox = buildRichText(bodyGroup, state.body, true);
+    main.appendChild(bodyGroup);
+
+    var excerptGroup = document.createElement('div'); excerptGroup.className = 'group';
+    var excerptLabel = document.createElement('label'); excerptLabel.textContent = 'Excerpt / Summary';
+    var excerptInput = document.createElement('textarea'); excerptInput.value = state.excerpt;
+    excerptInput.addEventListener('input', function () { state.excerpt = excerptInput.value; });
+    excerptGroup.appendChild(excerptLabel); excerptGroup.appendChild(excerptInput);
+    main.appendChild(excerptGroup);
+
+    var seoGroup = document.createElement('div'); seoGroup.className = 'group';
+    var seoH2 = document.createElement('h2'); seoH2.textContent = 'SEO';
+    seoGroup.appendChild(seoH2);
+    var metaTitleLabel = document.createElement('label'); metaTitleLabel.textContent = 'Meta Title';
+    var metaTitleInput = document.createElement('input'); metaTitleInput.type = 'text'; metaTitleInput.value = state.metaTitle;
+    metaTitleInput.addEventListener('input', function () { state.metaTitle = metaTitleInput.value; });
+    var metaDescLabel = document.createElement('label'); metaDescLabel.textContent = 'Meta Description'; metaDescLabel.style.marginTop = '14px';
+    var metaDescInput = document.createElement('textarea'); metaDescInput.value = state.metaDescription;
+    metaDescInput.addEventListener('input', function () { state.metaDescription = metaDescInput.value; });
+    seoGroup.appendChild(metaTitleLabel); seoGroup.appendChild(metaTitleInput);
+    seoGroup.appendChild(metaDescLabel); seoGroup.appendChild(metaDescInput);
+    main.appendChild(seoGroup);
+
+    var coverGroup = document.createElement('div'); coverGroup.className = 'group';
+    var coverLabel = document.createElement('label'); coverLabel.textContent = 'Cover Image';
+    var coverImg = document.createElement('img'); coverImg.className = 'cover-preview';
+    coverImg.src = state.coverImage || '';
+    coverImg.style.display = state.coverImage ? '' : 'none';
+    var coverFileLabel = document.createElement('label'); coverFileLabel.className = 'file-input-label'; coverFileLabel.textContent = 'Upload Cover';
+    var coverFileInput = document.createElement('input'); coverFileInput.type = 'file'; coverFileInput.accept = 'image/*';
+    coverFileLabel.appendChild(coverFileInput);
+    var coverStatus = document.createElement('div'); coverStatus.className = 'image-status';
+    coverFileInput.addEventListener('change', function () {
+      if (!coverFileInput.files || !coverFileInput.files[0]) return;
+      if (!state.slug) { coverStatus.textContent = 'Enter a title first so a URL slug exists.'; return; }
+      var file = coverFileInput.files[0];
+      if (file.size > 4 * 1024 * 1024) { coverStatus.textContent = 'File too large (max 4MB).'; return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        coverStatus.textContent = 'Uploading…';
+        fetch('/api/posts/upload-cover', {
+          method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: state.slug, dataUrl: reader.result }),
+        })
+          .then(function (res) {
+            if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+            return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Upload failed.'); return d; });
+          })
+          .then(function (d) {
+            state.coverImage = d.path;
+            coverImg.src = d.path + '?t=' + Date.now();
+            coverImg.style.display = '';
+            coverStatus.textContent = 'Uploaded.';
+          })
+          .catch(function (err) { if (err.message !== 'unauthenticated') coverStatus.textContent = err.message; });
+      };
+      reader.readAsDataURL(file);
+    });
+    coverGroup.appendChild(coverLabel); coverGroup.appendChild(coverImg); coverGroup.appendChild(coverFileLabel); coverGroup.appendChild(coverStatus);
+    side.appendChild(coverGroup);
+
+    var metaGroup = document.createElement('div'); metaGroup.className = 'group';
+    var catLabel = document.createElement('label'); catLabel.textContent = 'Category';
+    var catInput = document.createElement('input'); catInput.type = 'text'; catInput.value = state.category;
+    catInput.addEventListener('input', function () { state.category = catInput.value; });
+    var tagsLabel = document.createElement('label'); tagsLabel.textContent = 'Tags (comma separated)'; tagsLabel.style.marginTop = '14px';
+    var tagsInput = document.createElement('input'); tagsInput.type = 'text'; tagsInput.value = (state.tags || []).join(', ');
+    tagsInput.addEventListener('input', function () { state.tags = tagsInput.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean); });
+    var authorLabel = document.createElement('label'); authorLabel.textContent = 'Author'; authorLabel.style.marginTop = '14px';
+    var authorInput = document.createElement('input'); authorInput.type = 'text'; authorInput.value = state.author;
+    authorInput.addEventListener('input', function () { state.author = authorInput.value; });
+    metaGroup.appendChild(catLabel); metaGroup.appendChild(catInput);
+    metaGroup.appendChild(tagsLabel); metaGroup.appendChild(tagsInput);
+    metaGroup.appendChild(authorLabel); metaGroup.appendChild(authorInput);
+    side.appendChild(metaGroup);
+
+    var actionsGroup = document.createElement('div'); actionsGroup.className = 'group editor-actions';
+    var statusLine = document.createElement('div');
+    statusLine.style.cssText = 'font-size:12px;color:var(--muted);margin-bottom:4px;';
+    statusLine.textContent = isNew ? 'Not saved yet.' : ('Status: ' + state.status + (state.updatedAt ? ' · Updated ' + new Date(state.updatedAt).toLocaleString() : ''));
+    actionsGroup.appendChild(statusLine);
+
+    function doSave(action, scheduledDate) {
+      if (!state.title.trim()) { showBanner('A title is required.', true); return; }
+      state.body = bodyBox.innerHTML;
+      var payload = {
+        post: {
+          slug: state.slug, title: state.title, metaTitle: state.metaTitle, metaDescription: state.metaDescription,
+          excerpt: state.excerpt, coverImage: state.coverImage, category: state.category, tags: state.tags,
+          author: state.author, body: state.body,
+        },
+        action: action,
+        originalSlug: originalSlug,
+        scheduledDate: scheduledDate || undefined,
+      };
+      fetch('/api/posts/save', {
+        method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+          return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Save failed.'); return d; });
+        })
+        .then(function (d) {
+          showBanner('Saved.');
+          editingPost = d.post;
+          postsView = 'editor';
+          renderPostEditor(d.post);
+        })
+        .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+    }
+
+    var draftBtn = document.createElement('button'); draftBtn.type = 'button'; draftBtn.className = 'btn-draft'; draftBtn.textContent = 'Save as Draft';
+    draftBtn.addEventListener('click', function () { doSave('draft'); });
+    var publishBtn = document.createElement('button'); publishBtn.type = 'button'; publishBtn.className = 'btn-publish'; publishBtn.textContent = 'Publish';
+    publishBtn.addEventListener('click', function () { doSave('publish'); });
+    actionsGroup.appendChild(draftBtn); actionsGroup.appendChild(publishBtn);
+
+    var scheduleRow = document.createElement('div'); scheduleRow.className = 'schedule-row';
+    var scheduleInput = document.createElement('input'); scheduleInput.type = 'datetime-local';
+    var scheduleBtn = document.createElement('button'); scheduleBtn.type = 'button'; scheduleBtn.textContent = 'Schedule';
+    scheduleBtn.addEventListener('click', function () {
+      if (!scheduleInput.value) { showBanner('Pick a date and time first.', true); return; }
+      doSave('schedule', new Date(scheduleInput.value).toISOString());
+    });
+    scheduleRow.appendChild(scheduleInput); scheduleRow.appendChild(scheduleBtn);
+    actionsGroup.appendChild(scheduleRow);
+
+    if (!isNew) {
+      var deleteBtn = document.createElement('button'); deleteBtn.type = 'button'; deleteBtn.className = 'btn-delete-post'; deleteBtn.textContent = 'Delete Post';
+      deleteBtn.addEventListener('click', function () {
+        confirmModal('Delete this post?', 'This removes its live page and cannot be undone.', function () {
+          fetch('/api/posts/delete', {
+            method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: state.slug }),
+          })
+            .then(function (res) {
+              if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+              return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+            })
+            .then(function () { showBanner('Post deleted.'); postsView = 'list'; loadPostsList(); })
+            .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+        });
+      });
+      actionsGroup.appendChild(deleteBtn);
+    }
+
+    side.appendChild(actionsGroup);
+  }
+
   function selectPage(pageName) {
     currentPage = pageName;
     Array.prototype.forEach.call(sidebar.querySelectorAll('button'), function (b) {
       b.classList.toggle('active', b.dataset.page === pageName);
     });
+    formGroups.classList.add('hidden');
+    imagesPanel.classList.add('hidden');
+    postsPanel.classList.add('hidden');
+    previewBtn.style.display = 'none';
     if (pageName === 'Images') {
-      formGroups.classList.add('hidden');
       imagesPanel.classList.remove('hidden');
-      previewBtn.style.display = 'none';
+    } else if (pageName === 'Blog Posts') {
+      postsPanel.classList.remove('hidden');
+      loadPostsList();
     } else {
       formGroups.classList.remove('hidden');
-      imagesPanel.classList.add('hidden');
       previewBtn.style.display = '';
       renderPageForm(pageName);
     }
@@ -704,6 +1183,7 @@
     payload.fields.forEach(function (f) {
       if (pages.indexOf(f.page) === -1) pages.push(f.page);
     });
+    pages.push('Blog Posts');
     if (payload.imageFields && payload.imageFields.length) pages.push('Images');
 
     renderSidebar();

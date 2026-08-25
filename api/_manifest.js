@@ -68,12 +68,6 @@ const FIELDS = [
   { id: 'blog-meta-description', label: 'Meta Description (SEO)', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'SEO' },
   { id: 'blog-h1', label: 'Page Headline', type: 'text', file: 'blog/index.html', page: 'Blog', group: 'Header' },
   { id: 'blog-lead', label: 'Page Subtext', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'Header' },
-  { id: 'blog-post1-title', label: 'Post 1 Title (What Is SEO — live)', type: 'text', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
-  { id: 'blog-post1-desc', label: 'Post 1 Description', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
-  { id: 'blog-post2-title', label: 'Post 2 Title (Coming Soon)', type: 'text', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
-  { id: 'blog-post2-desc', label: 'Post 2 Description', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
-  { id: 'blog-post3-title', label: 'Post 3 Title (Coming Soon)', type: 'text', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
-  { id: 'blog-post3-desc', label: 'Post 3 Description', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'Post Cards' },
 
   { id: 'article-meta-title', label: 'Page Title (SEO)', type: 'text', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },
   { id: 'article-meta-description', label: 'Meta Description (SEO)', type: 'textarea', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },

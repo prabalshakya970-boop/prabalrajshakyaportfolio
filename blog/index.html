@@ -102,6 +102,12 @@
     .post-badge.soon { background: var(--surface-2); color: var(--muted); }
     .post-card h3 { margin: 0; font-size: 17px; letter-spacing: -0.01em; color: var(--ink); }
     .post-card p { margin-top: 8px; font-size: 13px; line-height: 1.6; }
+    .post-card-meta { display: flex; gap: 10px; margin-top: 12px; font-size: 11px; color: var(--dim); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .post-card-category { cursor: pointer; }
+    .post-card-category:hover { color: var(--accent); }
+    .post-empty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+    .post-load-more { display: block; margin: 32px auto 0; padding: 12px 26px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--canvas); font-weight: 700; font-size: 13px; cursor: pointer; }
+    .post-load-more:hover { border-color: var(--accent); color: var(--accent); }
     @media (max-width: 880px) {
       .nav-inner { grid-template-columns: auto 1fr auto; }
       .nav-toggle { display: flex; }
@@ -196,30 +202,9 @@
 
     <section>
       <div class="wrap">
-        <div class="post-grid">
-          <a class="post-card is-live" href="../what-is-seo-and-how-does-it-work/">
-            <div class="post-card-media"><img src="../what-is-seo-and-how-does-it-work/cover.jpg" alt="What is SEO and how does it work" loading="lazy"></div>
-            <div class="post-card-body">
-              <span class="post-badge live">Read now</span>
-              <h3><!--cms:blog-post1-title-->What Is SEO and How Does It Work?<!--cms:/blog-post1-title--></h3>
-              <p><!--cms:blog-post1-desc-->A direct, plain-language answer covering how search engines crawl, index and rank pages, the main types of SEO, and where to start as a beginner.<!--cms:/blog-post1-desc--></p>
-            </div>
-          </a>
-          <div class="post-card">
-            <div class="post-card-body">
-              <span class="post-badge soon">Coming soon</span>
-              <h3><!--cms:blog-post2-title-->On-Page vs. Off-Page SEO<!--cms:/blog-post2-title--></h3>
-              <p><!--cms:blog-post2-desc-->The difference between what happens on your website and the off page seo work that happens everywhere else.<!--cms:/blog-post2-desc--></p>
-            </div>
-          </div>
-          <div class="post-card">
-            <div class="post-card-body">
-              <span class="post-badge soon">Coming soon</span>
-              <h3><!--cms:blog-post3-title-->SEO Tools I Actually Use<!--cms:/blog-post3-title--></h3>
-              <p><!--cms:blog-post3-desc-->A breakdown of the seo tools (from Search Console to Semrush) behind every recommendation I make.<!--cms:/blog-post3-desc--></p>
-            </div>
-          </div>
-        </div>
+        <div class="post-grid" id="postGrid"></div>
+        <p class="post-empty" id="postEmpty" style="display:none">No posts yet, check back soon.</p>
+        <button type="button" class="post-load-more" id="postLoadMore" style="display:none">Load More</button>
       </div>
     </section>
   </main>
@@ -316,6 +301,65 @@
           }
         });
       }
+
+      var PAGE_SIZE = 9;
+      var shown = 0;
+      var allPosts = [];
+      var grid = document.getElementById('postGrid');
+      var emptyMsg = document.getElementById('postEmpty');
+      var loadMoreBtn = document.getElementById('postLoadMore');
+
+      function formatDate(iso) {
+        try { return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
+        catch (e) { return ''; }
+      }
+
+      function renderCard(post) {
+        var a = document.createElement('a');
+        a.className = 'post-card is-live';
+        a.href = post.url;
+        var mediaHtml = post.coverImage
+          ? '<div class="post-card-media"><img src="' + post.coverImage + '" alt="' + post.title.replace(/"/g, '&quot;') + '" loading="lazy"></div>'
+          : '';
+        a.innerHTML =
+          mediaHtml +
+          '<div class="post-card-body">' +
+          '<span class="post-badge live">Read now</span>' +
+          '<h3></h3><p></p>' +
+          '<div class="post-card-meta"><span class="post-card-category"></span><span></span></div>' +
+          '</div>';
+        a.querySelector('h3').textContent = post.title;
+        a.querySelector('p').textContent = post.excerpt || '';
+        var categorySpan = a.querySelector('.post-card-category');
+        if (post.category) {
+          categorySpan.textContent = post.category;
+          categorySpan.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = 'category/?c=' + encodeURIComponent(post.category);
+          });
+        }
+        a.querySelectorAll('.post-card-meta span')[0].textContent = formatDate(post.publishDate) + (post.readTime ? ' · ' + post.readTime : '');
+        return a;
+      }
+
+      function renderNextPage() {
+        var next = allPosts.slice(shown, shown + PAGE_SIZE);
+        next.forEach(function (post) { grid.appendChild(renderCard(post)); });
+        shown += next.length;
+        loadMoreBtn.style.display = shown < allPosts.length ? '' : 'none';
+      }
+
+      loadMoreBtn.addEventListener('click', renderNextPage);
+
+      fetch('../content/posts-index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (posts) {
+          allPosts = posts || [];
+          if (!allPosts.length) { emptyMsg.style.display = ''; return; }
+          renderNextPage();
+        })
+        .catch(function () { emptyMsg.style.display = ''; });
     })();
   </script>
 </body>

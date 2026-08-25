@@ -1219,6 +1219,12 @@
         } else {
           titleTd.textContent = p.title;
         }
+        if (p.external) {
+          var pageBadge = document.createElement('span');
+          pageBadge.style.cssText = 'margin-left:8px;font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;';
+          pageBadge.textContent = '(legacy page)';
+          titleTd.appendChild(pageBadge);
+        }
         tr.appendChild(titleTd);
 
         var statusTd = document.createElement('td');
@@ -1236,26 +1242,33 @@
         var actionsTd = document.createElement('td');
         var actionsWrap = document.createElement('div');
         actionsWrap.className = 'row-actions';
-        var editBtn = document.createElement('button');
-        editBtn.type = 'button'; editBtn.textContent = 'Edit';
-        editBtn.addEventListener('click', function () { editingPageItem = p; pagesView = 'editor'; renderPagesPanel(); });
-        var delBtn = document.createElement('button');
-        delBtn.type = 'button'; delBtn.className = 'danger'; delBtn.textContent = 'Delete';
-        delBtn.addEventListener('click', function () {
-          confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
-            fetch('/api/pages?op=delete', {
-              method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ slug: p.slug }),
-            })
-              .then(function (res) {
-                if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
-                return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+        if (!p.external) {
+          var editBtn = document.createElement('button');
+          editBtn.type = 'button'; editBtn.textContent = 'Edit';
+          editBtn.addEventListener('click', function () { editingPageItem = p; pagesView = 'editor'; renderPagesPanel(); });
+          var delBtn = document.createElement('button');
+          delBtn.type = 'button'; delBtn.className = 'danger'; delBtn.textContent = 'Delete';
+          delBtn.addEventListener('click', function () {
+            confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
+              fetch('/api/pages?op=delete', {
+                method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ slug: p.slug }),
               })
-              .then(function () { showBanner('Page deleted.'); loadPagesList(); })
-              .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+                .then(function (res) {
+                  if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+                  return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+                })
+                .then(function () { showBanner('Page deleted.'); loadPagesList(); })
+                .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+            });
           });
-        });
-        actionsWrap.appendChild(editBtn); actionsWrap.appendChild(delBtn);
+          actionsWrap.appendChild(editBtn); actionsWrap.appendChild(delBtn);
+        } else {
+          var pageNote = document.createElement('span');
+          pageNote.style.cssText = 'font-size:12px;color:var(--muted)';
+          pageNote.textContent = 'Edit via SEO Landing Page tab';
+          actionsWrap.appendChild(pageNote);
+        }
         actionsTd.appendChild(actionsWrap);
         tr.appendChild(actionsTd);
 

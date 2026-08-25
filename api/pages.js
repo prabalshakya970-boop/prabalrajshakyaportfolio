@@ -42,6 +42,10 @@ async function handleSave(req, res) {
     res.status(404).json({ error: 'Page not found.' });
     return;
   }
+  if (isUpdate && pages[existingIndex].external) {
+    res.status(400).json({ error: 'This page is not managed by the CMS and cannot be edited here.' });
+    return;
+  }
   if (!isUpdate && pages.some((p) => p.slug === slug)) {
     res.status(400).json({ error: 'A page with this URL slug already exists.' });
     return;
@@ -100,6 +104,10 @@ async function handleDelete(req, res) {
   const idx = pages.findIndex((p) => p.slug === slug);
   if (idx === -1) {
     res.status(404).json({ error: 'Page not found.' });
+    return;
+  }
+  if (pages[idx].external) {
+    res.status(400).json({ error: 'This page is not managed by the CMS and cannot be deleted here.' });
     return;
   }
   const [removed] = pages.splice(idx, 1);

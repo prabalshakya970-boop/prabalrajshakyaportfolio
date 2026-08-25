@@ -1,0 +1,9 @@
+{
+  "name": "prabalrajshakya-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static portfolio site with a small git-backed CMS under /admin.",
+  "engines": {
+    "node": ">=18"
+  }
+}

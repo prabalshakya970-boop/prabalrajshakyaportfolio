@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Content Admin | Prabal Raj Shakya</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --canvas: #ffffff;
+    --surface: #f7f8fb;
+    --hairline: #e5e7eb;
+    --accent: #2563eb;
+    --navy: #1c2a6b;
+    --ink: #0f172a;
+    --muted: #475569;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .bar {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--navy); color: #fff;
+    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .bar strong { font-size: 16px; font-weight: 800; }
+  .bar .sub { font-size: 12px; color: #c7d2fe; margin-top: 2px; }
+  .bar-actions { display: flex; align-items: center; gap: 12px; }
+  .wrap { width: min(880px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 96px; }
+  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .login-card {
+    width: min(360px, calc(100% - 32px)); background: var(--canvas); border: 1px solid var(--hairline);
+    border-radius: 18px; padding: 32px; box-shadow: 0 20px 50px rgba(15,23,42,.08);
+  }
+  .login-card h1 { font-size: 19px; margin: 0 0 6px; }
+  .login-card p { color: var(--muted); font-size: 13px; margin: 0 0 22px; }
+  label { display: block; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  input[type="password"], input[type="text"], textarea {
+    width: 100%; border: 1px solid var(--hairline); border-radius: 10px; padding: 11px 13px;
+    font: inherit; font-size: 14px; outline: 0; background: var(--canvas); color: var(--ink);
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+  textarea.html-field { min-height: 200px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
+  button { font: inherit; cursor: pointer; border: 0; }
+  .btn-primary {
+    background: var(--accent); color: #fff; font-weight: 700; font-size: 14px;
+    padding: 12px 22px; border-radius: 10px; width: 100%;
+  }
+  .btn-primary:disabled { opacity: .6; cursor: default; }
+  .btn-ghost {
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3);
+    font-weight: 600; font-size: 13px; padding: 8px 16px; border-radius: 999px;
+  }
+  .btn-save {
+    background: var(--accent); color: #fff; font-weight: 700; font-size: 13px;
+    padding: 9px 20px; border-radius: 999px;
+  }
+  .btn-save:disabled { opacity: .5; cursor: default; }
+  .error { color: #dc2626; font-size: 13px; margin-top: 14px; min-height: 1em; }
+  .group { background: var(--canvas); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px; margin-bottom: 18px; }
+  .group h2 { font-size: 14px; margin: 0 0 18px; color: var(--navy); letter-spacing: -0.01em; }
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  .field .hint { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+  .status-banner {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; box-shadow: 0 14px 30px rgba(0,0,0,.25);
+    opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease;
+  }
+  .status-banner.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+  .status-banner.error-banner { background: #dc2626; }
+  .loading { text-align: center; padding: 80px 0; color: var(--muted); font-size: 14px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+  <div id="loginView" class="login-wrap hidden">
+    <div class="login-card">
+      <h1>Content Admin</h1>
+      <p>Sign in to edit the site's text content.</p>
+      <form id="loginForm">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+        <button class="btn-primary" style="margin-top:18px" type="submit" id="loginBtn">Sign In</button>
+        <p class="error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="bar">
+      <div>
+        <strong>Content Admin</strong>
+        <div class="sub">Edits save straight to the live site.</div>
+      </div>
+      <div class="bar-actions">
+        <button class="btn-save" id="saveBtn" type="button">Save Changes</button>
+        <button class="btn-ghost" id="logoutBtn" type="button">Log Out</button>
+      </div>
+    </div>
+    <div class="wrap">
+      <div id="loadingMsg" class="loading">Loading content…</div>
+      <div id="formGroups"></div>
+    </div>
+  </div>
+
+  <div class="status-banner" id="statusBanner"></div>
+
+<script>
+(function () {
+  var originalValues = {};
+  var fieldMeta = [];
+
+  var loginView = document.getElementById('loginView');
+  var appView = document.getElementById('appView');
+  var loginForm = document.getElementById('loginForm');
+  var loginError = document.getElementById('loginError');
+  var loginBtn = document.getElementById('loginBtn');
+  var formGroups = document.getElementById('formGroups');
+  var loadingMsg = document.getElementById('loadingMsg');
+  var saveBtn = document.getElementById('saveBtn');
+  var logoutBtn = document.getElementById('logoutBtn');
+  var statusBanner = document.getElementById('statusBanner');
+
+  function showBanner(text, isError) {
+    statusBanner.textContent = text;
+    statusBanner.classList.toggle('error-banner', !!isError);
+    statusBanner.classList.add('show');
+    setTimeout(function () { statusBanner.classList.remove('show'); }, 3200);
+  }
+
+  function showLogin(message) {
+    appView.classList.add('hidden');
+    loginView.classList.remove('hidden');
+    loginError.textContent = message || '';
+  }
+
+  function showApp() {
+    loginView.classList.add('hidden');
+    appView.classList.remove('hidden');
+  }
+
+  function fieldInputId(id) { return 'field-' + id; }
+
+  function render(fields, values) {
+    fieldMeta = fields;
+    originalValues = Object.assign({}, values);
+
+    var groups = {};
+    var order = [];
+    fields.forEach(function (f) {
+      if (!groups[f.group]) { groups[f.group] = []; order.push(f.group); }
+      groups[f.group].push(f);
+    });
+
+    formGroups.innerHTML = '';
+    order.forEach(function (groupName) {
+      var section = document.createElement('div');
+      section.className = 'group';
+      var h2 = document.createElement('h2');
+      h2.textContent = groupName;
+      section.appendChild(h2);
+
+      groups[groupName].forEach(function (f) {
+        var wrap = document.createElement('div');
+        wrap.className = 'field';
+
+        var label = document.createElement('label');
+        label.setAttribute('for', fieldInputId(f.id));
+        label.textContent = f.label;
+        wrap.appendChild(label);
+
+        var input;
+        if (f.type === 'text') {
+          input = document.createElement('input');
+          input.type = 'text';
+        } else {
+          input = document.createElement('textarea');
+          if (f.type === 'html') input.className = 'html-field';
+        }
+        input.id = fieldInputId(f.id);
+        input.dataset.fieldId = f.id;
+        input.value = values[f.id] || '';
+        wrap.appendChild(input);
+
+        section.appendChild(wrap);
+      });
+
+      formGroups.appendChild(section);
+    });
+
+    loadingMsg.classList.add('hidden');
+  }
+
+  function collectChangedValues() {
+    var changed = {};
+    fieldMeta.forEach(function (f) {
+      var el = document.getElementById(fieldInputId(f.id));
+      if (!el) return;
+      if (el.value !== (originalValues[f.id] || '')) {
+        changed[f.id] = el.value;
+      }
+    });
+    return changed;
+  }
+
+  function loadContent() {
+    loadingMsg.classList.remove('hidden');
+    loadingMsg.textContent = 'Loading content…';
+    formGroups.innerHTML = '';
+    fetch('/api/content', { credentials: 'same-origin' })
+      .then(function (res) {
+        if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+        if (!res.ok) return res.json().then(function (d) { throw new Error(d.error || 'Failed to load content.'); });
+        return res.json();
+      })
+      .then(function (data) {
+        showApp();
+        render(data.fields, data.values);
+      })
+      .catch(function (err) {
+        if (err.message !== 'unauthenticated') {
+          loadingMsg.textContent = 'Failed to load content: ' + err.message;
+        }
+      });
+  }
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    loginError.textContent = '';
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Signing in…';
+    var password = document.getElementById('password').value;
+    fetch('/api/login', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: password }),
+    })
+      .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, data: d }; }); })
+      .then(function (r) {
+        if (!r.ok) { loginError.textContent = r.data.error || 'Login failed.'; return; }
+        document.getElementById('password').value = '';
+        loadContent();
+      })
+      .catch(function () { loginError.textContent = 'Network error, please try again.'; })
+      .finally(function () {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+      });
+  });
+
+  logoutBtn.addEventListener('click', function () {
+    fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }).finally(function () {
+      showLogin();
+    });
+  });
+
+  saveBtn.addEventListener('click', function () {
+    var changed = collectChangedValues();
+    if (Object.keys(changed).length === 0) {
+      showBanner('No changes to save.');
+      return;
+    }
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+    fetch('/api/save', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: changed }),
+    })
+      .then(function (res) {
+        if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+        return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Save failed.'); return d; });
+      })
+      .then(function () {
+        Object.keys(changed).forEach(function (id) { originalValues[id] = changed[id]; });
+        showBanner('Saved. The site will redeploy in a minute or two.');
+      })
+      .catch(function (err) {
+        if (err.message !== 'unauthenticated') showBanner(err.message, true);
+      })
+      .finally(function () {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes';
+      });
+  });
+
+  loadContent();
+})();
+</script>
+</body>
+</html>

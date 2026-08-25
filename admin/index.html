@@ -760,7 +760,7 @@
 
   function loadPostsList() {
     postsPanel.innerHTML = '<div class="loading">Loading posts…</div>';
-    fetch('/api/posts/list', { credentials: 'same-origin' })
+    fetch('/api/posts?op=list', { credentials: 'same-origin' })
       .then(function (res) {
         if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
         return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Failed to load posts.'); return d; });
@@ -822,7 +822,7 @@
 
     function runBulkAction(action) {
       var slugs = Object.keys(selectedSlugs).filter(function (k) { return selectedSlugs[k]; });
-      fetch('/api/posts/bulk', {
+      fetch('/api/posts?op=bulk', {
         method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ slugs: slugs, action: action }),
       })
@@ -918,7 +918,7 @@
           rowDelBtn.type = 'button'; rowDelBtn.className = 'danger'; rowDelBtn.textContent = 'Delete';
           rowDelBtn.addEventListener('click', function () {
             confirmModal('Delete this post?', 'This removes its live page and cannot be undone.', function () {
-              fetch('/api/posts/delete', {
+              fetch('/api/posts?op=delete', {
                 method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ slug: p.slug }),
               })
@@ -1033,7 +1033,7 @@
       var reader = new FileReader();
       reader.onload = function () {
         coverStatus.textContent = 'Uploading…';
-        fetch('/api/posts/upload-cover', {
+        fetch('/api/posts?op=upload-cover', {
           method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ slug: state.slug, dataUrl: reader.result }),
         })
@@ -1088,7 +1088,7 @@
         originalSlug: originalSlug,
         scheduledDate: scheduledDate || undefined,
       };
-      fetch('/api/posts/save', {
+      fetch('/api/posts?op=save', {
         method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
@@ -1125,7 +1125,7 @@
       var deleteBtn = document.createElement('button'); deleteBtn.type = 'button'; deleteBtn.className = 'btn-delete-post'; deleteBtn.textContent = 'Delete Post';
       deleteBtn.addEventListener('click', function () {
         confirmModal('Delete this post?', 'This removes its live page and cannot be undone.', function () {
-          fetch('/api/posts/delete', {
+          fetch('/api/posts?op=delete', {
             method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ slug: state.slug }),
           })
@@ -1150,7 +1150,7 @@
 
   function loadPagesList() {
     pagesPanel.innerHTML = '<div class="loading">Loading pages…</div>';
-    fetch('/api/pages/list', { credentials: 'same-origin' })
+    fetch('/api/pages?op=list', { credentials: 'same-origin' })
       .then(function (res) {
         if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
         return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Failed to load pages.'); return d; });
@@ -1243,7 +1243,7 @@
         delBtn.type = 'button'; delBtn.className = 'danger'; delBtn.textContent = 'Delete';
         delBtn.addEventListener('click', function () {
           confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
-            fetch('/api/pages/delete', {
+            fetch('/api/pages?op=delete', {
               method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ slug: p.slug }),
             })
@@ -1368,7 +1368,7 @@
       var reader = new FileReader();
       reader.onload = function () {
         heroStatus.textContent = 'Uploading…';
-        fetch('/api/pages/upload-hero', {
+        fetch('/api/pages?op=upload-hero', {
           method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ slug: state.slug, dataUrl: reader.result }),
         })
@@ -1407,7 +1407,7 @@
         action: action,
         originalSlug: originalSlug,
       };
-      fetch('/api/pages/save', {
+      fetch('/api/pages?op=save', {
         method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
@@ -1434,7 +1434,7 @@
       var deleteBtn = document.createElement('button'); deleteBtn.type = 'button'; deleteBtn.className = 'btn-delete-post'; deleteBtn.textContent = 'Delete Page';
       deleteBtn.addEventListener('click', function () {
         confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
-          fetch('/api/pages/delete', {
+          fetch('/api/pages?op=delete', {
             method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ slug: state.slug }),
           })

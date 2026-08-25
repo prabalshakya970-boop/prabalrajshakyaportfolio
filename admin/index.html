@@ -239,6 +239,7 @@
           <div id="formGroups"></div>
           <div id="imagesPanel" class="hidden"></div>
           <div id="postsPanel" class="hidden"></div>
+          <div id="pagesPanel" class="hidden"></div>
         </div>
       </div>
     </div>
@@ -270,6 +271,7 @@
   var formGroups = document.getElementById('formGroups');
   var imagesPanel = document.getElementById('imagesPanel');
   var postsPanel = document.getElementById('postsPanel');
+  var pagesPanel = document.getElementById('pagesPanel');
   var loadingMsg = document.getElementById('loadingMsg');
   var saveBtn = document.getElementById('saveBtn');
   var previewBtn = document.getElementById('previewBtn');
@@ -1141,6 +1143,315 @@
     side.appendChild(actionsGroup);
   }
 
+  // ---- Pages panel ----
+  var pagesData = [];
+  var pagesView = 'list';
+  var editingPageItem = null;
+
+  function loadPagesList() {
+    pagesPanel.innerHTML = '<div class="loading">Loading pages…</div>';
+    fetch('/api/pages/list', { credentials: 'same-origin' })
+      .then(function (res) {
+        if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+        return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Failed to load pages.'); return d; });
+      })
+      .then(function (d) {
+        pagesData = d.pages || [];
+        pagesView = 'list';
+        renderPagesPanel();
+      })
+      .catch(function (err) {
+        if (err.message !== 'unauthenticated') pagesPanel.innerHTML = '<div class="loading">' + err.message + '</div>';
+      });
+  }
+
+  function renderPagesPanel() {
+    if (pagesView === 'editor') { renderPageEditor(editingPageItem); return; }
+    renderPagesListView();
+  }
+
+  function renderPagesListView() {
+    pagesPanel.innerHTML = '';
+
+    var toolbar = document.createElement('div');
+    toolbar.className = 'posts-toolbar';
+    var search = document.createElement('input');
+    search.type = 'text';
+    search.placeholder = 'Search pages…';
+    var newBtn = document.createElement('button');
+    newBtn.type = 'button'; newBtn.className = 'btn-new-post'; newBtn.textContent = '+ New Page';
+    newBtn.addEventListener('click', function () { editingPageItem = null; pagesView = 'editor'; renderPagesPanel(); });
+    toolbar.appendChild(search); toolbar.appendChild(newBtn);
+    pagesPanel.appendChild(toolbar);
+
+    var tableWrap = document.createElement('div');
+    pagesPanel.appendChild(tableWrap);
+
+    function applyFilter() {
+      var term = search.value.trim().toLowerCase();
+      return pagesData.filter(function (p) { return !term || p.title.toLowerCase().indexOf(term) !== -1; })
+        .slice().sort(function (a, b) { return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0); });
+    }
+
+    function drawTable() {
+      var list = applyFilter();
+      tableWrap.innerHTML = '';
+      if (!list.length) {
+        var empty = document.createElement('p');
+        empty.className = 'posts-empty';
+        empty.textContent = pagesData.length ? 'No pages match your search.' : 'No pages yet — click "+ New Page" to build your first one.';
+        tableWrap.appendChild(empty);
+        return;
+      }
+      var table = document.createElement('table');
+      table.className = 'posts-table';
+      table.innerHTML = '<thead><tr><th>Title</th><th>Status</th><th>URL</th><th>Updated</th><th></th></tr></thead>';
+      var tbody = document.createElement('tbody');
+      list.forEach(function (p) {
+        var tr = document.createElement('tr');
+
+        var titleTd = document.createElement('td');
+        titleTd.className = 'post-title-cell';
+        if (p.status === 'published') {
+          var link = document.createElement('a');
+          link.href = '/' + p.slug + '/'; link.target = '_blank'; link.rel = 'noreferrer'; link.textContent = p.title;
+          titleTd.appendChild(link);
+        } else {
+          titleTd.textContent = p.title;
+        }
+        tr.appendChild(titleTd);
+
+        var statusTd = document.createElement('td');
+        statusTd.appendChild(statusBadgeEl(p.status));
+        tr.appendChild(statusTd);
+
+        var urlTd = document.createElement('td');
+        urlTd.textContent = '/' + p.slug + '/';
+        tr.appendChild(urlTd);
+
+        var dateTd = document.createElement('td');
+        dateTd.textContent = p.updatedAt ? new Date(p.updatedAt).toLocaleDateString() : '—';
+        tr.appendChild(dateTd);
+
+        var actionsTd = document.createElement('td');
+        var actionsWrap = document.createElement('div');
+        actionsWrap.className = 'row-actions';
+        var editBtn = document.createElement('button');
+        editBtn.type = 'button'; editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', function () { editingPageItem = p; pagesView = 'editor'; renderPagesPanel(); });
+        var delBtn = document.createElement('button');
+        delBtn.type = 'button'; delBtn.className = 'danger'; delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', function () {
+          confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
+            fetch('/api/pages/delete', {
+              method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ slug: p.slug }),
+            })
+              .then(function (res) {
+                if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+                return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+              })
+              .then(function () { showBanner('Page deleted.'); loadPagesList(); })
+              .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+          });
+        });
+        actionsWrap.appendChild(editBtn); actionsWrap.appendChild(delBtn);
+        actionsTd.appendChild(actionsWrap);
+        tr.appendChild(actionsTd);
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+    }
+
+    search.addEventListener('input', drawTable);
+    drawTable();
+  }
+
+  function renderPageEditor(page) {
+    pagesPanel.innerHTML = '';
+    var isNew = !page;
+    var state = isNew ? {
+      title: '', slug: '', metaTitle: '', metaDescription: '', eyebrow: '', lead: '',
+      heroImage: '', body: '', ctaHeading: '', ctaSubtext: '',
+    } : Object.assign({}, page);
+    var originalSlug = isNew ? null : page.slug;
+
+    var backBtn = document.createElement('button');
+    backBtn.type = 'button'; backBtn.className = 'editor-back'; backBtn.textContent = '← Back to all pages';
+    backBtn.addEventListener('click', function () { pagesView = 'list'; renderPagesPanel(); });
+    pagesPanel.appendChild(backBtn);
+
+    var grid = document.createElement('div');
+    grid.className = 'editor-grid';
+    pagesPanel.appendChild(grid);
+
+    var main = document.createElement('div');
+    var side = document.createElement('div');
+    side.className = 'editor-side';
+    grid.appendChild(main);
+    grid.appendChild(side);
+
+    var titleGroup = document.createElement('div'); titleGroup.className = 'group';
+    var titleLabel = document.createElement('label'); titleLabel.textContent = 'Page Title';
+    var titleInput = document.createElement('input'); titleInput.type = 'text'; titleInput.value = state.title;
+    var slugPreview = document.createElement('div'); slugPreview.className = 'slug-preview';
+    function updateSlugPreview() { slugPreview.innerHTML = 'URL: <code>/' + (state.slug || 'your-slug') + '/</code>'; }
+    titleInput.addEventListener('input', function () {
+      state.title = titleInput.value;
+      if (isNew) state.slug = slugifyClient(titleInput.value);
+      updateSlugPreview();
+    });
+    updateSlugPreview();
+    titleGroup.appendChild(titleLabel); titleGroup.appendChild(titleInput); titleGroup.appendChild(slugPreview);
+    main.appendChild(titleGroup);
+
+    var heroGroup = document.createElement('div'); heroGroup.className = 'group';
+    var eyebrowLabel = document.createElement('label'); eyebrowLabel.textContent = 'Eyebrow Label (small text above the heading)';
+    var eyebrowInput = document.createElement('input'); eyebrowInput.type = 'text'; eyebrowInput.value = state.eyebrow;
+    eyebrowInput.addEventListener('input', function () { state.eyebrow = eyebrowInput.value; });
+    var leadLabel = document.createElement('label'); leadLabel.textContent = 'Hero Subtext'; leadLabel.style.marginTop = '14px';
+    var leadInput = document.createElement('textarea'); leadInput.value = state.lead;
+    leadInput.addEventListener('input', function () { state.lead = leadInput.value; });
+    heroGroup.appendChild(eyebrowLabel); heroGroup.appendChild(eyebrowInput);
+    heroGroup.appendChild(leadLabel); heroGroup.appendChild(leadInput);
+    main.appendChild(heroGroup);
+
+    var bodyGroup = document.createElement('div'); bodyGroup.className = 'group';
+    var bodyLabel = document.createElement('label'); bodyLabel.textContent = 'Page Content';
+    bodyGroup.appendChild(bodyLabel);
+    var bodyBox = buildRichText(bodyGroup, state.body, true);
+    main.appendChild(bodyGroup);
+
+    var ctaGroup = document.createElement('div'); ctaGroup.className = 'group';
+    var ctaH2 = document.createElement('h2'); ctaH2.textContent = 'Bottom Call-to-Action Banner';
+    ctaGroup.appendChild(ctaH2);
+    var ctaHeadingLabel = document.createElement('label'); ctaHeadingLabel.textContent = 'Heading';
+    var ctaHeadingInput = document.createElement('input'); ctaHeadingInput.type = 'text'; ctaHeadingInput.value = state.ctaHeading;
+    ctaHeadingInput.placeholder = 'Ready to work together?';
+    ctaHeadingInput.addEventListener('input', function () { state.ctaHeading = ctaHeadingInput.value; });
+    var ctaSubtextLabel = document.createElement('label'); ctaSubtextLabel.textContent = 'Subtext'; ctaSubtextLabel.style.marginTop = '14px';
+    var ctaSubtextInput = document.createElement('textarea'); ctaSubtextInput.value = state.ctaSubtext;
+    ctaSubtextInput.addEventListener('input', function () { state.ctaSubtext = ctaSubtextInput.value; });
+    ctaGroup.appendChild(ctaHeadingLabel); ctaGroup.appendChild(ctaHeadingInput);
+    ctaGroup.appendChild(ctaSubtextLabel); ctaGroup.appendChild(ctaSubtextInput);
+    main.appendChild(ctaGroup);
+
+    var seoGroup = document.createElement('div'); seoGroup.className = 'group';
+    var seoH2 = document.createElement('h2'); seoH2.textContent = 'SEO';
+    seoGroup.appendChild(seoH2);
+    var metaTitleLabel = document.createElement('label'); metaTitleLabel.textContent = 'Meta Title';
+    var metaTitleInput = document.createElement('input'); metaTitleInput.type = 'text'; metaTitleInput.value = state.metaTitle;
+    metaTitleInput.addEventListener('input', function () { state.metaTitle = metaTitleInput.value; });
+    var metaDescLabel = document.createElement('label'); metaDescLabel.textContent = 'Meta Description'; metaDescLabel.style.marginTop = '14px';
+    var metaDescInput = document.createElement('textarea'); metaDescInput.value = state.metaDescription;
+    metaDescInput.addEventListener('input', function () { state.metaDescription = metaDescInput.value; });
+    seoGroup.appendChild(metaTitleLabel); seoGroup.appendChild(metaTitleInput);
+    seoGroup.appendChild(metaDescLabel); seoGroup.appendChild(metaDescInput);
+    main.appendChild(seoGroup);
+
+    var heroImgGroup = document.createElement('div'); heroImgGroup.className = 'group';
+    var heroImgLabel = document.createElement('label'); heroImgLabel.textContent = 'Hero Image (optional)';
+    var heroImg = document.createElement('img'); heroImg.className = 'cover-preview';
+    heroImg.src = state.heroImage || '';
+    heroImg.style.display = state.heroImage ? '' : 'none';
+    var heroFileLabel = document.createElement('label'); heroFileLabel.className = 'file-input-label'; heroFileLabel.textContent = 'Upload Image';
+    var heroFileInput = document.createElement('input'); heroFileInput.type = 'file'; heroFileInput.accept = 'image/*';
+    heroFileLabel.appendChild(heroFileInput);
+    var heroStatus = document.createElement('div'); heroStatus.className = 'image-status';
+    heroFileInput.addEventListener('change', function () {
+      if (!heroFileInput.files || !heroFileInput.files[0]) return;
+      if (!state.slug) { heroStatus.textContent = 'Enter a title first so a URL slug exists.'; return; }
+      var file = heroFileInput.files[0];
+      if (file.size > 4 * 1024 * 1024) { heroStatus.textContent = 'File too large (max 4MB).'; return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        heroStatus.textContent = 'Uploading…';
+        fetch('/api/pages/upload-hero', {
+          method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: state.slug, dataUrl: reader.result }),
+        })
+          .then(function (res) {
+            if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+            return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Upload failed.'); return d; });
+          })
+          .then(function (d) {
+            state.heroImage = d.path;
+            heroImg.src = d.path + '?t=' + Date.now();
+            heroImg.style.display = '';
+            heroStatus.textContent = 'Uploaded.';
+          })
+          .catch(function (err) { if (err.message !== 'unauthenticated') heroStatus.textContent = err.message; });
+      };
+      reader.readAsDataURL(file);
+    });
+    heroImgGroup.appendChild(heroImgLabel); heroImgGroup.appendChild(heroImg); heroImgGroup.appendChild(heroFileLabel); heroImgGroup.appendChild(heroStatus);
+    side.appendChild(heroImgGroup);
+
+    var actionsGroup = document.createElement('div'); actionsGroup.className = 'group editor-actions';
+    var statusLine = document.createElement('div');
+    statusLine.style.cssText = 'font-size:12px;color:var(--muted);margin-bottom:4px;';
+    statusLine.textContent = isNew ? 'Not saved yet.' : ('Status: ' + state.status + (state.updatedAt ? ' · Updated ' + new Date(state.updatedAt).toLocaleString() : ''));
+    actionsGroup.appendChild(statusLine);
+
+    function doSave(action) {
+      if (!state.title.trim()) { showBanner('A title is required.', true); return; }
+      state.body = bodyBox.innerHTML;
+      var payload = {
+        page: {
+          slug: state.slug, title: state.title, metaTitle: state.metaTitle, metaDescription: state.metaDescription,
+          eyebrow: state.eyebrow, lead: state.lead, heroImage: state.heroImage, body: state.body,
+          ctaHeading: state.ctaHeading, ctaSubtext: state.ctaSubtext,
+        },
+        action: action,
+        originalSlug: originalSlug,
+      };
+      fetch('/api/pages/save', {
+        method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+          return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Save failed.'); return d; });
+        })
+        .then(function (d) {
+          showBanner('Saved.');
+          editingPageItem = d.page;
+          pagesView = 'editor';
+          renderPageEditor(d.page);
+        })
+        .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+    }
+
+    var draftBtn = document.createElement('button'); draftBtn.type = 'button'; draftBtn.className = 'btn-draft'; draftBtn.textContent = 'Save as Draft';
+    draftBtn.addEventListener('click', function () { doSave('draft'); });
+    var publishBtn = document.createElement('button'); publishBtn.type = 'button'; publishBtn.className = 'btn-publish'; publishBtn.textContent = 'Publish';
+    publishBtn.addEventListener('click', function () { doSave('publish'); });
+    actionsGroup.appendChild(draftBtn); actionsGroup.appendChild(publishBtn);
+
+    if (!isNew) {
+      var deleteBtn = document.createElement('button'); deleteBtn.type = 'button'; deleteBtn.className = 'btn-delete-post'; deleteBtn.textContent = 'Delete Page';
+      deleteBtn.addEventListener('click', function () {
+        confirmModal('Delete this page?', 'This removes its live page and cannot be undone.', function () {
+          fetch('/api/pages/delete', {
+            method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug: state.slug }),
+          })
+            .then(function (res) {
+              if (res.status === 401) { showLogin(); throw new Error('unauthenticated'); }
+              return res.json().then(function (d) { if (!res.ok) throw new Error(d.error || 'Delete failed.'); return d; });
+            })
+            .then(function () { showBanner('Page deleted.'); pagesView = 'list'; loadPagesList(); })
+            .catch(function (err) { if (err.message !== 'unauthenticated') showBanner(err.message, true); });
+        });
+      });
+      actionsGroup.appendChild(deleteBtn);
+    }
+
+    side.appendChild(actionsGroup);
+  }
+
   function selectPage(pageName) {
     currentPage = pageName;
     Array.prototype.forEach.call(sidebar.querySelectorAll('button'), function (b) {
@@ -1149,12 +1460,16 @@
     formGroups.classList.add('hidden');
     imagesPanel.classList.add('hidden');
     postsPanel.classList.add('hidden');
+    pagesPanel.classList.add('hidden');
     previewBtn.style.display = 'none';
     if (pageName === 'Images') {
       imagesPanel.classList.remove('hidden');
     } else if (pageName === 'Blog Posts') {
       postsPanel.classList.remove('hidden');
       loadPostsList();
+    } else if (pageName === 'Pages') {
+      pagesPanel.classList.remove('hidden');
+      loadPagesList();
     } else {
       formGroups.classList.remove('hidden');
       previewBtn.style.display = '';
@@ -1184,6 +1499,7 @@
       if (pages.indexOf(f.page) === -1) pages.push(f.page);
     });
     pages.push('Blog Posts');
+    pages.push('Pages');
     if (payload.imageFields && payload.imageFields.length) pages.push('Images');
 
     renderSidebar();

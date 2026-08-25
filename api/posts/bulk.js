@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
         const pageSha = await getSha(pagePath);
         if (pageSha) await deleteFile(pagePath, pageSha, `Remove post page: ${p.title}`);
       }
-      await regenerateDerivedFiles(remaining);
+      await regenerateDerivedFiles();
       res.status(200).json({ ok: true, affected: removed.length });
       return;
     }
@@ -71,7 +71,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    await regenerateDerivedFiles(posts);
+    await regenerateDerivedFiles();
 
     res.status(200).json({ ok: true, affected: affected.length });
   } catch (err) {

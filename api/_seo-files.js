@@ -22,8 +22,9 @@ function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function buildSitemap(posts) {
+function buildSitemap(posts, pages) {
   const published = buildPublicIndex(posts);
+  const publishedPages = (pages || []).filter((p) => p.status === 'published');
   const today = todayIso();
   const staticEntries = STATIC_URLS.map(
     (u) =>
@@ -33,10 +34,14 @@ function buildSitemap(posts) {
     (p) =>
       `  <url>\n    <loc>${SITE_ORIGIN}${p.url}</loc>\n    <lastmod>${(p.publishDate || today).slice(0, 10)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`
   );
+  const pageEntries = publishedPages.map(
+    (p) =>
+      `  <url>\n    <loc>${SITE_ORIGIN}/${p.slug}/</loc>\n    <lastmod>${(p.updatedAt || today).slice(0, 10)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`
+  );
   return (
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    staticEntries.concat(postEntries).join('\n') +
+    staticEntries.concat(pageEntries).concat(postEntries).join('\n') +
     '\n</urlset>\n'
   );
 }

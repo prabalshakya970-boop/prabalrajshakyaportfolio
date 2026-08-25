@@ -1,6 +1,6 @@
 const { isAuthenticated } = require('../_auth');
 const { deleteFile, getSha } = require('../_github');
-const { loadAllPosts, saveAllPosts } = require('../_posts');
+const { loadAllPages, saveAllPages } = require('../_pages');
 const { regenerateDerivedFiles } = require('../_regenerate');
 
 module.exports = async (req, res) => {
@@ -21,27 +21,23 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { posts, sha } = await loadAllPosts();
-    const idx = posts.findIndex((p) => p.slug === slug);
+    const { pages, sha } = await loadAllPages();
+    const idx = pages.findIndex((p) => p.slug === slug);
     if (idx === -1) {
-      res.status(404).json({ error: 'Post not found.' });
+      res.status(404).json({ error: 'Page not found.' });
       return;
     }
-    if (posts[idx].external) {
-      res.status(400).json({ error: 'This post is not managed by the CMS and cannot be deleted here.' });
-      return;
-    }
-    const [removed] = posts.splice(idx, 1);
-    await saveAllPosts(posts, sha, `Delete post: ${removed.title}`);
+    const [removed] = pages.splice(idx, 1);
+    await saveAllPages(pages, sha, `Delete page: ${removed.title}`);
 
-    const pagePath = `blog/${slug}/index.html`;
+    const pagePath = `${slug}/index.html`;
     const pageSha = await getSha(pagePath);
-    if (pageSha) await deleteFile(pagePath, pageSha, `Remove post page: ${removed.title}`);
+    if (pageSha) await deleteFile(pagePath, pageSha, `Remove page: ${removed.title}`);
 
     await regenerateDerivedFiles();
 
     res.status(200).json({ ok: true });
   } catch (err) {
-    res.status(500).json({ error: err.message || 'Failed to delete post.' });
+    res.status(500).json({ error: err.message || 'Failed to delete page.' });
   }
 };

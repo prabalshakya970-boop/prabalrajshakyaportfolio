@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
       await putFile(pagePath, renderPostPage(nextPost), pageSha || undefined, `Publish post page: ${nextPost.title}`);
     }
 
-    await regenerateDerivedFiles(posts);
+    await regenerateDerivedFiles();
 
     res.status(200).json({ ok: true, post: nextPost, sha: newSha });
   } catch (err) {

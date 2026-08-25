@@ -28,9 +28,10 @@ async function getFile(path) {
   return { content, sha: data.sha };
 }
 
-async function putFile(path, content, sha, message) {
+async function putFile(path, content, sha, message, encoding) {
   const { token, owner, name, branch } = config();
   const url = `https://api.github.com/repos/${owner}/${name}/contents/${encodeURI(path)}`;
+  const base64Content = encoding === 'base64' ? content : Buffer.from(content, 'utf8').toString('base64');
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -41,7 +42,7 @@ async function putFile(path, content, sha, message) {
     },
     body: JSON.stringify({
       message,
-      content: Buffer.from(content, 'utf8').toString('base64'),
+      content: base64Content,
       sha,
       branch,
     }),
@@ -53,4 +54,22 @@ async function putFile(path, content, sha, message) {
   return res.json();
 }
 
-module.exports = { getFile, putFile };
+async function getSha(path) {
+  const { token, owner, name, branch } = config();
+  const url = `https://api.github.com/repos/${owner}/${name}/contents/${encodeURI(path)}?ref=${encodeURIComponent(branch)}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`GitHub GET ${path} failed: ${res.status} ${body}`);
+  }
+  const data = await res.json();
+  return data.sha;
+}
+
+module.exports = { getFile, putFile, getSha };

@@ -50,7 +50,6 @@
   }
   input:focus, textarea:focus { border-color: var(--accent); }
   textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-  textarea.html-field { min-height: 200px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
   button { font: inherit; cursor: pointer; border: 0; }
   .btn-primary {
     background: var(--accent); color: #fff; font-weight: 700; font-size: 14px;
@@ -71,7 +70,6 @@
   .group h2 { font-size: 14px; margin: 0 0 18px; color: var(--navy); letter-spacing: -0.01em; }
   .field { margin-bottom: 18px; }
   .field:last-child { margin-bottom: 0; }
-  .field .hint { font-size: 11px; color: #94a3b8; margin-top: 6px; }
   .status-banner {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px;
@@ -82,6 +80,38 @@
   .status-banner.error-banner { background: #dc2626; }
   .loading { text-align: center; padding: 80px 0; color: var(--muted); font-size: 14px; }
   .hidden { display: none !important; }
+
+  .richtext-toolbar { display: flex; gap: 6px; margin-bottom: 6px; }
+  .richtext-toolbar button {
+    width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--hairline);
+    background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 800;
+  }
+  .richtext-toolbar button.italic-btn { font-style: italic; }
+  .richtext-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+  .richtext-box {
+    border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 13px;
+    min-height: 140px; font-size: 14px; line-height: 1.7; outline: 0;
+  }
+  .richtext-box:focus { border-color: var(--accent); }
+  .richtext-box p { margin: 0 0 12px; }
+  .richtext-box p:last-child { margin-bottom: 0; }
+
+  .repeater-item {
+    border: 1px solid var(--hairline); border-radius: 12px; padding: 16px; margin-bottom: 12px;
+    background: var(--surface); position: relative;
+  }
+  .repeater-item .remove-item {
+    position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--canvas); border: 1px solid var(--hairline); color: #dc2626; font-size: 14px;
+    line-height: 1; display: flex; align-items: center; justify-content: center;
+  }
+  .repeater-item .subfield { margin-bottom: 12px; }
+  .repeater-item .subfield:last-child { margin-bottom: 0; }
+  .add-item-btn {
+    width: 100%; padding: 12px; border-radius: 10px; border: 1px dashed var(--hairline);
+    background: transparent; color: var(--accent); font-weight: 700; font-size: 13px;
+  }
+  .add-item-btn:hover { border-color: var(--accent); background: var(--surface); }
 </style>
 </head>
 <body>
@@ -122,6 +152,7 @@
 (function () {
   var originalValues = {};
   var fieldMeta = [];
+  var controllers = {}; // fieldId -> { getValue() }
 
   var loginView = document.getElementById('loginView');
   var appView = document.getElementById('appView');
@@ -152,11 +183,136 @@
     appView.classList.remove('hidden');
   }
 
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function unescapeHtml(s) {
+    return String(s).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  }
+
+  function parseProcessSteps(html) {
+    var re = /<article class="process-step">\s*<h3>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>\s*<\/article>/g;
+    var items = [];
+    var m;
+    while ((m = re.exec(html || ''))) {
+      items.push({ title: unescapeHtml(m[1].trim()), desc: unescapeHtml(m[2].trim()) });
+    }
+    return items;
+  }
+  function serializeProcessSteps(items) {
+    return items.map(function (it) {
+      return '<article class="process-step"><h3>' + escapeHtml(it.title) + '</h3><p>' + escapeHtml(it.desc) + '</p></article>';
+    }).join('\n          ');
+  }
+
+  function parseFaqList(html) {
+    var re = /<details class="faq-item">\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/g;
+    var items = [];
+    var m;
+    while ((m = re.exec(html || ''))) {
+      items.push({ q: unescapeHtml(m[1].trim()), a: unescapeHtml(m[2].trim()) });
+    }
+    return items;
+  }
+  function serializeFaqList(items) {
+    return items.map(function (it) {
+      return '<details class="faq-item">\n            <summary>' + escapeHtml(it.q) + '</summary>\n            <p>' + escapeHtml(it.a) + '</p>\n          </details>';
+    }).join('\n          ');
+  }
+
+  function buildRepeater(wrap, items, itemLabels, addLabel, onChange) {
+    var listEl = document.createElement('div');
+    wrap.appendChild(listEl);
+
+    function renderList() {
+      listEl.innerHTML = '';
+      items.forEach(function (item, idx) {
+        var card = document.createElement('div');
+        card.className = 'repeater-item';
+
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-item';
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', function () {
+          items.splice(idx, 1);
+          renderList();
+          onChange();
+        });
+        card.appendChild(removeBtn);
+
+        itemLabels.forEach(function (fieldDef) {
+          var sub = document.createElement('div');
+          sub.className = 'subfield';
+          var lbl = document.createElement('label');
+          lbl.textContent = fieldDef.label;
+          sub.appendChild(lbl);
+          var input = fieldDef.multiline ? document.createElement('textarea') : document.createElement('input');
+          if (!fieldDef.multiline) input.type = 'text';
+          input.value = item[fieldDef.key] || '';
+          input.addEventListener('input', function () {
+            item[fieldDef.key] = input.value;
+            onChange();
+          });
+          sub.appendChild(input);
+          card.appendChild(sub);
+        });
+
+        listEl.appendChild(card);
+      });
+    }
+
+    var addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'add-item-btn';
+    addBtn.textContent = addLabel;
+    addBtn.addEventListener('click', function () {
+      var blank = {};
+      itemLabels.forEach(function (f) { blank[f.key] = ''; });
+      items.push(blank);
+      renderList();
+      onChange();
+    });
+    wrap.appendChild(addBtn);
+
+    renderList();
+  }
+
+  function buildRichText(wrap, initialHtml) {
+    var toolbar = document.createElement('div');
+    toolbar.className = 'richtext-toolbar';
+    var boldBtn = document.createElement('button');
+    boldBtn.type = 'button';
+    boldBtn.textContent = 'B';
+    var italicBtn = document.createElement('button');
+    italicBtn.type = 'button';
+    italicBtn.className = 'italic-btn';
+    italicBtn.textContent = 'I';
+    toolbar.appendChild(boldBtn);
+    toolbar.appendChild(italicBtn);
+    wrap.appendChild(toolbar);
+
+    var box = document.createElement('div');
+    box.className = 'richtext-box';
+    box.contentEditable = 'true';
+    box.innerHTML = initialHtml || '';
+    wrap.appendChild(box);
+
+    boldBtn.addEventListener('mousedown', function (e) { e.preventDefault(); document.execCommand('bold'); });
+    italicBtn.addEventListener('mousedown', function (e) { e.preventDefault(); document.execCommand('italic'); });
+    box.addEventListener('focus', function () {
+      document.execCommand('defaultParagraphSeparator', false, 'p');
+    });
+
+    return box;
+  }
+
   function fieldInputId(id) { return 'field-' + id; }
 
   function render(fields, values) {
     fieldMeta = fields;
     originalValues = Object.assign({}, values);
+    controllers = {};
 
     var groups = {};
     var order = [];
@@ -177,23 +333,54 @@
         var wrap = document.createElement('div');
         wrap.className = 'field';
 
-        var label = document.createElement('label');
-        label.setAttribute('for', fieldInputId(f.id));
-        label.textContent = f.label;
-        wrap.appendChild(label);
+        if (f.type === 'text' || f.type === 'textarea') {
+          var label = document.createElement('label');
+          label.setAttribute('for', fieldInputId(f.id));
+          label.textContent = f.label;
+          wrap.appendChild(label);
 
-        var input;
-        if (f.type === 'text') {
-          input = document.createElement('input');
-          input.type = 'text';
-        } else {
-          input = document.createElement('textarea');
-          if (f.type === 'html') input.className = 'html-field';
+          var input = f.type === 'text' ? document.createElement('input') : document.createElement('textarea');
+          if (f.type === 'text') input.type = 'text';
+          input.id = fieldInputId(f.id);
+          input.value = values[f.id] || '';
+          wrap.appendChild(input);
+          controllers[f.id] = { getValue: function () { return input.value; } };
+
+        } else if (f.type === 'richtext') {
+          var rtLabel = document.createElement('label');
+          rtLabel.textContent = f.label;
+          wrap.appendChild(rtLabel);
+          var box = buildRichText(wrap, values[f.id] || '');
+          controllers[f.id] = { getValue: function () { return box.innerHTML; } };
+
+        } else if (f.type === 'repeater-steps') {
+          var stepsLabel = document.createElement('label');
+          stepsLabel.textContent = f.label;
+          wrap.appendChild(stepsLabel);
+          var stepItems = parseProcessSteps(values[f.id]);
+          buildRepeater(
+            wrap,
+            stepItems,
+            [{ key: 'title', label: 'Title' }, { key: 'desc', label: 'Description', multiline: true }],
+            '+ Add Step',
+            function () {}
+          );
+          controllers[f.id] = { getValue: function () { return serializeProcessSteps(stepItems); } };
+
+        } else if (f.type === 'repeater-faq') {
+          var faqLabel = document.createElement('label');
+          faqLabel.textContent = f.label;
+          wrap.appendChild(faqLabel);
+          var faqItems = parseFaqList(values[f.id]);
+          buildRepeater(
+            wrap,
+            faqItems,
+            [{ key: 'q', label: 'Question' }, { key: 'a', label: 'Answer', multiline: true }],
+            '+ Add FAQ',
+            function () {}
+          );
+          controllers[f.id] = { getValue: function () { return serializeFaqList(faqItems); } };
         }
-        input.id = fieldInputId(f.id);
-        input.dataset.fieldId = f.id;
-        input.value = values[f.id] || '';
-        wrap.appendChild(input);
 
         section.appendChild(wrap);
       });
@@ -207,10 +394,11 @@
   function collectChangedValues() {
     var changed = {};
     fieldMeta.forEach(function (f) {
-      var el = document.getElementById(fieldInputId(f.id));
-      if (!el) return;
-      if (el.value !== (originalValues[f.id] || '')) {
-        changed[f.id] = el.value;
+      var ctrl = controllers[f.id];
+      if (!ctrl) return;
+      var val = ctrl.getValue();
+      if (val !== (originalValues[f.id] || '')) {
+        changed[f.id] = val;
       }
     });
     return changed;

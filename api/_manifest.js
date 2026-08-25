@@ -1,6 +1,7 @@
 // Every editable field on the site. `id` must match the marker id used in the
 // HTML comments (<!--cms:id-->...<!--cms:/id--> or <!--cms-attr:id:attr:transform-->).
-// type is a UI hint only: text = single line, textarea = multi line, html = raw HTML block.
+// type is a UI hint only: text = single line, textarea = multi line,
+// richtext = formatting box with Bold/Italic, repeater-steps/repeater-faq = add/remove card lists.
 const FIELDS = [
   { id: 'meta-title', label: 'Page Title (SEO)', type: 'text', file: 'index.html', group: 'Homepage — SEO' },
   { id: 'meta-description', label: 'Meta Description (SEO)', type: 'textarea', file: 'index.html', group: 'Homepage — SEO' },
@@ -12,19 +13,19 @@ const FIELDS = [
   { id: 'trust-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Trusted By' },
 
   { id: 'about-heading', label: 'Section Heading', type: 'text', file: 'index.html', group: 'Homepage — About' },
-  { id: 'about-body', label: 'Body (HTML — keep each paragraph wrapped in <p>...</p>)', type: 'html', file: 'index.html', group: 'Homepage — About' },
+  { id: 'about-body', label: 'Body', type: 'richtext', file: 'index.html', group: 'Homepage — About' },
 
   { id: 'engage-heading', label: 'Section Heading', type: 'text', file: 'index.html', group: 'Homepage — Video Portfolio' },
   { id: 'engage-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Video Portfolio' },
 
   { id: 'process-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Process' },
-  { id: 'process-steps', label: 'Steps (HTML — keep each step wrapped in <article class="process-step">...</article>)', type: 'html', file: 'index.html', group: 'Homepage — Process' },
+  { id: 'process-steps', label: 'Steps', type: 'repeater-steps', file: 'index.html', group: 'Homepage — Process' },
 
   { id: 'skills-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Skills' },
   { id: 'tools-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Tools' },
   { id: 'insights-subtext', label: 'Section Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Insights' },
 
-  { id: 'faq-list', label: 'FAQ Items (HTML — keep each item wrapped in <details class="faq-item">...</details>)', type: 'html', file: 'index.html', group: 'Homepage — FAQ' },
+  { id: 'faq-list', label: 'FAQ Items', type: 'repeater-faq', file: 'index.html', group: 'Homepage — FAQ' },
 
   { id: 'contact-cta-heading', label: 'Banner Heading', type: 'text', file: 'index.html', group: 'Homepage — Contact' },
   { id: 'contact-cta-subtext', label: 'Banner Subtext', type: 'textarea', file: 'index.html', group: 'Homepage — Contact' },

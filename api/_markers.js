@@ -1,4 +1,5 @@
 const ATTR_MARKER_RE = /<!--cms-attr:([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)-->/g;
+const TEXT_EL_MARKER_RE = /<!--cms-text:([a-zA-Z0-9_-]+)-->/g;
 
 function escapeRegExpId(id) {
   return id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -40,7 +41,14 @@ function extractFields(content, fields) {
       const tagAttrRe = new RegExp(`^\\s*<[a-zA-Z0-9]+\\b[^>]*?\\s${escapeRegExpId(attr)}="([^"]*)"`);
       const tm2 = rest.match(tagAttrRe);
       if (tm2) out[f.id] = tm2[1];
+      continue;
     }
+    // cms-text: for elements like <title> where HTML forbids real comments inside
+    // (the parser treats everything up to </title> as literal text), so the
+    // marker sits just before the tag instead of wrapping its content.
+    const textElRe = new RegExp(`<!--cms-text:${escapeRegExpId(f.id)}-->\\s*<[a-zA-Z0-9]+[^>]*>([\\s\\S]*?)<\\/[a-zA-Z0-9]+>`);
+    const tem = content.match(textElRe);
+    if (tem) out[f.id] = tem[1].trim();
   }
   return out;
 }
@@ -71,6 +79,20 @@ function applyFields(content, values) {
       'g'
     );
     next = next.replace(re, (_m, pre, _old, post) => `${pre}${escapeAttrValue(transformed)}${post}`);
+  }
+
+  const textElIds = new Set();
+  TEXT_EL_MARKER_RE.lastIndex = 0;
+  while ((match = TEXT_EL_MARKER_RE.exec(next))) {
+    textElIds.add(match[1]);
+  }
+  for (const id of textElIds) {
+    if (!(id in values)) continue;
+    const re = new RegExp(
+      `(<!--cms-text:${escapeRegExpId(id)}-->\\s*<[a-zA-Z0-9]+[^>]*>)([\\s\\S]*?)(<\\/[a-zA-Z0-9]+>)`,
+      'g'
+    );
+    next = next.replace(re, (_m, pre, _old, post) => `${pre}${values[id]}${post}`);
   }
 
   return next;

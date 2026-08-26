@@ -358,6 +358,7 @@
   // ---- Live preview: client port of the server-side marker apply logic ----
 
   var ATTR_MARKER_RE = /<!--cms-attr:([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+):([a-zA-Z0-9_-]+)-->/g;
+  var TEXT_EL_MARKER_RE = /<!--cms-text:([a-zA-Z0-9_-]+)-->/g;
   function applyTransform(name, value) {
     switch (name) {
       case 'mailto': return 'mailto:' + value;
@@ -386,6 +387,14 @@
       var transformed = applyTransform(transformName, values[id]);
       var re = new RegExp('(<!--cms-attr:' + id + ':' + attr + ':' + transformName + '-->\\s*<[a-zA-Z0-9]+\\b[^>]*?\\s' + attr + '=")([^"]*)("[^>]*>)', 'g');
       next = next.replace(re, function (_m, pre, _old, post) { return pre + escapeAttrValue(transformed) + post; });
+    });
+    var textElIds = {};
+    TEXT_EL_MARKER_RE.lastIndex = 0;
+    while ((m = TEXT_EL_MARKER_RE.exec(next))) textElIds[m[1]] = true;
+    Object.keys(textElIds).forEach(function (id) {
+      if (!(id in values)) return;
+      var re2 = new RegExp('(<!--cms-text:' + id + '-->\\s*<[a-zA-Z0-9]+[^>]*>)([\\s\\S]*?)(<\\/[a-zA-Z0-9]+>)', 'g');
+      next = next.replace(re2, function (_m, pre, _old, post) { return pre + values[id] + post; });
     });
     return next;
   }

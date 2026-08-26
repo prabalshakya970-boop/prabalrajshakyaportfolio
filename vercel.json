@@ -2,7 +2,11 @@
   "redirects": [
     { "source": "/seo-services", "destination": "/best-seo-expert-in-nepal/", "permanent": true },
     { "source": "/seo-services/", "destination": "/best-seo-expert-in-nepal/", "permanent": true },
-    { "source": "/seo-services/index.html", "destination": "/best-seo-expert-in-nepal/", "permanent": true }
+    { "source": "/seo-services/index.html", "destination": "/best-seo-expert-in-nepal/", "permanent": true },
+    { "source": "/what-is-seo-and-how-does-it-work", "destination": "/blog/what-is-seo-and-how-does-it-work/", "permanent": true },
+    { "source": "/what-is-seo-and-how-does-it-work/", "destination": "/blog/what-is-seo-and-how-does-it-work/", "permanent": true },
+    { "source": "/what-is-seo-and-how-does-it-work/index.html", "destination": "/blog/what-is-seo-and-how-does-it-work/", "permanent": true },
+    { "source": "/what-is-seo-and-how-does-it-work/cover.jpg", "destination": "/blog/what-is-seo-and-how-does-it-work/cover.jpg", "permanent": true }
   ],
   "crons": [
     { "path": "/api/cron/publish-scheduled", "schedule": "0 3 * * *" }

@@ -69,10 +69,10 @@ const FIELDS = [
   { id: 'blog-h1', label: 'Page Headline', type: 'text', file: 'blog/index.html', page: 'Blog', group: 'Header' },
   { id: 'blog-lead', label: 'Page Subtext', type: 'textarea', file: 'blog/index.html', page: 'Blog', group: 'Header' },
 
-  { id: 'article-meta-title', label: 'Page Title (SEO)', type: 'text', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },
-  { id: 'article-meta-description', label: 'Meta Description (SEO)', type: 'textarea', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },
-  { id: 'article-h1', label: 'Article Headline', type: 'text', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'Header' },
-  { id: 'article-body', label: 'Article Body', type: 'richtext-full', file: 'what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'Body' },
+  { id: 'article-meta-title', label: 'Page Title (SEO)', type: 'text', file: 'blog/what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },
+  { id: 'article-meta-description', label: 'Meta Description (SEO)', type: 'textarea', file: 'blog/what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'SEO' },
+  { id: 'article-h1', label: 'Article Headline', type: 'text', file: 'blog/what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'Header' },
+  { id: 'article-body', label: 'Article Body', type: 'richtext-full', file: 'blog/what-is-seo-and-how-does-it-work/index.html', page: 'Article — What Is SEO', group: 'Body' },
 ];
 
 function fieldsByFile() {

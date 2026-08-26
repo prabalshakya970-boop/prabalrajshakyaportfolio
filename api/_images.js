@@ -4,7 +4,7 @@
 // automatically. `path` is relative to the repo root.
 const IMAGE_FIELDS = [
   { id: 'hero-photo', label: 'Hero Photo (homepage + SEO landing page)', path: 'prabal-profile.png', group: 'Images' },
-  { id: 'article-cover', label: 'Article Cover — What Is SEO', path: 'what-is-seo-and-how-does-it-work/cover.jpg', group: 'Images' },
+  { id: 'article-cover', label: 'Article Cover — What Is SEO', path: 'blog/what-is-seo-and-how-does-it-work/cover.jpg', group: 'Images' },
   { id: 'trust-logo-globaly', label: 'Trust Logo — Globaly.io', path: 'assets/globaly_io_logo.jpg', group: 'Images — Trust Bar' },
   { id: 'trust-logo-orderlay', label: 'Trust Logo — Orderlay', path: 'assets/orderlay.png', group: 'Images — Trust Bar' },
   { id: 'trust-logo-danson', label: 'Trust Logo — Danson Solutions', path: 'assets/Danson_Solutions.png', group: 'Images — Trust Bar' },

@@ -22,6 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="prabal-profile.png" fetchpriority="high">
   <style>
     :root {
       --canvas: #ffffff;
@@ -330,7 +331,7 @@
         <div class="hero-visual">
           <div class="hero-circle" aria-hidden="true"></div>
           <div class="hero-photo-frame">
-            <img class="hero-photo" src="prabal-profile.png" alt="Prabal Raj Shakya" loading="eager">
+            <img class="hero-photo" src="prabal-profile.png" alt="Prabal Raj Shakya" width="840" height="1050" loading="eager" fetchpriority="high" decoding="async">
           </div>
           <div class="rating-card">
             <span class="rating-icon" aria-hidden="true">
@@ -354,18 +355,18 @@
       </div>
       <div class="trust-marquee" style="margin-top:44px">
         <div class="trust-track">
-          <img src="assets/globaly_io_logo.jpg" alt="Globaly.io" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" loading="lazy" decoding="async">
-          <img src="assets/Danson_Solutions.png" alt="Danson Solutions" loading="lazy" decoding="async">
-          <img src="assets/chimpvine.png" alt="ChimpVine" loading="lazy" decoding="async">
-          <img src="assets/gsa.jpg" alt="GSA Contract Services" loading="lazy" decoding="async">
-          <img src="assets/smart-tech-solutions.jpg" alt="Smart Tech Solutions" loading="lazy" decoding="async">
-          <img src="assets/globaly_io_logo.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" loading="lazy" decoding="async">
-          <img src="assets/Danson_Solutions.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
-          <img src="assets/chimpvine.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
-          <img src="assets/gsa.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
-          <img src="assets/smart-tech-solutions.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img src="assets/globaly_io_logo.jpg" alt="Globaly.io" width="100" height="100" loading="lazy" decoding="async">
+          <img src="assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
+          <img src="assets/Danson_Solutions.png" alt="Danson Solutions" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/chimpvine.png" alt="ChimpVine" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/gsa.jpg" alt="GSA Contract Services" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/smart-tech-solutions.jpg" alt="Smart Tech Solutions" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/globaly_io_logo.jpg" alt="" aria-hidden="true" width="100" height="100" loading="lazy" decoding="async">
+          <img src="assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
+          <img src="assets/Danson_Solutions.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/chimpvine.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/gsa.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
+          <img src="assets/smart-tech-solutions.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
@@ -878,6 +879,7 @@
       if (typeof gsap === 'undefined') return;
       if (reduceMotion) return;
 
+      window.addEventListener('load', function () {
       gsap.registerPlugin(ScrollTrigger);
 
       // Nav scroll progress
@@ -1037,6 +1039,7 @@
       gsap.from('#contact form > *', {
         opacity: 0, y: 16, duration: 0.4, stagger: 0.08, ease: 'power2.out',
         scrollTrigger: { trigger: '#contact form', start: 'top 85%' }
+      });
       });
     })();
   </script>

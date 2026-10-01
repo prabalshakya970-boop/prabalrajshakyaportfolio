@@ -19,11 +19,17 @@
     gtag('js', new Date());
     gtag('config', 'G-PNTQLVMZK0');
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="prabal-profile.png" fetchpriority="high">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-600.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-700.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-800.woff2" crossorigin>
+  <link rel="preload" as="image" href="prabal-profile.webp" type="image/webp" fetchpriority="high">
   <style>
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/poppins-400.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/poppins-500.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: swap; src: url('assets/fonts/poppins-600.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap; src: url('assets/fonts/poppins-700.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 800; font-display: swap; src: url('assets/fonts/poppins-800.woff2') format('woff2'); }
     :root {
       --canvas: #ffffff;
       --surface: #f7f8fb;
@@ -102,7 +108,7 @@
     h2 { margin: 16px 0 0; font-size: clamp(36px, 4.8vw, 58px); line-height: 1.05; letter-spacing: -0.035em; }
     h3 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
     p { color: var(--muted); line-height: 1.75; }
-    .lead { margin-top: 18px; max-width: 480px; font-size: 15px; color: #64748b; line-height: 1.8; }
+    .lead { margin-top: 18px; max-width: 480px; font-size: 15px; color: #4a5568; line-height: 1.8; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
     .btn-navy, .btn-outline-navy { display: inline-flex; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 10px; font-weight: 700; font-size: 14px; border: 2px solid #1c2a6b; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
     .btn-navy { background: #1c2a6b; color: #fff; }
@@ -331,7 +337,10 @@
         <div class="hero-visual">
           <div class="hero-circle" aria-hidden="true"></div>
           <div class="hero-photo-frame">
-            <img class="hero-photo" src="prabal-profile.png" alt="Prabal Raj Shakya" width="840" height="1050" loading="eager" fetchpriority="high" decoding="async">
+            <picture>
+              <source srcset="prabal-profile.webp" type="image/webp">
+              <img class="hero-photo" src="prabal-profile.png" alt="Prabal Raj Shakya" width="840" height="1050" loading="eager" fetchpriority="high" decoding="async">
+            </picture>
           </div>
           <div class="rating-card">
             <span class="rating-icon" aria-hidden="true">
@@ -356,15 +365,15 @@
       <div class="trust-marquee" style="margin-top:44px">
         <div class="trust-track">
           <img src="assets/globaly_io_logo.jpg" alt="Globaly.io" width="100" height="100" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
-          <img src="assets/Danson_Solutions.png" alt="Danson Solutions" width="128" height="128" loading="lazy" decoding="async">
-          <img src="assets/chimpvine.png" alt="ChimpVine" width="128" height="128" loading="lazy" decoding="async">
+          <picture><source srcset="assets/orderlay.webp" type="image/webp"><img src="assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="assets/Danson_Solutions.webp" type="image/webp"><img src="assets/Danson_Solutions.png" alt="Danson Solutions" width="128" height="128" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="assets/chimpvine.webp" type="image/webp"><img src="assets/chimpvine.png" alt="ChimpVine" width="128" height="128" loading="lazy" decoding="async"></picture>
           <img src="assets/gsa.jpg" alt="GSA Contract Services" width="128" height="128" loading="lazy" decoding="async">
           <img src="assets/smart-tech-solutions.jpg" alt="Smart Tech Solutions" width="128" height="128" loading="lazy" decoding="async">
           <img src="assets/globaly_io_logo.jpg" alt="" aria-hidden="true" width="100" height="100" loading="lazy" decoding="async">
-          <img src="assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
-          <img src="assets/Danson_Solutions.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
-          <img src="assets/chimpvine.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
+          <picture><source srcset="assets/orderlay.webp" type="image/webp"><img src="assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="assets/Danson_Solutions.webp" type="image/webp"><img src="assets/Danson_Solutions.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="assets/chimpvine.webp" type="image/webp"><img src="assets/chimpvine.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async"></picture>
           <img src="assets/gsa.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
           <img src="assets/smart-tech-solutions.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
         </div>
@@ -879,7 +888,6 @@
       if (typeof gsap === 'undefined') return;
       if (reduceMotion) return;
 
-      window.addEventListener('load', function () {
       gsap.registerPlugin(ScrollTrigger);
 
       // Nav scroll progress
@@ -896,6 +904,7 @@
       }
 
       // Hero load-in (matches the static reference composition; motion is the only thing added beyond it)
+      // Runs immediately (not deferred) since the hero is visible as soon as the page paints.
       gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.6 } })
         .from('.hi-text', { opacity: 0, y: 14 })
         .from('h1', { opacity: 0, y: 20 }, '-=0.35')
@@ -906,6 +915,10 @@
         .from('.hero-photo', { yPercent: 115, duration: 0.9, ease: 'power3.out' }, '<')
         .from('.rating-card', { opacity: 0, y: -10, scale: 0.9 }, '-=0.25')
         .from('.social-cluster a', { opacity: 0, x: 10, stagger: 0.08 }, '-=0.2');
+
+      // Everything below is for sections not yet visible on load, so its setup
+      // (20+ ScrollTrigger measurements) is deferred off the critical path.
+      function initScrollAnimations() {
 
       // Count-up stats
       document.querySelectorAll('[data-count]').forEach(function (el) {
@@ -1040,6 +1053,14 @@
         opacity: 0, y: 16, duration: 0.4, stagger: 0.08, ease: 'power2.out',
         scrollTrigger: { trigger: '#contact form', start: 'top 85%' }
       });
+      }
+
+      window.addEventListener('load', function () {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(initScrollAnimations, { timeout: 2000 });
+        } else {
+          setTimeout(initScrollAnimations, 0);
+        }
       });
     })();
   </script>

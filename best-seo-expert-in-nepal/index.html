@@ -19,10 +19,16 @@
     gtag('js', new Date());
     gtag('config', 'G-PNTQLVMZK0');
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/poppins-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/poppins-600.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/poppins-700.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/poppins-800.woff2" crossorigin>
   <style>
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 400; font-display: swap; src: url('../assets/fonts/poppins-400.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 500; font-display: swap; src: url('../assets/fonts/poppins-500.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 600; font-display: swap; src: url('../assets/fonts/poppins-600.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 700; font-display: swap; src: url('../assets/fonts/poppins-700.woff2') format('woff2'); }
+    @font-face { font-family: 'Poppins'; font-style: normal; font-weight: 800; font-display: swap; src: url('../assets/fonts/poppins-800.woff2') format('woff2'); }
     :root {
       --canvas: #ffffff;
       --surface: #f7f8fb;
@@ -278,7 +284,10 @@
         <div class="hero-visual">
           <div class="hero-circle" aria-hidden="true"></div>
           <div class="hero-photo-frame">
-            <img class="hero-photo" src="../prabal-profile.png" alt="Prabal Raj Shakya" width="840" height="1050" loading="eager" decoding="async">
+            <picture>
+              <source srcset="../prabal-profile.webp" type="image/webp">
+              <img class="hero-photo" src="../prabal-profile.png" alt="Prabal Raj Shakya" width="840" height="1050" loading="eager" decoding="async">
+            </picture>
           </div>
           <div class="rating-card">
             <span class="rating-icon" aria-hidden="true">
@@ -302,15 +311,15 @@
       <div class="trust-marquee" style="margin-top:44px">
         <div class="trust-track">
           <img src="../assets/globaly_io_logo.jpg" alt="Globaly.io" width="100" height="100" loading="lazy" decoding="async">
-          <img src="../assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
-          <img src="../assets/Danson_Solutions.png" alt="Danson Solutions" width="128" height="128" loading="lazy" decoding="async">
-          <img src="../assets/chimpvine.png" alt="ChimpVine" width="128" height="128" loading="lazy" decoding="async">
+          <picture><source srcset="../assets/orderlay.webp" type="image/webp"><img src="../assets/orderlay.png" alt="Orderlay" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="../assets/Danson_Solutions.webp" type="image/webp"><img src="../assets/Danson_Solutions.png" alt="Danson Solutions" width="128" height="128" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="../assets/chimpvine.webp" type="image/webp"><img src="../assets/chimpvine.png" alt="ChimpVine" width="128" height="128" loading="lazy" decoding="async"></picture>
           <img src="../assets/gsa.jpg" alt="GSA Contract Services" width="128" height="128" loading="lazy" decoding="async">
           <img src="../assets/smart-tech-solutions.jpg" alt="Smart Tech Solutions" width="128" height="128" loading="lazy" decoding="async">
           <img src="../assets/globaly_io_logo.jpg" alt="" aria-hidden="true" width="100" height="100" loading="lazy" decoding="async">
-          <img src="../assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async">
-          <img src="../assets/Danson_Solutions.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
-          <img src="../assets/chimpvine.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
+          <picture><source srcset="../assets/orderlay.webp" type="image/webp"><img src="../assets/orderlay.png" alt="" aria-hidden="true" class="trust-logo-lg" width="216" height="216" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="../assets/Danson_Solutions.webp" type="image/webp"><img src="../assets/Danson_Solutions.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="../assets/chimpvine.webp" type="image/webp"><img src="../assets/chimpvine.png" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async"></picture>
           <img src="../assets/gsa.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
           <img src="../assets/smart-tech-solutions.jpg" alt="" aria-hidden="true" width="128" height="128" loading="lazy" decoding="async">
         </div>

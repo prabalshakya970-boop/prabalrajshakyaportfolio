@@ -75,4 +75,33 @@ function buildRss(posts) {
   );
 }
 
-module.exports = { buildSitemap, buildRss };
+// llms.txt: a plain-text map of the site for AI tools. Lists only what is
+// published right now, so scheduled or draft posts never appear early.
+function buildLlmsTxt(posts, pages) {
+  const published = buildPublicIndex(posts);
+  const clean = (t) => String(t || '').replace(/\s+/g, ' ').trim();
+  const pageLines = (pages || [])
+    .filter((p) => p.status === 'published')
+    .map((p) => `- [${clean(p.title)}](${SITE_ORIGIN}/${p.slug}/): ${clean(p.metaDescription) || 'SEO work and how I approach it.'}`);
+  const postLines = published.map((p) => `- [${clean(p.title)}](${SITE_ORIGIN}${p.url}): ${clean(p.excerpt)}`);
+  return (
+    '# Prabal Raj Shakya\n\n' +
+    '> Digital Marketing Specialist based in Kathmandu, Nepal. I do SEO, technical audits, answer engine optimization (AEO), paid social, email automation and short-form video. I lead SEO and website strategy at GSA Contract Services.\n\n' +
+    'This site is a personal portfolio and blog. Guides are written by Prabal Raj Shakya and show their last-updated date and sources.\n\n' +
+    '## Main pages\n\n' +
+    `- [Home](${SITE_ORIGIN}/): Experience, skills, tools, certifications and contact details.\n` +
+    pageLines.join('\n') + (pageLines.length ? '\n' : '') +
+    `- [Blog](${SITE_ORIGIN}/blog/): All published articles.\n\n` +
+    '## Blog posts\n\n' +
+    (postLines.length ? postLines.join('\n') : '- No posts published yet.') + '\n\n' +
+    '## Contact\n\n' +
+    '- Email: prabalraj980@gmail.com\n' +
+    '- [LinkedIn](https://linkedin.com/in/prabal-raj-shakya-b640222b7)\n' +
+    '- [Behance](https://behance.net/prabalshakya)\n\n' +
+    '## Optional\n\n' +
+    `- [Sitemap](${SITE_ORIGIN}/sitemap.xml)\n` +
+    `- [RSS feed](${SITE_ORIGIN}/rss.xml)\n`
+  );
+}
+
+module.exports = { buildSitemap, buildRss, buildLlmsTxt };

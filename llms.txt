@@ -1,0 +1,29 @@
+# Prabal Raj Shakya
+
+> Digital Marketing Specialist based in Kathmandu, Nepal. I do SEO, technical audits, answer engine optimization (AEO), paid social, email automation and short-form video. I lead SEO and website strategy at GSA Contract Services.
+
+This site is a personal portfolio and blog. Guides are written by Prabal Raj Shakya and show their last-updated date and sources.
+
+## Main pages
+
+- [Home](https://www.prabalrajshakya.com.np/): Experience, skills, tools, certifications and contact details.
+- [Best SEO Expert in Nepal](https://www.prabalrajshakya.com.np/best-seo-expert-in-nepal/): Looking for the best SEO expert in Nepal? Work directly with an SEO freelancer in Nepal on on-page, off-page, technical and local SEO, with a real process and honest reporting.
+- [Blog](https://www.prabalrajshakya.com.np/blog/): All published articles.
+
+## Blog posts
+
+- [On-Page SEO: What to Fix on a Page Before You Chase Links](https://www.prabalrajshakya.com.np/blog/on-page-seo/): On-page SEO explained with a clear checklist: titles, headings, content, internal links and images, plus how it differs from off-page and technical SEO.
+- [What Is the 3-3-3 Rule in Marketing?](https://www.prabalrajshakya.com.np/blog/what-is-the-3-3-3-rule-in-marketing/): The 3-3-3 rule in marketing uses three content types, three distribution channels, and three buyer journey stages to build a simple growth framework.
+- [Is SEO Dead With AI? What Actually Changes in 2026](https://www.prabalrajshakya.com.np/blog/is-seo-dead-with-ai/): Is SEO dead with AI? No, but the tactics that earn visibility changed. Here's the direct answer: what AI Overviews changed, what to drop, and what still ranks in 2026.
+- [What is SEO and how does it work?](https://www.prabalrajshakya.com.np/blog/what-is-seo-and-how-does-it-work/): A direct, plain-language answer covering how search engines crawl, index and rank pages, the main types of SEO, and where to start as a beginner.
+
+## Contact
+
+- Email: prabalraj980@gmail.com
+- [LinkedIn](https://linkedin.com/in/prabal-raj-shakya-b640222b7)
+- [Behance](https://behance.net/prabalshakya)
+
+## Optional
+
+- [Sitemap](https://www.prabalrajshakya.com.np/sitemap.xml)
+- [RSS feed](https://www.prabalrajshakya.com.np/rss.xml)

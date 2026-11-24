@@ -38,7 +38,7 @@ function renderTrust(post) {
         <li><strong>Experience:</strong> based on hands-on SEO work, described in the note near the top of the page.</li>
         <li><strong>Expertise:</strong> written by the author below, who does this work day to day.</li>
         <li><strong>Authoritativeness:</strong> statements about how Google treats pages are checked against Google's own documentation, linked in the sources above.</li>
-        <li><strong>Trust:</strong> the page shows who wrote it and when it was last updated. I offer SEO services, and the boxes in this guide link to them. Spotted an error? Email <a href="mailto:${AUTHOR.email}">${AUTHOR.email}</a> and I will correct it.</li>
+        <li><strong>Trust:</strong> the page shows who wrote it and when it was last updated. I take on SEO projects, and the boxes in this guide link to them. Spotted an error? Email <a href="mailto:${AUTHOR.email}">${AUTHOR.email}</a> and I will correct it.</li>
       </ul></section>`
     : '';
   const box = `<aside class="author-box" aria-label="About the author">
@@ -300,8 +300,8 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
         <ul id="navList">
           <li><a href="../../">Home</a></li>
           <li class="dropdown">
-            <span class="dropdown-toggle" tabindex="0">Services</span>
-            <ul class="dropdown-menu"><li><a href="../../best-seo-expert-in-nepal/">SEO Services</a></li></ul>
+            <span class="dropdown-toggle" tabindex="0">Expertise</span>
+            <ul class="dropdown-menu"><li><a href="../../best-seo-expert-in-nepal/">SEO Expertise</a></li></ul>
           </li>
           <li><a href="../../#about">About</a></li>
           <li><a href="../../#tools">Tools</a></li>
@@ -363,7 +363,7 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
         </div>
         <div class="footer-links-col">
           <h3>Explore</h3>
-          <ul><li><a href="../../best-seo-expert-in-nepal/">SEO Services</a></li><li><a href="../">Blog</a></li><li><a href="../../#faq">FAQ</a></li><li><a href="../../#achievements">Achievements</a></li></ul>
+          <ul><li><a href="../../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="../">Blog</a></li><li><a href="../../#faq">FAQ</a></li><li><a href="../../#achievements">Achievements</a></li></ul>
         </div>
       </div>
     </div>

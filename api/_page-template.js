@@ -125,7 +125,7 @@ function renderStandalonePage(page) {
       <nav>
         <ul id="navList">
           <li><a href="../">Home</a></li>
-          <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Services</span><ul class="dropdown-menu"><li><a href="../best-seo-expert-in-nepal/">SEO Services</a></li></ul></li>
+          <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Expertise</span><ul class="dropdown-menu"><li><a href="../best-seo-expert-in-nepal/">SEO Expertise</a></li></ul></li>
           <li><a href="../#about">About</a></li>
           <li><a href="../#tools">Tools</a></li>
           <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Community</span><ul class="dropdown-menu"><li><a href="../#faq">FAQ</a></li><li><a href="../blog/">Blog</a></li></ul></li>
@@ -176,7 +176,7 @@ function renderStandalonePage(page) {
         </div>
         <div class="footer-links-col">
           <h3>Explore</h3>
-          <ul><li><a href="../best-seo-expert-in-nepal/">SEO Services</a></li><li><a href="../blog/">Blog</a></li><li><a href="../#faq">FAQ</a></li><li><a href="../#achievements">Achievements</a></li></ul>
+          <ul><li><a href="../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="../blog/">Blog</a></li><li><a href="../#faq">FAQ</a></li><li><a href="../#achievements">Achievements</a></li></ul>
         </div>
       </div>
     </div>

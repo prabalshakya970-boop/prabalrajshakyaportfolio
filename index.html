@@ -147,6 +147,7 @@
     .trust-track { display: flex; align-items: center; gap: 80px; width: max-content; animation: trust-scroll 32s linear infinite; }
     .trust-track img { height: 64px; width: auto; max-width: none; object-fit: contain; flex-shrink: 0; }
     .trust-track img.trust-logo-lg { height: 108px; }
+    .hp-field { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
     @keyframes trust-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--hairline); border-radius: 22px; overflow: hidden; background: var(--hairline); gap: 1px; }
     .skill { background: var(--canvas); padding: 30px; transition: transform .3s ease, box-shadow .3s ease; }
@@ -669,11 +670,15 @@
         <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="560540e8-208f-431d-b232-f7768782df1c">
           <input type="hidden" name="subject" value="New message from prabalrajshakya.com.np">
+          <!-- Anti-spam: Web3Forms rejects the submission server-side if this box is ticked (bots tick every box). -->
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <!-- Honeypot: invisible to people, tempting to bots. -->
+          <div class="hp-field" aria-hidden="true"><label for="company_website">Leave this field empty</label><input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off"></div>
           <div class="fields">
-            <div><label for="name">Name</label><input id="name" name="name" required></div>
-            <div><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+            <div><label for="name">Name</label><input id="name" name="name" required minlength="2" maxlength="80" autocomplete="name"></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" required maxlength="120" autocomplete="email"></div>
           </div>
-          <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" name="message" required placeholder="A few sentences on what you're building..."></textarea></div>
+          <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" name="message" required minlength="10" maxlength="2000" placeholder="A few sentences on what you're building..."></textarea></div>
           <button class="pill primary" style="width:100%; margin-top:28px; border:0" type="submit">Send Message</button>
           <p id="contactFormStatus" style="margin-top:14px; font-size:13px;" aria-live="polite"></p>
         </form>
@@ -813,8 +818,37 @@
       // Contact form: submit to Web3Forms via fetch so the page never navigates away
       var contactForm = document.getElementById('contactForm');
       if (contactForm) {
+        // Bot protection. Layer 1 runs in the browser; layer 2 is Web3Forms' own botcheck field.
+        var formLoadedAt = Date.now();
+        var humanSignal = false;
+        ['pointerdown', 'keydown', 'touchstart'].forEach(function (t) {
+          contactForm.addEventListener(t, function (ev) { if (ev.isTrusted) humanSignal = true; }, { passive: true });
+        });
+        function guardSubmission(f) {
+          var v = function (n) { return ((f.elements[n] || {}).value || '').trim(); };
+          if (v('company_website') || (f.elements.botcheck && f.elements.botcheck.checked)) return { ok: false, silent: true };
+          if (!humanSignal) return { ok: false, msg: 'Please type your message and press Send again.' };
+          if (Date.now() - formLoadedAt < 4000) return { ok: false, msg: 'That was quick. Please check your message and send again.' };
+          var last = 0;
+          try { last = parseInt(localStorage.getItem('contactLastSent') || '0', 10); } catch (err) {}
+          if (Date.now() - last < 60000) return { ok: false, msg: 'Your message was just sent. Please wait a minute before sending another.' };
+          var name = v('name'), email = v('email'), msg = v('message');
+          if (name.length < 2 || name.length > 80) return { ok: false, msg: 'Please enter your name.' };
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 120) return { ok: false, msg: 'Please enter a valid email address.' };
+          if (msg.length < 10) return { ok: false, msg: 'Please add a few more details about your project.' };
+          if (msg.length > 2000) return { ok: false, msg: 'Please keep your message under 2000 characters.' };
+          if ((msg.match(/https?:\/\/|www\./gi) || []).length > 2) return { ok: false, msg: 'Please remove extra links from your message. Two at most.' };
+          return { ok: true };
+        }
         contactForm.addEventListener('submit', function (e) {
           e.preventDefault();
+          var guard = guardSubmission(contactForm);
+          var gStatus = document.getElementById('contactFormStatus');
+          if (!guard.ok) {
+            if (guard.silent) { if (gStatus) { gStatus.textContent = "Thanks, I'll get back to you within a day."; gStatus.style.color = '#16a34a'; } return; }
+            if (gStatus) { gStatus.textContent = guard.msg; gStatus.style.color = '#dc2626'; }
+            return;
+          }
           var btn = contactForm.querySelector('button[type="submit"]');
           var status = document.getElementById('contactFormStatus');
           var originalText = btn.textContent;
@@ -830,6 +864,7 @@
             .then(function (res) { return res.json(); })
             .then(function (data) {
               if (!data.success) throw new Error(data.message || 'Submission failed');
+              try { localStorage.setItem('contactLastSent', String(Date.now())); } catch (err) {}
               btn.textContent = 'Message Sent';
               if (status) {
                 status.textContent = "Thanks, I'll get back to you within a day.";

@@ -1,5 +1,20 @@
 [
   {
+    "slug": "on-page-seo",
+    "title": "On-Page SEO: What to Fix on a Page Before You Chase Links",
+    "excerpt": "On-page SEO explained with a clear checklist: titles, headings, content, internal links and images, plus how it differs from off-page and technical SEO.",
+    "coverImage": "/blog-media/on-page-seo/cover.webp",
+    "category": "SEO Guides",
+    "tags": [
+      "seo",
+      "on-page seo"
+    ],
+    "author": "Prabal Raj Shakya",
+    "publishDate": "2026-11-24T10:09:20.000Z",
+    "readTime": "9 min read",
+    "url": "/blog/on-page-seo/"
+  },
+  {
     "slug": "what-is-the-3-3-3-rule-in-marketing",
     "title": "What Is the 3-3-3 Rule in Marketing?",
     "excerpt": "The 3-3-3 rule in marketing uses three content types, three distribution channels, and three buyer journey stages to build a simple growth framework.",

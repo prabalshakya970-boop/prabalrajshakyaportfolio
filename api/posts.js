@@ -6,6 +6,7 @@ const { putFile, deleteFile, getSha } = require('./_github');
 const { loadAllPosts, saveAllPosts, slugify, estimateReadTime } = require('./_posts');
 const { renderPostPage } = require('./_post-template');
 const { regenerateDerivedFiles } = require('./_regenerate');
+const { rerenderDependents } = require('./_relink');
 
 async function handleList(req, res) {
   const { posts } = await loadAllPosts();
@@ -66,6 +67,9 @@ async function handleSave(req, res) {
     tags: Array.isArray(post.tags) ? post.tags : [],
     author: post.author || 'Prabal Raj Shakya',
     body: post.body || '',
+    faq: post.faq || (existing && existing.faq) || undefined,
+    sources: post.sources || (existing && existing.sources) || undefined,
+    coverAlt: post.coverAlt || (existing && existing.coverAlt) || undefined,
     readTime: post.readTime || estimateReadTime(post.body),
     status,
     publishDate: status === 'published' ? (existing && existing.publishDate) || now : (existing && existing.publishDate) || null,
@@ -86,8 +90,11 @@ async function handleSave(req, res) {
   if (status === 'published') {
     const pagePath = `blog/${slug}/index.html`;
     const pageSha = await getSha(pagePath);
-    await putFile(pagePath, renderPostPage(nextPost), pageSha || undefined, `Publish post page: ${nextPost.title}`);
+    await putFile(pagePath, renderPostPage(nextPost, posts), pageSha || undefined, `Publish post page: ${nextPost.title}`);
   }
+
+  const wasLive = existing && existing.status === 'published';
+  if (status === 'published' || wasLive) await rerenderDependents([slug], posts, [slug]);
 
   await regenerateDerivedFiles();
 
@@ -172,9 +179,11 @@ async function handleBulk(req, res) {
     for (const p of affected) {
       const pagePath = `blog/${p.slug}/index.html`;
       const pageSha = await getSha(pagePath);
-      await putFile(pagePath, renderPostPage(p), pageSha || undefined, `Publish post page: ${p.title}`);
+      await putFile(pagePath, renderPostPage(p, posts), pageSha || undefined, `Publish post page: ${p.title}`);
     }
   }
+
+  if (affected.length) await rerenderDependents(affected.map((p) => p.slug), posts, affected.filter((p) => p.status === 'published').map((p) => p.slug));
 
   await regenerateDerivedFiles();
 

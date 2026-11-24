@@ -1,4 +1,5 @@
 const { SITE_ORIGIN } = require('./_posts');
+const { resolveLinks } = require('./_links');
 
 function escapeHtml(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -12,7 +13,112 @@ function formatDate(iso) {
   }
 }
 
-function renderPostPage(post) {
+const AUTHOR = {
+  name: 'Prabal Raj Shakya',
+  title: 'Digital Marketing Specialist',
+  image: '/blog-media/author-prabal.webp',
+  linkedin: 'https://linkedin.com/in/prabal-raj-shakya-b640222b7',
+  behance: 'https://behance.net/prabalshakya',
+  email: 'prabalraj980@gmail.com',
+  bio: "I'm a Digital Marketing Specialist based in Kathmandu, Nepal. I lead SEO and website strategy at GSA Contract Services, where organic traffic grew 10x, and before that I averaged 200 qualified leads a week at Globaly Hub through social and email campaigns. My training includes digital marketing, photo and video editing, and a Bachelor of Business Management.",
+};
+
+// E-E-A-T block: shown under every CMS post. Sources come from post.sources = [{ t, u }].
+function renderTrust(post) {
+  const sources = Array.isArray(post.sources) ? post.sources : [];
+  const src = sources.length
+    ? `<section class="sources"><h2>Sources and further reading</h2><ul>${sources
+        .map((x) => `<li><a href="${escapeHtml(x.u)}" target="_blank" rel="noopener">${escapeHtml(x.t)}</a></li>`)
+        .join('')}</ul></section>`
+    : '';
+  const how = sources.length
+    ? `<section class="eeat" aria-label="How this guide was made"><h2>How this guide was made</h2>
+      <p>Written to follow the E-E-A-T content framework (Experience, Expertise, Authoritativeness, Trustworthiness) that Google describes in its guidance on helpful content.</p>
+      <ul>
+        <li><strong>Experience:</strong> based on hands-on SEO work, described in the note near the top of the page.</li>
+        <li><strong>Expertise:</strong> written by the author below, who does this work day to day.</li>
+        <li><strong>Authoritativeness:</strong> statements about how Google treats pages are checked against Google's own documentation, linked in the sources above.</li>
+        <li><strong>Trust:</strong> the page shows who wrote it and when it was last updated. I offer SEO services, and the boxes in this guide link to them. Spotted an error? Email <a href="mailto:${AUTHOR.email}">${AUTHOR.email}</a> and I will correct it.</li>
+      </ul></section>`
+    : '';
+  const box = `<aside class="author-box" aria-label="About the author">
+    <img src="${AUTHOR.image}" alt="Portrait of ${escapeHtml(AUTHOR.name)}" width="96" height="96" loading="lazy" decoding="async">
+    <div><p class="author-name">${escapeHtml(AUTHOR.name)} <span>${escapeHtml(AUTHOR.title)}</span></p>
+    <p>${escapeHtml(AUTHOR.bio)}</p>
+    <p class="author-links"><a href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a> <a href="${AUTHOR.behance}" target="_blank" rel="noopener">Behance</a> <a href="../../#contact">Contact</a></p></div></aside>`;
+  return src + how + box;
+}
+
+function stripTags(html) {
+  return String(html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+// Schema graph: BlogPosting + BreadcrumbList, plus FAQPage when the post has
+// visible FAQ content (post.faq = [{ q, a }]). Every value mirrors what the
+// page shows, which is what search engines require.
+function buildSchema(post, url, coverUrl, bodyHtml) {
+  const images = [coverUrl].concat(
+    (String(bodyHtml).match(/<img[^>]+src="([^"]+)"/g) || [])
+      .map((m) => (m.match(/src="([^"]+)"/) || [])[1])
+      .filter((u) => u && /^\//.test(u))
+      .map((u) => SITE_ORIGIN + u)
+  );
+  const words = stripTags(bodyHtml).split(' ').filter(Boolean).length;
+  const graph = [
+    {
+      '@type': 'BlogPosting',
+      '@id': url + '#article',
+      headline: post.title,
+      description: post.metaDescription || post.excerpt || '',
+      image: Array.from(new Set(images)),
+      author: {
+        '@type': 'Person',
+        name: post.author || AUTHOR.name,
+        jobTitle: AUTHOR.title,
+        url: SITE_ORIGIN + '/',
+        image: SITE_ORIGIN + AUTHOR.image,
+        sameAs: [AUTHOR.linkedin, AUTHOR.behance],
+        worksFor: { '@type': 'Organization', name: 'GSA Contract Services' },
+        knowsAbout: ['Search engine optimization', 'Technical SEO', 'Answer engine optimization', 'Digital marketing'],
+      },
+      publisher: { '@type': 'Person', name: 'Prabal Raj Shakya', url: SITE_ORIGIN + '/' },
+      datePublished: post.publishDate || '',
+      dateModified: post.updatedAt || post.publishDate || '',
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      articleSection: post.category || 'Blog',
+      keywords: (post.tags || []).join(', '),
+      wordCount: words,
+      ...(Array.isArray(post.sources) && post.sources.length ? { citation: post.sources.map((x) => x.u) } : {}),
+      inLanguage: 'en',
+      isPartOf: { '@type': 'Blog', name: 'Prabal Raj Shakya — Blog', url: SITE_ORIGIN + '/blog/' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_ORIGIN + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: SITE_ORIGIN + '/blog/' },
+        { '@type': 'ListItem', position: 3, name: post.title, item: url },
+      ],
+    },
+  ];
+  if (Array.isArray(post.faq) && post.faq.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: post.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    });
+  }
+  // Escape "<" so a "</script>" inside text can never close the tag early.
+  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2).replace(/</g, '\\u003c');
+}
+
+// allPosts is optional. Without it, internal-link markers fall back to plain
+// text, so a page can never link to something that might not be published.
+function renderPostPage(post, allPosts) {
+  const bodyHtml = resolveLinks(post.body, allPosts || []);
   const url = `${SITE_ORIGIN}/blog/${post.slug}/`;
   const coverUrl = post.coverImage ? `${SITE_ORIGIN}${post.coverImage}` : `${SITE_ORIGIN}/favicon.png`;
   const metaTitle = post.metaTitle || post.title;
@@ -49,17 +155,7 @@ function renderPostPage(post) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": ${JSON.stringify(post.title)},
-    "image": ${JSON.stringify(coverUrl)},
-    "author": { "@type": "Person", "name": ${JSON.stringify(post.author || 'Prabal Raj Shakya')}, "url": "${SITE_ORIGIN}/" },
-    "publisher": { "@type": "Person", "name": "Prabal Raj Shakya" },
-    "datePublished": ${JSON.stringify(post.publishDate || '')},
-    "dateModified": ${JSON.stringify(post.updatedAt || post.publishDate || '')},
-    "mainEntityOfPage": "${url}"
-  }
+${buildSchema(post, url, coverUrl, bodyHtml)}
   </script>
   <style>
     :root {
@@ -115,6 +211,39 @@ function renderPostPage(post) {
     article.prose pre code { background: transparent; padding: 0; }
     article.prose figure { margin: 32px 0; }
     article.prose figure img { display: block; width: 100%; height: auto; border-radius: 16px; box-shadow: 0 20px 40px rgba(15,23,42,.1); }
+    article.prose .table-wrap { overflow-x: auto; margin: 24px 0 28px; border: 1px solid var(--hairline); border-radius: 14px; }
+    article.prose table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+    article.prose th { background: #1c2a6b; color: #fff; text-align: left; padding: 10px 14px; font-weight: 700; }
+    article.prose td { padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; color: var(--muted); }
+    article.prose tr:nth-child(even) td { background: var(--surface); }
+    article.prose td:first-child { color: var(--ink); font-weight: 700; }
+    article.prose a.cta-btn, article.prose a.cta-btn-ghost { text-decoration: none; }
+    .cta-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; background: #0f172a; color: #e2e8f0; border-radius: 18px; padding: 26px 28px; margin: 36px 0; }
+    .cta-box .cta-text { flex: 1 1 320px; }
+    article.prose .cta-box strong, .cta-box strong { display: block; color: #fff; font-size: 19px; line-height: 1.3; margin-bottom: 6px; }
+    .cta-box p { margin: 0 !important; font-size: 14.5px; color: #cbd5e1; line-height: 1.6; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    article.prose .cta-box a.cta-btn { display: inline-flex; align-items: center; background: #fff; color: #0f172a; font-weight: 800; font-size: 14px; padding: 13px 22px; border-radius: 10px; transition: transform .2s ease, box-shadow .2s ease; }
+    article.prose .cta-box a.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,.3); }
+    article.prose .cta-box a.cta-btn-ghost { display: inline-flex; align-items: center; color: #fff; font-weight: 700; font-size: 14px; padding: 11px 20px; border-radius: 10px; border: 2px solid rgba(255,255,255,.4); }
+    article.prose .cta-box a.cta-btn-ghost:hover { border-color: #fff; }
+    article.prose .faq-item { border-top: 1px solid var(--hairline); padding: 6px 0; }
+    article.prose .faq-item h3 { margin: 18px 0 8px; }
+    article.prose .faq-item p { margin: 0 0 14px; }
+    .experience-note { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 12px; padding: 16px 20px; margin: 24px 0; color: var(--ink); font-size: 15px; line-height: 1.7; }
+    .experience-note strong { color: var(--ink); }
+    .sources, .eeat { margin: 36px 0 0; padding: 22px 26px; border: 1px solid var(--hairline); border-radius: 16px; background: var(--surface); color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+    .sources h2, .eeat h2 { margin: 0 0 10px; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: #1c2a6b; }
+    .sources ul, .eeat ul { margin: 0; padding-left: 20px; }
+    .sources a, .eeat a { color: var(--accent); font-weight: 700; }
+    .eeat { margin-top: 18px; }
+    .author-box { display: flex; gap: 20px; align-items: flex-start; margin: 18px 0 8px; padding: 24px 26px; border: 1px solid var(--hairline); border-radius: 18px; background: #fff; box-shadow: 0 12px 30px rgba(15,23,42,.06); }
+    .author-box img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex: none; background: #0f172a; }
+    .author-box p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+    .author-box .author-name { color: var(--ink); font-weight: 800; font-size: 17px; margin-bottom: 6px; }
+    .author-box .author-name span { display: block; font-weight: 600; font-size: 13px; color: var(--accent); }
+    .author-links a { margin-right: 14px; font-weight: 700; font-size: 13.5px; color: var(--accent); }
+    @media (max-width: 560px) { .author-box { flex-direction: column; } }
     article.prose figcaption { margin-top: 10px; font-size: 12px; color: var(--dim); text-align: center; }
     .takeaways { background: var(--surface); border: 1px solid var(--hairline); border-radius: 18px; padding: 26px 28px; margin: 32px 0; }
     .takeaways h2 { margin: 0 0 14px !important; font-size: 15px !important; text-transform: uppercase; letter-spacing: .08em; color: var(--navy, #1c2a6b) !important; }
@@ -196,15 +325,16 @@ function renderPostPage(post) {
         <a class="post-eyebrow" href="../category/?c=${encodeURIComponent(post.category || '')}">${escapeHtml(post.category || 'Blog')}</a>
         <h1>${escapeHtml(post.title)}</h1>
         <div class="post-meta">
-          <span>${escapeHtml(post.author || 'Prabal Raj Shakya')}</span>
-          <span>${formatDate(post.publishDate)}</span>
+          <span>By ${escapeHtml(post.author || AUTHOR.name)}, ${escapeHtml(post.authorTitle || AUTHOR.title)}</span>
+          <span>Updated <time datetime="${escapeHtml(post.updatedAt || post.publishDate || '')}">${formatDate(post.updatedAt || post.publishDate)}</time></span>
           <span>${escapeHtml(post.readTime || '')}</span>
         </div>
-        ${post.coverImage ? `<div class="post-cover"><img src="${post.coverImage}" alt="${escapeHtml(post.title)}" loading="eager"></div>` : ''}
+        ${post.coverImage ? `<div class="post-cover"><img src="${post.coverImage}" alt="${escapeHtml(post.coverAlt || post.title)}" width="1200" height="630" loading="eager" fetchpriority="high"></div>` : ''}
         ${tagsHtml ? `<div class="post-tags">${tagsHtml}</div>` : ''}
       </div>
 
-      <article class="prose">${post.body || ''}</article>
+      <article class="prose">${bodyHtml}</article>
+      ${renderTrust(post)}
 
       <a class="back-link" href="../">&larr; Back to the blog</a>
     </div>

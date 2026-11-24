@@ -2,6 +2,7 @@ const { putFile, getSha } = require('../_github');
 const { loadAllPosts, saveAllPosts } = require('../_posts');
 const { renderPostPage } = require('../_post-template');
 const { regenerateDerivedFiles } = require('../_regenerate');
+const { rerenderDependents } = require('../_relink');
 
 module.exports = async (req, res) => {
   const cronSecret = process.env.CRON_SECRET;
@@ -35,12 +36,15 @@ module.exports = async (req, res) => {
     for (const p of due) {
       const pagePath = `blog/${p.slug}/index.html`;
       const pageSha = await getSha(pagePath);
-      await putFile(pagePath, renderPostPage(p), pageSha || undefined, `Publish post page: ${p.title}`);
+      await putFile(pagePath, renderPostPage(p, posts), pageSha || undefined, `Publish post page: ${p.title}`);
     }
+
+    // Earlier posts that mention a post published just now get their link added.
+    const relinked = await rerenderDependents(due.map((p) => p.slug), posts, due.map((p) => p.slug));
 
     await regenerateDerivedFiles();
 
-    res.status(200).json({ ok: true, published: due.length });
+    res.status(200).json({ ok: true, published: due.length, relinked });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Failed to publish scheduled posts.' });
   }

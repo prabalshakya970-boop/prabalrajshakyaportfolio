@@ -1,6 +1,35 @@
+# robots.txt for https://www.prabalrajshakya.com.np
+# Everything public is crawlable. The admin panel and the serverless API are not.
+
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+
+# AI search and answer crawlers are welcome: this site wants to be cited.
+# To opt out of one, change its "Allow: /" to "Disallow: /".
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
 
 Sitemap: https://www.prabalrajshakya.com.np/sitemap.xml

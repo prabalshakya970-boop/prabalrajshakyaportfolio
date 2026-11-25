@@ -163,6 +163,22 @@
     .faq-item summary:after { content: "+"; flex-shrink: 0; font-size: 20px; font-weight: 400; color: var(--accent); transition: transform .25s ease; }
     .faq-item[open] summary:after { transform: rotate(45deg); }
     .faq-item p { padding-bottom: 18px; margin: 0; font-size: 14px; }
+    /* Case study box */
+    .case-box { display: grid; grid-template-columns: 1.05fr 1fr; gap: 0; margin-top: 32px; border: 1px solid var(--hairline); border-radius: 26px; overflow: hidden; background: var(--surface); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+    .case-box:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(15,23,42,.1); border-color: var(--accent); }
+    .case-box img { width: 100%; height: 100%; object-fit: contain; object-position: center; display: block; min-height: 220px; background: #eaf6fc; }
+    .case-copy { padding: 34px 34px 32px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+    .case-tag { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .case-copy h3 { font-size: clamp(21px, 2.6vw, 28px); line-height: 1.2; }
+    .case-copy p { margin: 0; font-size: 14.5px; line-height: 1.7; }
+    .case-stats { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .case-stats li { background: #fff; border: 1px solid var(--hairline); border-radius: 12px; padding: 8px 14px; font-size: 12.5px; color: var(--muted); }
+    .case-stats b { display: block; color: #1c2a6b; font-size: 18px; line-height: 1.2; }
+    .case-btn { align-self: flex-start; margin-top: 8px; background: #1c2a6b; color: #fff; font-weight: 700; font-size: 14px; padding: 13px 24px; border-radius: 10px; transition: transform .25s ease, box-shadow .25s ease; }
+    .case-box:hover .case-btn { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(28,42,107,.28); }
+    .case-all { margin: 18px 0 0; font-weight: 700; font-size: 14px; }
+    .case-all a { color: var(--accent); }
+    @media (max-width: 760px) { .case-box { grid-template-columns: 1fr; } .case-copy { padding: 24px; } }
     .cta-banner { border-radius: 28px; background: #1c2a6b; padding: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
     .cta-banner h3 { color: #fff; font-size: clamp(22px, 3vw, 30px); max-width: 480px; }
     .cta-banner p { color: #c7d2fe; margin-top: 8px; max-width: 460px; font-size: 14px; }
@@ -262,13 +278,13 @@
             <span class="dropdown-toggle" tabindex="0">Community</span>
             <ul class="dropdown-menu">
               <li><a href="#faq">FAQ</a></li>
-              <li><a href="../blog/">Blog</a></li>
+              <li><a href="../blog/">Blog</a></li><li><a href="../case-studies/">Case Study</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="../contact/">Contact</a></li>
         </ul>
       </nav>
-      <a class="pill primary" href="#contact">Hire Me</a>
+      <a class="pill primary" href="../contact/">Hire Me</a>
     </div>
     <span class="scroll-progress" id="scrollProgress"></span>
   </header>
@@ -283,7 +299,7 @@
           <h1><!--cms:seo-hero-h1-->Best SEO Expert<br>in Nepal<!--cms:/seo-hero-h1--></h1>
           <p class="lead"><!--cms:seo-hero-lead-->Work directly with Prabal Raj Shakya, an SEO freelancer in Nepal, on keyword research, on-page, off-page, technical and local SEO. You get a real process and honest reporting, without the guesswork or the account hand-offs bigger agencies add.<!--cms:/seo-hero-lead--></p>
           <div class="actions">
-            <a class="btn-navy" href="#contact">Contact Us</a>
+            <a class="btn-navy" href="../contact/">Contact Us</a>
             <a class="btn-outline-navy" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
           </div>
         </div>
@@ -457,6 +473,24 @@
       </div>
     </section>
 
+    <section id="case-study" aria-labelledby="case-study-title">
+      <div class="wrap">
+        <span class="section-label">Case Study</span>
+        <h2 id="case-study-title">See what this work looks like in practice.</h2>
+        <a class="case-box" href="../case-studies/gsa-contract-services/">
+          <img src="../case-studies/gsa-contract-services/cover.webp" alt="Case study cover: 8x organic search clicks year over year for GSA Contract Services, with a growth curve, a portrait of Prabal Raj Shakya and stat cards for average position 19.5 to 10.1, 3.5x active users and 25+ AI Overview mentions" width="1200" height="630" loading="lazy" decoding="async">
+          <div class="case-copy">
+            <span class="case-tag">SEO case study &middot; GSA Contract Services</span>
+            <h3>How SEO Helped GSA Contract Services Grow Organic Search Clicks 8x</h3>
+            <p>A technical audit, a page for every service and direct-answer content took search clicks from 155 to 1,241 and average position from 19.5 to 10.1 in the same 92-day window.</p>
+            <ul class="case-stats"><li><b>8x</b>search clicks</li><li><b>19.5 to 10.1</b>average position</li><li><b>25+</b>AI Overview mentions</li></ul>
+            <span class="case-btn">Read the case study &rarr;</span>
+          </div>
+        </a>
+        <p class="case-all"><a href="../case-studies/">View all case studies &rarr;</a></p>
+      </div>
+    </section>
+
     <section id="contact">
       <div class="wrap">
         <div class="cta-banner">
@@ -465,7 +499,7 @@
             <p><!--cms:seo-contact-subtext-->Send a message or WhatsApp me directly. Nothing gets routed through a sales team, just a straight answer on whether I'm a fit.<!--cms:/seo-contact-subtext--></p>
           </div>
           <div class="actions">
-            <a class="btn-white" href="../#contact-form">Contact Form</a>
+            <a class="btn-white" href="../contact/">Contact Form</a>
             <a class="btn-whatsapp" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
           </div>
         </div>
@@ -480,7 +514,7 @@
         <div class="footer-cta-col">
           <span class="footer-eyebrow">Contact Us</span>
           <p class="footer-heading">Let's Discuss Your Growth. With Me.</p>
-          <a class="footer-cta-btn" href="#contact">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          <a class="footer-cta-btn" href="../contact/">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
           <span class="footer-email-label">Or Email Us At</span>
           <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com">
             <span>prabalraj980@gmail.com</span>
@@ -502,7 +536,7 @@
             <h3>Explore</h3>
             <ul>
               <li><a href="./">SEO Expertise</a></li>
-              <li><a href="../blog/">Blog</a></li>
+              <li><a href="../blog/">Blog</a></li><li><a href="../case-studies/">Case Study</a></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="../#achievements">Achievements</a></li>
             </ul>

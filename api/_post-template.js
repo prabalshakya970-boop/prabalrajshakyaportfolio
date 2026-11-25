@@ -45,7 +45,7 @@ function renderTrust(post) {
     <img src="${AUTHOR.image}" alt="Portrait of ${escapeHtml(AUTHOR.name)}" width="96" height="96" loading="lazy" decoding="async">
     <div><p class="author-name">${escapeHtml(AUTHOR.name)} <span>${escapeHtml(AUTHOR.title)}</span></p>
     <p>${escapeHtml(AUTHOR.bio)}</p>
-    <p class="author-links"><a href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a> <a href="${AUTHOR.behance}" target="_blank" rel="noopener">Behance</a> <a href="../../#contact">Contact</a></p></div></aside>`;
+    <p class="author-links"><a href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a> <a href="${AUTHOR.behance}" target="_blank" rel="noopener">Behance</a> <a href="../../contact/">Contact</a></p></div></aside>`;
   return src + how + box;
 }
 
@@ -66,7 +66,7 @@ function buildSchema(post, url, coverUrl, bodyHtml) {
   const words = stripTags(bodyHtml).split(' ').filter(Boolean).length;
   const graph = [
     {
-      '@type': 'BlogPosting',
+      '@type': post.kind === 'case-study' ? 'Article' : 'BlogPosting',
       '@id': url + '#article',
       headline: post.title,
       description: post.metaDescription || post.excerpt || '',
@@ -90,13 +90,17 @@ function buildSchema(post, url, coverUrl, bodyHtml) {
       wordCount: words,
       ...(Array.isArray(post.sources) && post.sources.length ? { citation: post.sources.map((x) => x.u) } : {}),
       inLanguage: 'en',
-      isPartOf: { '@type': 'Blog', name: 'Prabal Raj Shakya — Blog', url: SITE_ORIGIN + '/blog/' },
+      ...(post.kind === 'case-study'
+        ? { about: { '@type': 'Organization', name: 'GSA Contract Services', url: 'https://gsa-cs.com' } }
+        : { isPartOf: { '@type': 'Blog', name: 'Prabal Raj Shakya — Blog', url: SITE_ORIGIN + '/blog/' } }),
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_ORIGIN + '/' },
-        { '@type': 'ListItem', position: 2, name: 'Blog', item: SITE_ORIGIN + '/blog/' },
+        post.kind === 'case-study'
+          ? { '@type': 'ListItem', position: 2, name: 'Case Studies', item: SITE_ORIGIN + '/case-studies/' }
+          : { '@type': 'ListItem', position: 2, name: 'Blog', item: SITE_ORIGIN + '/blog/' },
         { '@type': 'ListItem', position: 3, name: post.title, item: url },
       ],
     },
@@ -119,7 +123,8 @@ function buildSchema(post, url, coverUrl, bodyHtml) {
 // text, so a page can never link to something that might not be published.
 function renderPostPage(post, allPosts) {
   const bodyHtml = resolveLinks(post.body, allPosts || []);
-  const url = `${SITE_ORIGIN}/blog/${post.slug}/`;
+  const isCase = post.kind === 'case-study';
+  const url = isCase ? `${SITE_ORIGIN}/case-studies/${post.slug}/` : `${SITE_ORIGIN}/blog/${post.slug}/`;
   const coverUrl = post.coverImage ? `${SITE_ORIGIN}${post.coverImage}` : `${SITE_ORIGIN}/favicon.png`;
   const metaTitle = post.metaTitle || post.title;
   const metaDescription = post.metaDescription || post.excerpt || '';
@@ -238,12 +243,16 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
     .sources a, .eeat a { color: var(--accent); font-weight: 700; }
     .eeat { margin-top: 18px; }
     .author-box { display: flex; gap: 20px; align-items: flex-start; margin: 18px 0 8px; padding: 24px 26px; border: 1px solid var(--hairline); border-radius: 18px; background: #fff; box-shadow: 0 12px 30px rgba(15,23,42,.06); }
-    .author-box img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex: none; background: #0f172a; }
+    .author-box img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; flex: none; background: #dcecfa; border: 3px solid #fff; box-shadow: 0 6px 16px rgba(28,42,107,.18); }
     .author-box p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.7; color: var(--muted); }
     .author-box .author-name { color: var(--ink); font-weight: 800; font-size: 17px; margin-bottom: 6px; }
     .author-box .author-name span { display: block; font-weight: 600; font-size: 13px; color: var(--accent); }
     .author-links a { margin-right: 14px; font-weight: 700; font-size: 13.5px; color: var(--accent); }
     @media (max-width: 560px) { .author-box { flex-direction: column; } }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 28px 0; }
+    .stat-card { background: #0f172a; border-radius: 16px; padding: 20px 22px; }
+    .stat-card b { display: block; color: #fff; font-size: 34px; line-height: 1.1; font-weight: 800; letter-spacing: -.01em; }
+    .stat-card span { display: block; margin-top: 8px; color: #cbd5e1; font-size: 13.5px; line-height: 1.5; }
     article.prose figcaption { margin-top: 10px; font-size: 12px; color: var(--dim); text-align: center; }
     .takeaways { background: var(--surface); border: 1px solid var(--hairline); border-radius: 18px; padding: 26px 28px; margin: 32px 0; }
     .takeaways h2 { margin: 0 0 14px !important; font-size: 15px !important; text-transform: uppercase; letter-spacing: .08em; color: var(--navy, #1c2a6b) !important; }
@@ -307,22 +316,22 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
           <li><a href="../../#tools">Tools</a></li>
           <li class="dropdown">
             <span class="dropdown-toggle" tabindex="0">Community</span>
-            <ul class="dropdown-menu"><li><a href="../../#faq">FAQ</a></li><li><a href="../">Blog</a></li></ul>
+            <ul class="dropdown-menu"><li><a href="../../#faq">FAQ</a></li><li><a href="${isCase ? '../../blog/' : '../'}">Blog</a></li><li><a href="../../case-studies/">Case Study</a></li></ul>
           </li>
-          <li><a href="../../#contact">Contact</a></li>
+          <li><a href="../../contact/">Contact</a></li>
         </ul>
       </nav>
-      <a class="pill primary" href="../../#contact">Hire Me</a>
+      <a class="pill primary" href="../../contact/">Hire Me</a>
     </div>
   </header>
 
   <main>
     <div class="wrap">
       <div class="breadcrumbs">
-        <a href="../../">Home</a><span>/</span><a href="../">Blog</a><span>/</span><span>${escapeHtml(post.title)}</span>
+        <a href="../../">Home</a><span>/</span>${isCase ? '<a href="../">Case Studies</a>' : '<a href="../">Blog</a>'}<span>/</span><span>${escapeHtml(post.title)}</span>
       </div>
       <div class="post-hero">
-        <a class="post-eyebrow" href="../category/?c=${encodeURIComponent(post.category || '')}">${escapeHtml(post.category || 'Blog')}</a>
+        ${isCase ? '<span class="post-eyebrow">Case Study</span>' : `<a class="post-eyebrow" href="../category/?c=${encodeURIComponent(post.category || '')}">${escapeHtml(post.category || 'Blog')}</a>`}
         <h1>${escapeHtml(post.title)}</h1>
         <div class="post-meta">
           <span>By ${escapeHtml(post.author || AUTHOR.name)}, ${escapeHtml(post.authorTitle || AUTHOR.title)}</span>
@@ -336,7 +345,7 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
       <article class="prose">${bodyHtml}</article>
       ${renderTrust(post)}
 
-      <a class="back-link" href="../">&larr; Back to the blog</a>
+      ${isCase ? '<a class="back-link" href="../">&larr; Back to all case studies</a>' : '<a class="back-link" href="../">&larr; Back to the blog</a>'}
     </div>
 
     <div class="related" id="relatedSection" style="display:none">
@@ -352,7 +361,7 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
       <div class="footer-cta-col">
         <span class="footer-eyebrow">Contact Us</span>
         <p class="footer-heading">Let's Discuss Your Growth. With Me.</p>
-        <a class="footer-cta-btn" href="../../#contact">Get in Touch</a>
+        <a class="footer-cta-btn" href="../../contact/">Get in Touch</a>
         <span class="footer-email-label">Or Email Us At</span>
         <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com"><span>prabalraj980@gmail.com</span></button>
       </div>
@@ -363,7 +372,7 @@ ${buildSchema(post, url, coverUrl, bodyHtml)}
         </div>
         <div class="footer-links-col">
           <h3>Explore</h3>
-          <ul><li><a href="../../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="../">Blog</a></li><li><a href="../../#faq">FAQ</a></li><li><a href="../../#achievements">Achievements</a></li></ul>
+          <ul><li><a href="../../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="${isCase ? '../../blog/' : '../'}">Blog</a></li><li><a href="../../case-studies/">Case Study</a></li><li><a href="../../#faq">FAQ</a></li><li><a href="../../#achievements">Achievements</a></li></ul>
         </div>
       </div>
     </div>

@@ -7,6 +7,9 @@ const { SITE_ORIGIN, buildPublicIndex } = require('./_posts');
 const STATIC_URLS = [
   { loc: '/', changefreq: 'weekly', priority: '1.0' },
   { loc: '/blog/', changefreq: 'weekly', priority: '0.8' },
+  { loc: '/case-studies/', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/contact/', changefreq: 'yearly', priority: '0.7' },
+  { loc: '/case-studies/gsa-contract-services/', changefreq: 'monthly', priority: '0.8' },
 ];
 
 function escapeXml(s) {
@@ -91,6 +94,9 @@ function buildLlmsTxt(posts, pages) {
     '## Main pages\n\n' +
     `- [Home](${SITE_ORIGIN}/): Experience, skills, tools, certifications and contact details.\n` +
     pageLines.join('\n') + (pageLines.length ? '\n' : '') +
+    `- [Contact](${SITE_ORIGIN}/contact/): Send a message about an SEO or digital marketing project. Replies within a day.\n` +
+    `- [Case studies](${SITE_ORIGIN}/case-studies/): SEO case studies with the audit, the fixes and the results.\n` +
+    `- [Case study: How SEO helped GSA Contract Services grow organic search clicks 8x](${SITE_ORIGIN}/case-studies/gsa-contract-services/): Audit, service pages and direct-answer content, with Search Console and GA4 results.\n` +
     `- [Blog](${SITE_ORIGIN}/blog/): All published articles.\n\n` +
     '## Blog posts\n\n' +
     (postLines.length ? postLines.join('\n') : '- No posts published yet.') + '\n\n' +

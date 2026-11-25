@@ -128,11 +128,11 @@ function renderStandalonePage(page) {
           <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Expertise</span><ul class="dropdown-menu"><li><a href="../best-seo-expert-in-nepal/">SEO Expertise</a></li></ul></li>
           <li><a href="../#about">About</a></li>
           <li><a href="../#tools">Tools</a></li>
-          <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Community</span><ul class="dropdown-menu"><li><a href="../#faq">FAQ</a></li><li><a href="../blog/">Blog</a></li></ul></li>
-          <li><a href="../#contact">Contact</a></li>
+          <li class="dropdown"><span class="dropdown-toggle" tabindex="0">Community</span><ul class="dropdown-menu"><li><a href="../#faq">FAQ</a></li><li><a href="../blog/">Blog</a></li><li><a href="../case-studies/">Case Study</a></li></ul></li>
+          <li><a href="../contact/">Contact</a></li>
         </ul>
       </nav>
-      <a class="pill primary" href="../#contact">Hire Me</a>
+      <a class="pill primary" href="../contact/">Hire Me</a>
     </div>
   </header>
 
@@ -153,7 +153,7 @@ function renderStandalonePage(page) {
           <p>${escapeHtml(page.ctaSubtext || "Send a message or WhatsApp me directly and let's talk about your project.")}</p>
         </div>
         <div class="cta-actions">
-          <a class="btn-white" href="../#contact-form">Contact Us</a>
+          <a class="btn-white" href="../contact/">Contact Us</a>
           <a class="btn-whatsapp" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
         </div>
       </div>
@@ -165,7 +165,7 @@ function renderStandalonePage(page) {
       <div class="footer-cta-col">
         <span class="footer-eyebrow">Contact Us</span>
         <p class="footer-heading">Let's Discuss Your Growth. With Me.</p>
-        <a class="footer-cta-btn" href="../#contact">Get in Touch</a>
+        <a class="footer-cta-btn" href="../contact/">Get in Touch</a>
         <span class="footer-email-label">Or Email Us At</span>
         <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com"><span>prabalraj980@gmail.com</span></button>
       </div>
@@ -176,7 +176,7 @@ function renderStandalonePage(page) {
         </div>
         <div class="footer-links-col">
           <h3>Explore</h3>
-          <ul><li><a href="../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="../blog/">Blog</a></li><li><a href="../#faq">FAQ</a></li><li><a href="../#achievements">Achievements</a></li></ul>
+          <ul><li><a href="../best-seo-expert-in-nepal/">SEO Expertise</a></li><li><a href="../blog/">Blog</a></li><li><a href="../case-studies/">Case Study</a></li><li><a href="../#faq">FAQ</a></li><li><a href="../#achievements">Achievements</a></li></ul>
         </div>
       </div>
     </div>

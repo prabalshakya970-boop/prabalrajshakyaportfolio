@@ -8,6 +8,9 @@ This site is a personal portfolio and blog. Guides are written by Prabal Raj Sha
 
 - [Home](https://www.prabalrajshakya.com.np/): Experience, skills, tools, certifications and contact details.
 - [Best SEO Expert in Nepal](https://www.prabalrajshakya.com.np/best-seo-expert-in-nepal/): Looking for the best SEO expert in Nepal? Work directly with an SEO freelancer in Nepal on on-page, off-page, technical and local SEO, with a real process and honest reporting.
+- [Contact](https://www.prabalrajshakya.com.np/contact/): Send a message about an SEO or digital marketing project. Replies within a day.
+- [Case studies](https://www.prabalrajshakya.com.np/case-studies/): SEO case studies with the audit, the fixes and the results.
+- [Case study: How SEO helped GSA Contract Services grow organic search clicks 8x](https://www.prabalrajshakya.com.np/case-studies/gsa-contract-services/): Audit, service pages and direct-answer content, with Search Console and GA4 results.
 - [Blog](https://www.prabalrajshakya.com.np/blog/): All published articles.
 
 ## Blog posts

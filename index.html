@@ -317,13 +317,13 @@
             <span class="dropdown-toggle" tabindex="0">Community</span>
             <ul class="dropdown-menu">
               <li><a href="#faq">FAQ</a></li>
-              <li><a href="blog/">Blog</a></li>
+              <li><a href="blog/">Blog</a></li><li><a href="case-studies/">Case Study</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="contact/">Contact</a></li>
         </ul>
       </nav>
-      <a class="pill primary" href="#contact">Hire Me</a>
+      <a class="pill primary" href="contact/">Hire Me</a>
     </div>
     <span class="scroll-progress" id="scrollProgress"></span>
   </header>
@@ -338,7 +338,7 @@
           <h1><!--cms:hero-h1-->Turning Your Brand's<br>Impossible Into Possible<!--cms:/hero-h1--></h1>
           <p class="lead"><!--cms:hero-lead-->Digital Marketing Specialist with hands-on GTM, SEO, and paid social experience. I turn campaigns into measurable growth for SaaS and consumer brands.<!--cms:/hero-lead--></p>
           <div class="actions">
-            <a class="btn-navy" href="#contact">Contact Us</a>
+            <a class="btn-navy" href="contact/">Contact Us</a>
             <a class="btn-outline-navy" href="https://drive.google.com/drive/folders/1bK8BORey0bLEVZPIhEUVD3teZu3VCXGg" target="_blank" rel="noreferrer">View CV</a>
           </div>
         </div>
@@ -650,7 +650,7 @@
             <p><!--cms:contact-cta-subtext-->Whether it's on-page fixes, off page seo, or a full seo service in Nepal build-out, let's talk about where your site stands today.<!--cms:/contact-cta-subtext--></p>
           </div>
           <div class="actions">
-            <a class="btn-white" href="#contact-form">Contact Us</a>
+            <a class="btn-white" href="contact/">Contact Us</a>
             <!--cms-attr:contact-phone:href:wa-->
             <a class="btn-whatsapp" href="https://wa.me/9779848853606" target="_blank" rel="noreferrer">WhatsApp Me</a>
           </div>
@@ -678,6 +678,10 @@
             <div><label for="name">Name</label><input id="name" name="name" required minlength="2" maxlength="80" autocomplete="name"></div>
             <div><label for="email">Email</label><input id="email" name="email" type="email" required maxlength="120" autocomplete="email"></div>
           </div>
+          <div class="fields" style="margin-top:22px">
+            <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required inputmode="tel" minlength="7" maxlength="25" autocomplete="tel" placeholder="+977 98XXXXXXXX"></div>
+            <div><label for="website">Website (optional)</label><input id="website" name="website" type="text" inputmode="url" maxlength="200" autocomplete="url" placeholder="yourwebsite.com"></div>
+          </div>
           <div style="margin-top:22px"><label for="project">Project</label><textarea id="project" name="message" required minlength="10" maxlength="2000" placeholder="A few sentences on what you're building..."></textarea></div>
           <button class="pill primary" style="width:100%; margin-top:28px; border:0" type="submit">Send Message</button>
           <p id="contactFormStatus" style="margin-top:14px; font-size:13px;" aria-live="polite"></p>
@@ -692,7 +696,7 @@
         <div class="footer-cta-col">
           <span class="footer-eyebrow">Contact Us</span>
           <p class="footer-heading"><!--cms:footer-heading-->Let's Discuss Your Growth. With Me.<!--cms:/footer-heading--></p>
-          <a class="footer-cta-btn" href="#contact">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          <a class="footer-cta-btn" href="contact/">Get in Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
           <span class="footer-email-label">Or Email Us At</span>
           <!--cms-attr:contact-email:data-email:identity-->
           <button type="button" class="footer-email-pill" id="footerEmailCopy" data-email="prabalraj980@gmail.com">
@@ -835,6 +839,10 @@
           var name = v('name'), email = v('email'), msg = v('message');
           if (name.length < 2 || name.length > 80) return { ok: false, msg: 'Please enter your name.' };
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 120) return { ok: false, msg: 'Please enter a valid email address.' };
+          var phone = v('phone'), site = v('website');
+          var digits = phone.replace(/\D/g, '').length;
+          if (!/^[+()\d\s.\/-]{7,25}$/.test(phone) || digits < 7 || digits > 15) return { ok: false, msg: 'Please enter a valid phone number, with the country code if you are outside Nepal.' };
+          if (site && (site.length > 200 || !/^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/i.test(site))) return { ok: false, msg: 'Please enter a valid website address, or leave that field empty.' };
           if (msg.length < 10) return { ok: false, msg: 'Please add a few more details about your project.' };
           if (msg.length > 2000) return { ok: false, msg: 'Please keep your message under 2000 characters.' };
           if ((msg.match(/https?:\/\/|www\./gi) || []).length > 2) return { ok: false, msg: 'Please remove extra links from your message. Two at most.' };
